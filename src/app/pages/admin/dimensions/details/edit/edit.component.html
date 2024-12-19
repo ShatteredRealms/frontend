@@ -1,0 +1,173 @@
+<div class="mx-auto max-w-7xl sm:py-6 lg:py-8 lg:px-8">
+  <div class="overflow-hidden rounded-lg bg-gray-900/50 shadow-gray-700 shadow-sm">
+    <div class="px-4 py-5 sm:px-6">
+      @if (dimension) {
+      <form [formGroup]="dimensionForm" (ngSubmit)="onSubmit(dimensionForm)">
+        <div class="space-y-12">
+          <div class="border-b border-white/10 pb-12">
+            <h2 class="text-base/7 font-semibold text-white">Description</h2>
+            <p class="mt-1 text-sm/6 text-gray-400">
+              This data that describes this dimension.
+            </p>
+
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-4">
+                <label for="username" class="block text-sm/6 font-medium text-white">Name</label>
+                <div class="mt-2">
+                  <div
+                    class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
+                    <input formControlName="name"
+                      class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6">
+                  </div>
+                </div>
+              </div>
+
+              <div class="sm:col-span-4">
+                <label for="about" class="block text-sm/6 font-medium text-white">Version</label>
+                <div class="mt-2">
+                  <div
+                    class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
+                    <input formControlName="version"
+                      class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6">
+                  </div>
+                </div>
+              </div>
+
+              <div class="sm:col-span-4">
+                <label for="about" class="block text-sm/6 font-medium text-white">Location</label>
+                <div class="mt-2">
+                  <div
+                    class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
+                    <input formControlName="location"
+                      class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6">
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="border-b border-white/10 pb-12">
+            <h2 class="text-base/7 font-semibold text-white">Maps</h2>
+            <p class="mt-1 text-sm/6 text-gray-400">The playable maps for this dimension.</p>
+            <div class="mt-8 flow-root">
+              <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                  <div class="relative">
+                    <!-- Selected row actions, only show when rows are selected. -->
+                    <!-- <div class="absolute top-0 left-14 flex h-12 items-center space-x-3 bg-white sm:left-12"> -->
+                    <!--   <button type="button" class="inline-flex items-center rounded-sm bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Bulk edit</button> -->
+                    <!--   <button type="button" class="inline-flex items-center rounded-sm bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Delete all</button> -->
+                    <!-- </div> -->
+
+                    <table class="min-w-full table-fixed divide-y divide-gray-300">
+                      <thead class="border-b border-white/10 text-sm text-gray-300 font-semibold text-left">
+                        <tr>
+                          <th scope=" col" class="relative px-7 sm:w-12 sm:px-6">
+                            <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
+                              <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAll($event)"
+                                class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+                              <svg
+                                class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-100/25"
+                                viewBox="0 0 14 14" fill="none">
+                                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5"
+                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                            </div>
+                          </th>
+                          <th scope="col" class="min-w-[12rem] py-3.5 pr-3">
+                            Name
+                          </th>
+                          <th scope="col" class="px-3 py-3.5">
+                            Map Path
+                          </th>
+                          <th scope="col" class="px-3 py-3.5">
+                            Id
+                          </th>
+                          <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-3">
+                            <span class="sr-only">Edit</span>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-gray-800 text-gray-400">
+                        <!-- Selected: "bg-gray-50" -->
+
+                        @for (map of dimensionForm.get('maps')!.value; track map) {
+                        <tr>
+                          <td class="relative px-7 sm:w-12 sm:px-6">
+                            <!-- Selected row marker, only show when row is selected. -->
+                            <!-- <div class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div> -->
+
+                            <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
+                              <input type="checkbox" formControlName="maps" (change)="mapSelectionChange($event, map)"
+                                [checked]="map.selected" [value]="map.id"
+                                class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+                              <svg
+                                class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
+                                viewBox="0 0 14 14" fill="none">
+                                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5"
+                                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                            </div>
+                          </td>
+                          <!-- Selected: "text-indigo-600", Not Selected: "text-gray-900" -->
+                          <td class="py-4 pr-3 text-sm font-medium whitespace-nowrap">
+                            {{map.name}}
+                          </td>
+                          <td class="px-3 py-4 text-sm whitespace-nowrap">
+                            {{map.mapPath}}
+                          </td>
+                          <td class="px-3 py-4 text-sm whitespace-nowrap">
+                            {{map.id}}
+                          </td>
+                          <td class="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
+                            <a href="#" class="text-indigo-600 hover:text-indigo-900">
+                              Edit
+                              <span class="sr-only">{{map.name}}</span>
+                            </a>
+                          </td>
+                        </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="mt-10 space-y-10">
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+          <button type="button"
+            class="rounded-md px-3 py-2 text-sm/6 font-semibold text-white hover:bg-white/10 active:bg-white/20"
+            [routerLink]="['../']">Cancel</button>
+          <button type="submit"
+            class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 active:bg-indigo-400/80">Save</button>
+        </div>
+      </form>
+
+      } @else {
+      <div class="animate-pulse flex space-x-4 pt-4">
+        <div class="flex-1 space-y-6 py-1">
+          <div class="h-2 bg-slate-700 rounded"></div>
+          <div class="space-y-3">
+            <div class="grid grid-cols-3 gap-4">
+              <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+              <div class="h-2 bg-slate-700 rounded col-span-1"></div>
+            </div>
+            <div class="h-2 bg-slate-700 rounded"></div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

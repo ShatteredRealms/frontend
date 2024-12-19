@@ -1,0 +1,4 @@
+<div [@fade]="state" (@fade.done)="onAnimationEnd($event)" (mouseenter)="config.autohide && onMouseEnter()"
+  (mouseleave)="config.autohide && onMouseLeave()">
+  <ng-template cdkPortalOutlet></ng-template>
+</div>

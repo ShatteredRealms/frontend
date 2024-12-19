@@ -1,0 +1,166 @@
+<!--
+  This example requires updating your template:
+
+  ```
+  <html class="h-full bg-white">
+  <body class="h-full">
+  ```
+-->
+<div>
+  <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
+  <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true" [hidden]="!showMobileMenu">
+    <!--
+      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+
+      Entering: "transition-opacity ease-linear duration-300"
+        From: "opacity-0"
+        To: "opacity-100"
+      Leaving: "transition-opacity ease-linear duration-300"
+        From: "opacity-100"
+        To: "opacity-0"
+    -->
+    <div class="fixed inset-0 bg-gray-900/80" aria-hidden="true"></div>
+
+    <div class="fixed inset-0 flex">
+      <!--
+        Off-canvas menu, show/hide based on off-canvas menu state.
+
+        Entering: "transition ease-in-out duration-300 transform"
+          From: "-translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transition ease-in-out duration-300 transform"
+          From: "translate-x-0"
+          To: "-translate-x-full"
+      -->
+      <div class="relative mr-16 flex w-full max-w-xs flex-1">
+        <!--
+          Close button, show/hide based on off-canvas menu state.
+
+          Entering: "ease-in-out duration-300"
+            From: "opacity-0"
+            To: "opacity-100"
+          Leaving: "ease-in-out duration-300"
+            From: "opacity-100"
+            To: "opacity-0"
+        -->
+        <div class="absolute top-0 left-full flex w-16 justify-center pt-5">
+          <button type="button" class="-m-2.5 p-2.5" (click)="toggleMobileMenu()">
+            <span class="sr-only">Close sidebar</span>
+            <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+              aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Sidebar component, swap this element with another sidebar if you like -->
+        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-2 ring-1 ring-white/10">
+          <div class="flex h-16 shrink-0 items-center justify-center">
+            <img class="h-8 w-auto" src="./imgs/logo/white.svg" alt="Shattered Realms Online">
+          </div>
+          <nav class="flex flex-1 flex-col">
+            <ul role="list" class="flex flex-1 flex-col gap-y-7">
+              <li>
+                <ul role="list" class="-mx-2 space-y-1">
+                  <li *ngFor="let link of mainLinks">
+                    <a [routerLink]="link.link" class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                      [ngClass]="{ 'bg-gray-800 text-white': link.active, 'text-gray-400 hover:bg-gray-800 hover:text-white': !link.active }"
+                      [ariaCurrent]="link.active">
+                      <ng-icon name={{link.icon}} class="size-6 shrink-0" size="24"></ng-icon>
+                      {{ link.title }}
+                    </a>
+                </ul>
+              </li>
+              <ul class="mt-auto">
+                <li *ngFor="let link of bottomLinks">
+                  <a [routerLink]="link.link" class="group flex gap-x-3 rounded-md p-2 my-1 text-sm/6 font-semibold"
+                    [ngClass]="{ 'bg-gray-800 text-white': link.active, 'text-gray-400 hover:bg-gray-800 hover:text-white': !link.active }"
+                    [ariaCurrent]="link.active">
+                    <ng-icon name={{link.icon}} class="size-6 shrink-0" size="24"></ng-icon>
+                    {{ link.title }}
+                  </a>
+                </li>
+              </ul>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Static sidebar for desktop -->
+  <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+    <!-- Sidebar component, swap this element with another sidebar if you like -->
+    <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6">
+      <div class="flex h-16 shrink-0 items-center justify-center">
+        <img class="h-8 w-auto" src="./imgs/logo/white.svg" alt="Shattered Realms Online">
+      </div>
+      <nav class="flex flex-1 flex-col">
+        <ul role="list" class="flex flex-1 flex-col gap-y-7">
+          <li>
+            <ul role="list" class="-mx-2 space-y-1">
+              <li *ngFor="let link of mainLinks">
+                <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
+                <a [routerLink]="link.link" class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                  [ngClass]="{ 'bg-gray-800 text-white': link.active, 'text-gray-400 hover:bg-gray-800 hover:text-white': !link.active }"
+                  [ariaCurrent]="link.active">
+                  <ng-icon name={{link.icon}} class="size-6 shrink-0" size="24"></ng-icon>
+                  {{ link.title }}
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="mt-auto">
+            <ul role="list" class="-mx-2 space-y-1">
+              <li *ngFor="let link of bottomLinks">
+                <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
+                <a [routerLink]="link.link" class="group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
+                  [ngClass]="{ 'bg-gray-800 text-white': link.active, 'text-gray-400 hover:bg-gray-800 hover:text-white': !link.active }"
+                  [ariaCurrent]="link.active">
+                  <ng-icon name={{link.icon}} class="size-6 shrink-0" size="24"></ng-icon>
+                  {{ link.title }}
+                </a>
+              </li>
+              <li class="-mx-6 mt-1">
+                <a class="flex items-center gap-x-4 px-6 py-3 text-sm/6 font-semibold text-white hover:bg-gray-800">
+                  <svg class="size-8 rounded-full text-gray-200" viewBox="0 0 24 24" fill="currentColor">
+                    <path fillRule="evenodd"
+                      d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+                      clipRule="evenodd" />
+                  </svg>
+                  <span class="sr-only">Your profile</span>
+                  <span aria-hidden="true">{{ getName() }}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="sticky top-0 z-40 flex items-center gap-x-6 bg-gray-900 px-4 py-4 shadow-xs sm:px-6 lg:hidden">
+    <button type="button" class="-m-2.5 p-2.5 text-gray-400 lg:hidden" (click)="toggleMobileMenu()">
+      <span class="sr-only">Open sidebar</span>
+      <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true"
+        data-slot="icon">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+    </button>
+    <div class="flex-1 text-sm/6 font-semibold text-white">{{getActiveTitle()}}</div>
+    <a href="#">
+      <span class="sr-only">Your profile</span>
+      <svg class="size-8 rounded-full text-gray-200" viewBox="0 0 24 24" fill="currentColor">
+        <path fillRule="evenodd"
+          d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+          clipRule="evenodd" />
+      </svg>
+    </a>
+  </div>
+
+  <main class="lg:pl-72">
+    <!-- <div class="px-4 sm:px-6 lg:px-8"> -->
+    <router-outlet></router-outlet>
+    <!-- </div> -->
+  </main>
+</div>

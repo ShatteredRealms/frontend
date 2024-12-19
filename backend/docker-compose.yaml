@@ -1,0 +1,12 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.19-latest
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./localhost.pem:/etc/envoy/localhost.pem
+    ports:
+      - "9091:9091"
+    working_dir: /etc/envoy
+    network_mode: host
+    command: ["envoy", "-c", "/etc/envoy/envoy.yaml"]
+

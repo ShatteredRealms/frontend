@@ -1,0 +1,75 @@
+<h2 class="px-4 text-base/7 font-semibold text-white sm:px-6 lg:px-8">
+  Characters
+</h2>
+<table class="mt-6 w-full text-left whitespace-nowrap">
+  <colgroup>
+    <col class="w-full sm:w-4/12">
+    <col class="lg:w-4/12">
+    <col class="lg:w-2/12">
+    <col class="lg:w-1/12">
+    <col class="lg:w-1/12">
+  </colgroup>
+  <thead class="border-b border-white/10 text-sm/6 text-white">
+    <tr>
+      <th scope="col" class="py-2 pr-8 pl-4 font-semibold sm:pl-6 lg:pl-8">
+        Username
+      </th>
+      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell">
+        Owner
+      </th>
+      <th scope="col" class="py-2 pr-4 pl-0 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20">
+        Status
+      </th>
+      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold md:table-cell lg:pr-20">
+        Playtime
+      </th>
+      <th scope="col" class="hidden py-2 pr-4 pl-0 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8">
+        Age
+      </th>
+    </tr>
+  </thead>
+  <div *ngIf="data === undefined; charactersLoaded" class="text-white">Loading...</div>
+  <tbody class="divide-y divide-white/5" #charactersLoaded>
+    <tr *ngFor="let character of getCharacters()">
+      <td class="py-4 pr-8 pl-4 sm:pl-6 lg:pl-8">
+        <div class="flex items-center gap-x-4">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-5 text-gray-300">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+          </svg>
+          <div class="truncate text-sm/6 font-medium text-white">
+            {{ character.name }}
+          </div>
+          <span
+            class="inline-flex items-center rounded-md bg-gray-400/10 px-2 py-1 text-xs font-medium text-gray-400 ring-1 ring-gray-400/20 ring-inset">Admin</span>
+        </div>
+      </td>
+      <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
+        <div class="flex gap-x-3">
+          <div class="font-mono text-sm/6 text-gray-400">
+            {{ character.ownerId }}
+          </div>
+        </div>
+      </td>
+      <td class="py-4 pr-4 pl-0 text-sm/6 sm:pr-8 lg:pr-20">
+        <div class="flex items-center justify-end gap-x-2 sm:justify-start">
+          <div class="flex-none rounded-full bg-green-400/10 p-1 text-green-400">
+            <div class="size-1.5 rounded-full bg-current"></div>
+          </div>
+          <div class="hidden text-white sm:block">
+            Playing
+          </div>
+        </div>
+      </td>
+      <td class="hidden py-4 pr-8 pl-0 text-sm/6 text-gray-400 md:table-cell lg:pr-20">
+        {{ prettyTime(character.playTime) }}
+      </td>
+      <td class="hidden py-4 pr-4 pl-0 text-right text-sm/6 text-gray-400 sm:table-cell sm:pr-6 lg:pr-8">
+        <time datetime="2023-01-23T11:00">{{ timeAge(character.createdAt) }}</time>
+      </td>
+    </tr>
+
+    <!-- More items... -->
+  </tbody>
+</table>
