@@ -81,7 +81,6 @@ export class KeycloakService {
       try {
         await this.instance.loadUserInfo();
       } catch (error) {
-        console.error('Error loading user info', error);
         this._notificationService.open(AlertComponent, {
           data: {
             message: 'Error loading user info',
@@ -91,8 +90,6 @@ export class KeycloakService {
           autohide: false,
         });
       }
-
-      console.log(this.instance.userInfo);
     }
 
     return authenticated;

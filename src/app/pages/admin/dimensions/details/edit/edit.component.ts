@@ -1,30 +1,31 @@
-import { Component } from '@angular/core';
-import { Dimension } from '../../../../../../protos/sro/gameserver/dimension';
+import { Component, inject } from '@angular/core';
+import { Dimension, EditDimensionRequest } from '../../../../../../protos/sro/gameserver/dimension';
 import { DimensionService } from '../../../../../services/backend/dimension.service';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, ROUTER_OUTLET_DATA } from '@angular/router';
 import { MapService } from '../../../../../services/backend/map.service';
+import { NotificationService } from '../../../../../services/ui/notification.service';
+import { AlertComponent } from '../../../../../components/alert/alert.component';
+import { DimensionFormComponent } from '../../../../../components/dimensions/dimension-form/dimension-form.component';
 
 @Component({
   selector: 'app-edit-dimension',
   imports: [
-    RouterLink,
-    ReactiveFormsModule,
+    DimensionFormComponent,
   ],
   templateUrl: './edit.component.html',
 })
 export class EditDimensionComponent {
-  dimension: Dimension | undefined;
+  dimension: Dimension = inject<Dimension>(ROUTER_OUTLET_DATA);
   id: string;
 
-  dimensionForm: FormGroup;
-
-  maps: any[] = [];
+  pendingSave = false;
 
   constructor(
     protected _dimensionsService: DimensionService,
     protected _mapService: MapService,
+    protected _notificationService: NotificationService,
     protected _route: ActivatedRoute,
+    protected _router: Router,
   ) {
     this.id = this._route.parent?.snapshot.params['id'] as string;
     if (this.id === undefined) {
@@ -35,55 +36,47 @@ export class EditDimensionComponent {
   ngOnInit() {
     this._dimensionsService.getDimension(this.id).then((dimension) => {
       this.dimension = dimension;
-      console.log('dimension', dimension);
-      this.dimensionForm = new FormGroup({
-        name: new FormControl(dimension.name, [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(64),
-          Validators.pattern(/^[a-zA-Z0-9_]+$/),
-        ]),
-        location: new FormControl(dimension.location, [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(64),
-        ]),
-        version: new FormControl(dimension.version, [
-          Validators.required,
-        ]),
-        maps: new FormArray([]),
-      });
-      this._loadMaps();
     });
   }
 
-  private _loadMaps() {
-    this._mapService.getMaps().then((maps) => {
-      const formArray = this.dimensionForm.get('maps') as FormArray;
-      maps.forEach((map) => {
-        const m = { ...map, selected: this.dimension!.mapIds.includes(map.id) }
-        this.maps.push(m);
-        formArray.push(new FormControl(m));
+  onSubmit(dimension: Dimension) {
+    if (this.pendingSave) {
+      return;
+    }
+
+    this.pendingSave = true;
+    const request = EditDimensionRequest.create();
+    request.targetId = this.id;
+    request.optionalName = { oneofKind: 'name', name: dimension.name }
+    request.optionalLocation = { oneofKind: 'location', location: dimension.location }
+    request.optionalVersion = { oneofKind: 'version', version: dimension.version }
+    request.mapIds = dimension.mapIds
+    request.editMaps = true;
+
+    this._dimensionsService.editDimension(request).then((dimension) => {
+      this.dimension = dimension;
+      this._notificationService.open(AlertComponent, {
+        data: {
+          message: 'Dimension update successful!',
+          type: 'success',
+          persist: true,
+        },
+        position: 'top-center',
+        autohide: true,
       });
-    });
-
-  }
-
-  onSubmit(form: FormGroup) {
-    console.log('submit', form.value.maps[0].selected);
-  }
-
-  toggleAll(event: any) {
-    this.maps.forEach(map => map.selected = event.target.checked);
-    this.dimensionForm.get('maps')?.setValue(this.maps);
-  }
-
-  isAllSelected() {
-    return this.maps.every(map => map.selected);
-  }
-
-  mapSelectionChange(event: any, map: any) {
-    map.selected = event.target.checked;
-    this.dimensionForm.get('maps')?.setValue(this.maps);
+      this._router.navigate(['../'], { relativeTo: this._route });
+    }).catch((e) => {
+      this._notificationService.open(AlertComponent, {
+        data: {
+          message: `${e.code}: ${e.message}`,
+          type: 'error',
+          persist: true,
+        },
+        position: 'top-center',
+        autohide: false,
+      });
+    }).finally(() => {
+      this.pendingSave = false;
+    })
   }
 }

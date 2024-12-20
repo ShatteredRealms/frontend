@@ -67,7 +67,7 @@ export class CharacterService {
     return new Promise(async (resolve, reject) => {
       const finished = await this.instance.createCharacter(data);
       if (finished.response) {
-        this.characterCache.add(finished.response);
+        this.characterCache.save(finished.response);
         this._showSuccess('Character created');
         resolve(finished.response);
         return

@@ -47,6 +47,9 @@ importers:
       '@protobuf-ts/plugin':
         specifier: ^2.9.4
         version: 2.9.4
+      '@protobuf-ts/runtime':
+        specifier: ^2.9.4
+        version: 2.9.4
       '@protobuf-ts/runtime-rpc':
         specifier: ^2.9.4
         version: 2.9.4

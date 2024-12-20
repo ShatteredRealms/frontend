@@ -4,7 +4,7 @@ import { createGrpcWebTransport } from './util';
 import { environment } from '../../../environments/environment';
 import { MapCached } from './cacheable';
 import { NotificationService } from '../ui/notification.service';
-import { Dimension } from '../../../protos/sro/gameserver/dimension';
+import { Dimension, EditDimensionRequest } from '../../../protos/sro/gameserver/dimension';
 import { FetchType } from './fetch';
 import { DimensionServiceClient } from '../../../protos/sro/gameserver/dimension.client';
 
@@ -29,6 +29,18 @@ export class DimensionService {
       this._getDimension.bind(this),
       this._getDimensions.bind(this),
     );
+  }
+
+  editDimension(request: EditDimensionRequest): Promise<Dimension> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const finished = await this.instance.editDimension(request);
+        this.dimensionCache.save(finished.response);
+        resolve(finished.response);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   getDimensions(fetchType = FetchType.AUTO): Promise<Map<string, Dimension>> {

@@ -1,8 +1,8 @@
-import { Subject } from "rxjs";
+import { filter, first, firstValueFrom, Subject } from "rxjs";
 import { FetchType } from "./fetch";
 
 export interface ICacheUpdate<T> {
-  item?: T;
+  item: T;
   added: boolean;
 }
 
@@ -17,14 +17,19 @@ export class MapCached<T> {
   protected readonly _update$ = new Subject<ICacheUpdate<T>>();
   readonly onUpdated = this._update$.asObservable();
 
+  protected readonly _allUpdate$ = new Subject<Map<string, T>>();
+  readonly onAllUpdated = this._allUpdate$.asObservable();
+
   protected readonly _error$ = new Subject<ICacheError>();
   readonly onError = this._error$.asObservable();
 
   protected _itemsCache = {
     fetchType: FetchType.NEVER,
     fetched: 0,
-    values: new Map<string, T>()
+    values: new Map<string, T>(),
   }
+  private _fetching = new Set<string>();
+  private _fetchingAll = false;
 
   maxAge = 1000 * 60 * 1; // 5 minutes
 
@@ -104,34 +109,75 @@ export class MapCached<T> {
     return true;
   }
 
-  add(item: T) {
+  save(item: T) {
     this._addCacheItem(item);
     this._update$.next({ item, added: true });
   }
 
   getAll(fetchType = FetchType.AUTO): Promise<Map<string, T>> {
+    if (this._fetchingAll) {
+      return firstValueFrom(this.onAllUpdated);
+    }
+
+    this._fetchingAll = true;
     return new Promise(async (resolve, reject) => {
       if (fetchType === FetchType.SERVER
         || this._itemsCache.fetchType === FetchType.NEVER
         || !this._isCacheFresh()) {
         this.getItemsAction().then((items) => {
           this._replaceCacheItems(items);
-          this._update$.next({ added: true });
+          this._allUpdate$.next(this._itemsCache.values);
           resolve(this._itemsCache.values);
         }).catch((e) => {
           reject(e);
+        }).finally(() => {
+          this._fetchingAll = false;
         });
         return;
       }
       resolve(this._itemsCache.values);
+      this._fetchingAll = false;
     });
   }
 
   get(itemId: string, fetchType = FetchType.AUTO): Promise<T> {
+    if (this._fetching.has(itemId)) {
+      return new Promise((resolve, reject) => {
+        this.onUpdated.pipe(filter((item) => item.added && item.item[this.key] == itemId)).pipe(first()).subscribe({
+          next: (update) => {
+            resolve(update.item);
+          },
+          error: (e) => {
+            reject(e);
+          },
+        });
+      });
+    }
+
+    if (this._fetchingAll) {
+      this._fetchingAll = false;
+      return new Promise((resolve, reject) => {
+        this.onAllUpdated.pipe(first()).subscribe({
+          next: (items) => {
+            if (items.has(itemId)) {
+              resolve(items.get(itemId)!);
+            } else {
+              reject(new Error(`Item with ID ${itemId} not found`));
+            }
+          },
+          error: (e) => {
+            reject(e);
+          },
+        });
+      });
+    }
+
+    this._fetching.add(itemId);
     const original = this._itemsCache.values.get(itemId);
     return new Promise(async (resolve, reject) => {
       if ((this._itemsCache.values.has(itemId) && fetchType <= FetchType.CACHE)
         || (this._isCacheFresh() && fetchType === FetchType.AUTO)) {
+        this._fetching.delete(itemId);
         resolve(this._itemsCache.values.get(itemId)!);
         return;
       }
@@ -143,6 +189,8 @@ export class MapCached<T> {
         resolve(item);
       }).catch((e) => {
         reject(e);
+      }).finally(() => {
+        this._fetching.delete(itemId);
       });
     });
   }

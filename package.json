@@ -23,6 +23,7 @@
     "@ng-icons/heroicons": "^29.10.0",
     "@protobuf-ts/grpcweb-transport": "^2.9.4",
     "@protobuf-ts/plugin": "^2.9.4",
+    "@protobuf-ts/runtime": "^2.9.4",
     "@protobuf-ts/runtime-rpc": "^2.9.4",
     "keycloak-js": "^26.0.7",
     "rxjs": "~7.8.0",
