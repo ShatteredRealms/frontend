@@ -31,6 +31,18 @@ export class DimensionService {
     );
   }
 
+  deleteDimension(dimensionId: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.instance.deleteDimension({ id: dimensionId });
+        this.dimensionCache.remove(dimensionId);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   editDimension(request: EditDimensionRequest): Promise<Dimension> {
     return new Promise(async (resolve, reject) => {
       try {

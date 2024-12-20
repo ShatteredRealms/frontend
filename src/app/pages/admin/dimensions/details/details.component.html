@@ -9,8 +9,12 @@
           <p class="mt-1 max-w-2xl text-sm/6 text-gray-400">All details related to the dimension</p>
         </div>
         <div>
+          <button type="button" (click)="deleteDimension()"
+            class="rounded-md bg-gray-800 border-red-500 px-3 py-2 text-sm font-semibold text-red-300 shadow-xs hover:bg-red-600/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 sm:order-none mr-0 sm:mr-4">
+            Delete Dimension
+          </button>
           <button type="button" [routerLink]="['edit']"
-            class="rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+            class="rounded-md bg-gray-700 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 mt-2 sm:mt-0">
             Edit Dimension
           </button>
         </div>
