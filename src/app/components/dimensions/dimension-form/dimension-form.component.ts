@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, effect, input, model, output } from '@angular/core';
 import { Dimension } from '../../../../protos/sro/gameserver/dimension';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MapService } from '../../../services/backend/map.service';
 import { DimensionService } from '../../../services/backend/dimension.service';
 import { RouterLink } from '@angular/router';
 import { Map as GSMap } from '../../../../protos/sro/gameserver/map';
+import { CommonModule } from '@angular/common';
 
 type MapForm = GSMap & { selected: boolean };
 
@@ -13,9 +14,9 @@ type MapForm = GSMap & { selected: boolean };
   imports: [
     RouterLink,
     ReactiveFormsModule,
+    CommonModule,
   ],
   templateUrl: './dimension-form.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DimensionFormComponent {
   dimension = input<Dimension>(Dimension.create());
@@ -27,6 +28,15 @@ export class DimensionFormComponent {
 
   get maps() {
     return this.form.get('maps') as FormArray;
+  }
+  get name(): AbstractControl<string> | null {
+    return this.form.get('name');
+  }
+  get location(): AbstractControl<string> | null {
+    return this.form.get('location');
+  }
+  get version(): AbstractControl<string> | null {
+    return this.form.get('version');
   }
 
   constructor(
@@ -60,8 +70,6 @@ export class DimensionFormComponent {
       ]),
       location: new FormControl(this.dimension().location, [
         Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(64),
       ]),
       version: new FormControl(this.dimension().version, [
         Validators.required,
@@ -89,16 +97,14 @@ export class DimensionFormComponent {
     dimension.name = form.get('name')?.value;
     dimension.location = form.get('location')?.value;
     dimension.version = form.get('version')?.value;
-    dimension.mapIds = this.maps.value.filter((map: MapForm) => map.selected).map((map: any) => map.id);
+    dimension.mapIds = this.maps.value.filter((map: FormControl<MapForm>) => map.value.selected).map((map: FormControl<MapForm>) => map.value.id);
     this.onSubmit.emit(dimension);
   }
 
   toggleAll(event: any) {
-    console.log('this.maps', this.maps.value.map((map: FormControl<MapForm>) => map.value.selected));
     this.maps.value.forEach((map: FormControl<MapForm>) => {
       map.value.selected = event.checked;
     })
-    console.log('this.maps', this.maps.value.map((map: FormControl<MapForm>) => map.value.selected));
   }
 
   isAllSelected() {
@@ -111,5 +117,27 @@ export class DimensionFormComponent {
 
   mapSelectionChange(event: any, index: number) {
     this.maps.value[index].value.selected = event.checked;
+  }
+
+  isNameInvalid() {
+    if (this.name) {
+      return this.name.invalid && (this.name.dirty || this.name.touched);
+    }
+    return false;
+  }
+
+  isLocationInvalid() {
+    if (this.location) {
+      return this.location.invalid && (this.location.dirty || this.location.touched);
+    }
+    return false;
+  }
+
+  isVersionInvalid() {
+    if (this.version) {
+      return this.version.invalid && (this.version.dirty || this.version.touched);
+    }
+
+    return false;
   }
 }
