@@ -44,8 +44,6 @@ export class DimensionFormComponent {
     protected _dimensionService: DimensionService,
   ) {
     effect(() => {
-      console.log('effect')
-      console.log('dimension', this.dimension());
       this.form.get('name')?.setValue(this.dimension().name);
       this.form.get('location')?.setValue(this.dimension().location);
       this.form.get('version')?.setValue(this.dimension().version);

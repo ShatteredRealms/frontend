@@ -11,6 +11,10 @@ import { NewDimensionComponent as NewDimensionPage } from './pages/admin/dimensi
 import { EditDimensionComponent as EditDimensionPage } from './pages/admin/dimensions/details/edit/edit.component';
 import { DimensionDetailsComponent as DimensionDetailsPage } from './pages/admin/dimensions/details/details.component';
 import { AdminDimensionLayoutComponent as AdminDimensionLayout } from './pages/admin/dimensions/layout.component';
+import { NewCharacterComponent as NewCharacterPage } from './pages/admin/characters/new/new.component';
+import { EditCharacterComponent as EditCharacterPage } from './pages/admin/characters/details/edit/edit.component';
+import { CharacterDetailsComponent as CharacterDetailsPage } from './pages/admin/characters/details/details.component';
+import { AdminCharacterLayout } from './pages/admin/characters/layout.component';
 
 export const routes: Routes = [
   {
@@ -46,7 +50,24 @@ export const routes: Routes = [
         ],
       },
 
-      { path: 'characters', component: CharacterDashboardPage },
+      {
+        path: 'characters',
+        component: AdminCharacterLayout,
+        children: [
+          {
+            path: '', component: CharacterDashboardPage, data: { breadcrumb: 'Characters' },
+            children: [
+              { path: 'new', component: NewCharacterPage, data: { breadcrumb: 'New Character' } },
+              {
+                path: ':id', component: CharacterDetailsPage, data: { breadcrumb: ':id' },
+                children: [
+                  { path: 'edit', component: EditCharacterPage, data: { breadcrumb: 'Edit Character' } },
+                ],
+              },
+            ],
+          },
+        ],
+      },
 
       { path: 'chat', component: ChatDashboardPage },
     ]

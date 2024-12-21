@@ -1,0 +1,69 @@
+<form [formGroup]="form" (ngSubmit)="onFormSubmit(form)">
+  <div class="space-y-12">
+    <div class="border-b border-white/10 pb-12">
+      <h2 class="text-base/7 font-semibold text-white">Description</h2>
+      <p class="mt-1 text-sm/6 text-gray-400">
+        General information about the character.
+      </p>
+
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2">
+        <div class="col-span-full">
+          <label for="username" class="block text-sm/6 font-medium text-white">Name</label>
+          <p class="text-sm/6 text-gray-400">
+            Name of the character as seen in game.
+          </p>
+          <div class="mt-2">
+            <div
+              class="flex items-center rounded-md bg-white/5 pl-3 outline-1 -outline-offset-1 outline-white/10 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-500">
+              <input formControlName="name"
+                class="block min-w-0 grow bg-transparent py-1.5 pr-3 pl-1 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6">
+            </div>
+            @if (isFormInvalid(name)) {
+            <p *ngIf="name!.hasError('minlength')" class="mt-1 text-xs/6 text-red-500">Name too short</p>
+            <p *ngIf="name!.hasError('maxlength')" class="mt-1 text-xs/6 text-red-500">Name too long</p>
+            <p *ngIf="name!.hasError('pattern')" class="mt-1 text-xs/6 text-red-500">Name can only contain letters,
+              numbers and dashes</p>
+            }
+          </div>
+        </div>
+
+        <div class="col-span-full">
+          <label for="username" class="block text-sm/6 font-medium text-white">
+            Dimension
+          </label>
+          <p class="text-sm/6 text-gray-400">
+            Dimension the character can play in.
+          </p>
+          <div class="mt-2">
+            <!-- <app-default-select formControlName="dimensionId" [options]="dimensions$ | async" [labelKey]="'name'" -->
+            <!--   [valueKey]="'id'" [placeholder]="'Select a dimension'" /> -->
+            @if (isFormInvalid(dimensionId)) {
+            <p *ngIf="name!.hasError('required')" class="mt-1 text-xs/6 text-red-500">Dimension is required</p>
+            }
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="border-b border-white/10 pb-12">
+      <h2 class="text-base/7 font-semibold text-white">Maps</h2>
+      <p class="mt-1 text-sm/6 text-gray-400">Maps used by this dimension.</p>
+
+
+      <div class="mt-10 space-y-10">
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 flex items-center justify-end gap-x-6">
+    <button type="button"
+      class="rounded-md px-3 py-2 text-sm/6 font-semibold text-white hover:bg-white/10 active:bg-white/20"
+      [routerLink]="['../']">Cancel</button>
+    <button type="submit"
+      class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 active:bg-indigo-400/80 disabled:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+      [disabled]="pendingSave() || !form.valid">
+      {{ pendingSave() ? 'Saving...' : 'Save' }}
+    </button>
+  </div>
+</form>
