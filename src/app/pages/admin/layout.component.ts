@@ -2,7 +2,7 @@ import { Component, Inject, Renderer2 } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { KeycloakService } from '../../auth/keycloak.service';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { heroHome, heroCog6Tooth, heroXMark, heroChatBubbleLeftEllipsis, heroUser, heroGlobeAlt } from '@ng-icons/heroicons/outline';
+import { heroHome, heroCog6Tooth, heroXMark, heroChatBubbleLeftEllipsis, heroUser, heroGlobeAlt, heroRocketLaunch } from '@ng-icons/heroicons/outline';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { filter } from 'rxjs';
 
@@ -15,7 +15,7 @@ import { filter } from 'rxjs';
     NgIconComponent,
   ],
   providers: [
-    provideIcons({ heroHome, heroCog6Tooth, heroXMark, heroChatBubbleLeftEllipsis, heroUser, heroGlobeAlt }),
+    provideIcons({ heroHome, heroCog6Tooth, heroXMark, heroChatBubbleLeftEllipsis, heroUser, heroGlobeAlt, heroRocketLaunch }),
   ],
   templateUrl: './layout.component.html',
 })
@@ -30,6 +30,12 @@ export class AdminLayoutComponent {
     {
       title: 'Dimensions',
       link: '/admin/dimensions',
+      icon: "heroRocketLaunch",
+      active: false,
+    },
+    {
+      title: 'Maps',
+      link: '/admin/maps',
       icon: "heroGlobeAlt",
       active: false,
     },
