@@ -4,6 +4,9 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } fr
 import { MapService } from '../../../services/backend/map.service';
 import { DimensionService } from '../../../services/backend/dimension.service';
 import { RouterLink } from '@angular/router';
+import { Map as GSMap } from '../../../../protos/sro/gameserver/map';
+
+type MapForm = GSMap & { selected: boolean };
 
 @Component({
   selector: 'app-dimension-form',
@@ -15,74 +18,66 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DimensionFormComponent {
-  dimension = input.required<Dimension>();
+  dimension = input<Dimension>(Dimension.create());
   onSubmit = output<Dimension>();
   pendingSave = model(false);
 
   form: FormGroup;
-  loading = {
-    maps: true,
-    dimension: true,
-    form: true,
-  };
-  maps: any[] = [];
+  loadingMaps = true;
 
+  get maps() {
+    return this.form.get('maps') as FormArray;
+  }
 
   constructor(
     protected _mapService: MapService,
     protected _dimensionService: DimensionService,
   ) {
     effect(() => {
-      if (this.loading.form) {
-        this.setupForm(this.dimension);
+      console.log('effect')
+      console.log('dimension', this.dimension());
+      this.form.get('name')?.setValue(this.dimension().name);
+      this.form.get('location')?.setValue(this.dimension().location);
+      this.form.get('version')?.setValue(this.dimension().version);
+
+      if (!this.dimension().id) {
+        return;
       }
+
+      this.maps.value.forEach((map: FormControl<MapForm>) => {
+        map.value.selected = this.dimension().mapIds.includes(map.value.id);
+      });
     });
   }
 
   ngOnInit() {
-    this._mapService.getMaps().then((maps) => {
-      const formArray = this.form.get('maps') as FormArray;
-      maps.forEach((map) => {
-        const m = { ...map, selected: false }
-        this.maps.push(m);
-        formArray.push(new FormControl(m));
-      });
-      this.loading.maps = false;
-      this.onLoadingFinished();
-    });
-  }
-
-  setupForm(dimension: any) {
     this.form = new FormGroup({
-      name: new FormControl(dimension().name, [
+      name: new FormControl(this.dimension().name, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(64),
-        Validators.pattern(/^[a-zA-Z0-9_]+$/),
+        Validators.pattern(/^[ a-zA-Z0-9_-]+$/),
       ]),
-      location: new FormControl(dimension().location, [
+      location: new FormControl(this.dimension().location, [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(64),
       ]),
-      version: new FormControl(dimension().version, [
+      version: new FormControl(this.dimension().version, [
         Validators.required,
       ]),
       maps: new FormArray([]),
     });
-    this.loading.dimension = false;
-    this.onLoadingFinished();
-  }
 
-  onLoadingFinished() {
-    if (this.loading.maps || this.loading.dimension || !this.loading.form) {
-      return;
-    }
-    this.maps.forEach((map) => {
-      map.selected = this.dimension()!.mapIds.includes(map.id);
-      (this.form.get('maps') as FormArray).push(new FormControl(map));
+    this._mapService.getMaps().then((maps) => {
+      console.log('maps', maps);
+      maps.forEach((map) => {
+        const m: MapForm = { ...map, selected: false }
+        this.maps.value.push(new FormControl(m));
+      });
+      console.log('maps', this.maps.value);
+      this.loadingMaps = false;
     });
-    this.loading.form = false;
   }
 
   onFormSubmit(form: FormGroup) {
@@ -94,29 +89,27 @@ export class DimensionFormComponent {
     dimension.name = form.get('name')?.value;
     dimension.location = form.get('location')?.value;
     dimension.version = form.get('version')?.value;
-    dimension.mapIds = this.maps.filter(map => map.selected).map(map => map.id);
+    dimension.mapIds = this.maps.value.filter((map: MapForm) => map.selected).map((map: any) => map.id);
     this.onSubmit.emit(dimension);
   }
 
-  isLoading() {
-    return this.loading.maps || this.loading.dimension || this.loading.form;
-  }
-
   toggleAll(event: any) {
-    this.form.get('maps')?.value.forEach((map: any) => {
-      map.selected = event.checked;
+    console.log('this.maps', this.maps.value.map((map: FormControl<MapForm>) => map.value.selected));
+    this.maps.value.forEach((map: FormControl<MapForm>) => {
+      map.value.selected = event.checked;
     })
+    console.log('this.maps', this.maps.value.map((map: FormControl<MapForm>) => map.value.selected));
   }
 
   isAllSelected() {
-    return this.maps.every(map => map.selected);
+    return this.maps.value.every((map: FormControl<MapForm>) => map.value.selected);
   }
 
-  mapSelectionChange(event: any, map: any) {
-    this.form.get('maps')?.value.forEach((m: any) => {
-      if (m.id === map.id) {
-        m.selected = event.checked;
-      }
-    })
+  isSelected(index: number) {
+    return this.maps.value[index].value.selected;
+  }
+
+  mapSelectionChange(event: any, index: number) {
+    this.maps.value[index].value.selected = event.checked;
   }
 }

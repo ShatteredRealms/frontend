@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../services/ui/notification.service';
 import { AlertComponent } from '../components/alert/alert.component';
 import { NotificationRef } from '../services/ui/notification';
-import { timeAge, timeStringFromSeconds } from '../helpers/time';
 
 
 @Injectable({
@@ -22,7 +21,6 @@ export class KeycloakService {
   private _inactiveTimer: any;
   private _inactiveWarningTimer: any;
   private _timeout: boolean
-  private _notice: NotificationRef;
   private _warning: NotificationRef;
 
   constructor(
