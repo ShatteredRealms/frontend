@@ -32,7 +32,7 @@ export const routes: Routes = [
         component: AdminDimensionLayout,
         children: [
           {
-            path: '', component: DimensionDashboardPage, data: { breadcrumb: 'Overview' },
+            path: '', component: DimensionDashboardPage, data: { breadcrumb: 'Dimensions' },
             children: [
               { path: 'new', component: NewDimensionPage, data: { breadcrumb: 'New Dimension' } },
               {

@@ -18,7 +18,7 @@ import { AlertComponent } from '../../../../components/alert/alert.component';
 export class DimensionDetailsComponent {
   @Input() id!: string;
 
-  dimension: Dimension | undefined;
+  @Input() dimension: Dimension | undefined;
 
   constructor(
     protected _dimensionsService: DimensionService,
@@ -29,9 +29,11 @@ export class DimensionDetailsComponent {
   ) { }
 
   ngOnInit() {
-    this._dimensionsService.getDimension(this.id).then((dimension) => {
-      this.dimension = dimension;
-    });
+    if (!this.dimension) {
+      this._dimensionsService.getDimension(this.id).then((dimension) => {
+        this.dimension = dimension;
+      });
+    }
   }
 
   async deleteDimension() {
@@ -39,6 +41,7 @@ export class DimensionDetailsComponent {
       data: {
         title: 'Delete Dimension',
         message: 'Are you sure you want to delete this dimension?',
+        submitText: 'Delete',
         isWarning: true,
       },
     }).onClose.subscribe((result: any) => {

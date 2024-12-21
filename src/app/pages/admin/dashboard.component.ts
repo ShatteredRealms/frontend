@@ -9,6 +9,9 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { heroArrowPath } from '@ng-icons/heroicons/outline';
 import { NotificationRef } from '../../services/ui/notification';
 import { AlertComponent } from '../../components/alert/alert.component';
+import { DimensionService } from '../../services/backend/dimension.service';
+import { Dimension } from '../../../protos/sro/gameserver/dimension';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -16,6 +19,7 @@ import { AlertComponent } from '../../components/alert/alert.component';
   imports: [
     CharactersTableComponent,
     NgIconComponent,
+    RouterLink,
   ],
   providers: [
     provideIcons({ heroArrowPath }),
@@ -24,18 +28,23 @@ import { AlertComponent } from '../../components/alert/alert.component';
 })
 export class AdminDashboardComponent {
   characters: Map<string, CharacterDetails> = new Map<string, CharacterDetails>();
+  dimensions: Map<string, Dimension> = new Map<string, Dimension>();
 
   private _refresh: NotificationRef;
 
   constructor(
     protected _characterService: CharacterService,
     protected _notificationService: NotificationService,
+    protected _dimensionService: DimensionService,
   ) {
   }
 
   ngOnInit() {
     this._characterService.getCharacters().then((resp) => {
       this.characters = resp;
+    });
+    this._dimensionService.getDimensions().then((resp) => {
+      this.dimensions = resp;
     });
   }
 
