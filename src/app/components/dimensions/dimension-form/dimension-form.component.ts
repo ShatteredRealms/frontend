@@ -44,8 +44,6 @@ export class DimensionFormComponent {
     protected _dimensionService: DimensionService,
   ) {
     effect(() => {
-      console.log('effect')
-      console.log('dimension', this.dimension());
       this.form.get('name')?.setValue(this.dimension().name);
       this.form.get('location')?.setValue(this.dimension().location);
       this.form.get('version')?.setValue(this.dimension().version);
@@ -78,12 +76,10 @@ export class DimensionFormComponent {
     });
 
     this._mapService.getMaps().then((maps) => {
-      console.log('maps', maps);
       maps.forEach((map) => {
         const m: MapForm = { ...map, selected: false }
         this.maps.value.push(new FormControl(m));
       });
-      console.log('maps', this.maps.value);
       this.loadingMaps = false;
     });
   }

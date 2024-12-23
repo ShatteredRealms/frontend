@@ -94,7 +94,6 @@ export class ModalContainerComponent {
             const dialog = this.modalDialog.nativeElement;
             const notDialog = target !== dialog;
             const notDialogContent = !dialog.contains(target);
-            console.log(notDialog, notDialogContent);
             return notDialog && notDialogContent;
           }),
           takeUntil(this._destroy$)

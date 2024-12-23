@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/route
 import { KeycloakService } from '../../auth/keycloak.service';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { trigger, transition, animate, style, state } from '@angular/animations';
+import { SROGroups } from '../../auth/groups';
 
 @Component({
   selector: 'app-default',
@@ -53,7 +54,7 @@ export class DefaultLayoutComponent {
 
     this.renderer.addClass(this.document.body, 'bg-gray-900');
     this.renderer.addClass(this.document.body, 'h-full');
-    if (this.isAuthenticated() && this._keycloak.getUserRoles().some((role: string) => ['admin', 'super admin'].includes(role))) {
+    if (this.isAuthenticated() && this._keycloak.hasGroup(SROGroups.Admin)) {
       this.links.push({
         title: 'Admin',
         link: '/admin',

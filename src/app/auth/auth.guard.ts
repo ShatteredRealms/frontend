@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn } from '@angular/router';
 import { KeycloakService } from './keycloak.service';
+import { SROGroups } from './groups';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const keycloak = inject(KeycloakService);
@@ -25,12 +26,9 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  const requiredGroups: string[] = route.data['groups'] || [];
-  const userInfo = keycloak.instance.userInfo as { groups: string[] };
-  let groups: string[] = userInfo?.groups || [];
-
+  const requiredGroups: SROGroups[] = route.data['groups'] || [];
   if (requiredGroups.length > 0 && !requiredGroups.some(
-    (group: string) => groups.indexOf(group) >= 0
+    (group) => keycloak.hasGroup(group)
   )) {
     return false;
   }

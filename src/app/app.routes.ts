@@ -11,6 +11,7 @@ import { NewDimensionComponent as NewDimensionPage } from './pages/admin/dimensi
 import { EditDimensionComponent as EditDimensionPage } from './pages/admin/dimensions/details/edit/edit.component';
 import { DimensionDetailsComponent as DimensionDetailsPage } from './pages/admin/dimensions/details/details.component';
 import { AdminDimensionLayoutComponent as AdminDimensionLayout } from './pages/admin/dimensions/layout.component';
+import { SROGroups } from './auth/groups';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayout,
-    data: { roles: [], groups: ['admin'] },
+    data: { roles: [], groups: [SROGroups.Admin] },
     canActivate: [authGuard],
     children: [
       { path: '', component: AdminDashboardPage },
