@@ -16,6 +16,14 @@ static_resources:
           codec_type: auto
           stat_prefix: ingress_http
           route_config:
+            typed_per_filter_config:
+              envoy.filters.http.cors:
+                "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.CorsPolicy
+                allow_origin_string_match:
+                - prefix: "*"
+                allow_methods: "GET, POST, PUT, DELETE, OPTION"
+                expose_headers: "grpc-message, grpc-status"
+                allow_headers: "keep-alive, user-agent, cache-control, content-type, content-transfer-encoding, x-accept-content-transfer-encoding, x-accept-response-streaming, x-user-agent, x-grpc-web, grpc-timeout, authorization"
             name: local_route
             virtual_hosts:
             - name: service
@@ -40,29 +48,22 @@ static_resources:
                   prefix_rewrite: "/"
                   cluster: chat_service
                   timeout: 0s
-              cors:
-                allow_origin_string_match:
-                - prefix: "*"
-                - prefix: ".*"
-                allow_methods: "GET, POST, PUT, DELETE, OPTION"
-                expose_headers: "grpc-message, grpc-status"
-                allow_headers: "keep-alive, user-agent, cache-control, content-type, content-transfer-encoding, x-accept-content-transfer-encoding, x-accept-response-streaming, x-user-agent, x-grpc-web, grpc-timeout, authorization"
           http_filters:
-          - name: envoy.http1bridge
+          - name: envoy.filters.http.http1bridge
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_http1_bridge.v3.Config
-          #     upgrade_protobuf_to_grpc: true
+              upgrade_protobuf_to_grpc: true
           # - name: envoy.filters.http.grpc_http1_reverse_bridge
           #   typed_config:
           #     "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_http1_reverse_bridge.v3.FilterConfig
-          #   content_type: application/grpc+proto
-          - name: envoy.grpc_web
+          #     content_type: application/grpc+proto
+          - name: envoy.filters.http.grpc_web
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_web.v3.GrpcWeb
-          - name: envoy.cors
+          - name: envoy.filters.http.cors
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.cors.v3.Cors
-          - name: envoy.router
+          - name: envoy.filters.http.router
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
       transport_socket:
@@ -81,6 +82,11 @@ static_resources:
     type: LOGICAL_DNS
     lb_policy: round_robin
     dns_lookup_family: V4_ONLY
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
     load_assignment:
       cluster_name: character
       endpoints:
@@ -90,12 +96,16 @@ static_resources:
                 socket_address:
                   address: "host.docker.internal"
                   port_value: 8081
-    http2_protocol_options: {}
   - name: gameserver_service
     connect_timeout: 0.25s
     type: LOGICAL_DNS
     dns_lookup_family: V4_ONLY
     lb_policy: round_robin
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
     load_assignment:
       cluster_name: gamesever
       endpoints:
@@ -105,12 +115,16 @@ static_resources:
                 socket_address:
                   address: "host.docker.internal"
                   port_value: 8082
-    http2_protocol_options: {}
   - name: chat_service
     connect_timeout: 0.25s
     type: LOGICAL_DNS
     dns_lookup_family: V4_ONLY
     lb_policy: round_robin
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
     load_assignment:
       cluster_name: chat
       endpoints:
@@ -120,7 +134,6 @@ static_resources:
                 socket_address:
                   address: "host.docker.internal"
                   port_value: 8180
-    http2_protocol_options: {}
 
 admin:
   address:
