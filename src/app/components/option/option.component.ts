@@ -34,6 +34,10 @@ export class OptionComponent {
   }
   private _label: string;
 
+  get labelFilter(): string {
+    return this._label.toLowerCase() + this._el.nativeElement.textContent.toLowerCase();
+  }
+
   @HostBinding('class.hidden')
   get isHidden(): boolean {
     return this.hidden;

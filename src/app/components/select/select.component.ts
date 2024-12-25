@@ -133,8 +133,16 @@ export class SelectComponent
   @Input() notFoundMsg = 'No results found';
 
   @Input() optionsSelectedLabel = 'options selected';
-  @Input() placeholder = '';
+  @Input() inputPlaceholder = '';
   @Input() tabindex = 0;
+  @Input() filterPlaceholder = 'Type to filter';
+  get placeholder(): string {
+    if (this.filter && this._isOpen) {
+      return this.filterPlaceholder;
+    }
+    return this.inputPlaceholder;
+  }
+
 
   @Input()
   get required(): boolean {
@@ -682,7 +690,7 @@ export class SelectComponent
             const filterValue = value.toLowerCase();
 
             const options = this.options.toArray().filter((option: OptionComponent) => {
-              if (option.label.toLowerCase().includes(filterValue)) {
+              if (option.labelFilter.toLowerCase().includes(filterValue)) {
                 option.hidden = false;
                 return option;
               } else {

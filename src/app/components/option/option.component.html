@@ -8,6 +8,7 @@
       [checked]="selected" [disabled]="disabled">
     }
     <ng-content></ng-content>
+    <ng-content select=".option-label"></ng-content>
     @if (selected) {
     <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-100">
       <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
