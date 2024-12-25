@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, Input, input } from '@angular/core';
 import { CharacterDetails } from '../../../../protos/sro/character/character';
 import { CharacterService } from '../../../services/backend/character.service';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { timeAge, timeStringFromSeconds } from '../../../helpers/time';
 import { UserService } from '../../../services/backend/user.service';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 import { SROGroups } from '../../../auth/groups';
+import { RouterLink } from '@angular/router';
 
 interface Badge {
   name: string;
@@ -16,11 +17,15 @@ interface Badge {
   selector: 'app-characters-table',
   imports: [
     CommonModule,
+    RouterLink,
   ],
   templateUrl: './characters-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharactersTableComponent {
+  @Input()
+  actions = true;
+
   data = input.required<Map<string, CharacterDetails>>();
   owners = new Map<string, UserRepresentation>();
   userGroups = new Map<string, string[]>();
