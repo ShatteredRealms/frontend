@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../services/ui/notification.service';
 import { AlertComponent } from '../components/alert/alert.component';
 import { NotificationRef } from '../services/ui/notification';
+import { SROGroups } from './groups';
 
 
 @Injectable({
@@ -216,5 +217,20 @@ export class KeycloakService {
 
   private baseAdminUrl(): string {
     return `${environment.KEYCLOAK_URL}/admin/realms/${environment.KEYCLOAK_REALM}`;
+  }
+
+  getGroups(): string[] {
+    if (this.instance.userInfo) {
+      const userInfo = this.instance.userInfo as { groups: string[] };
+      return userInfo.groups;
+    }
+    return [];
+  }
+
+  hasGroup(group: SROGroups): boolean {
+    if (this.instance.userInfo) {
+      return this.getGroups().includes(group);
+    }
+    return false;
   }
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, effect, input, model, output } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { CharacterDetails } from '../../../../protos/sro/character/character';
 import { CharacterService } from '../../../services/backend/character.service';
@@ -8,7 +8,9 @@ import { DimensionService } from '../../../services/backend/dimension.service';
 import { UserService } from '../../../services/backend/user.service';
 import { Dimension } from '../../../../protos/sro/gameserver/dimension';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
-import { DefaultSelectComponent } from "../../select/default-select/default-select.component";
+import { FormControlComponent } from "../../forms/form-control.component";
+import { OptionComponent } from '../../option/option.component';
+import { SelectComponent } from '../../select/select.component';
 
 
 
@@ -18,7 +20,9 @@ import { DefaultSelectComponent } from "../../select/default-select/default-sele
     RouterLink,
     ReactiveFormsModule,
     CommonModule,
-    DefaultSelectComponent
+    FormControlComponent,
+    OptionComponent,
+    SelectComponent,
   ],
   templateUrl: './character-form.component.html',
 })

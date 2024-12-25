@@ -21,18 +21,12 @@ export class UserService {
   constructor(
     protected keycloak: KeycloakService,
   ) {
-    console.log('Keycloak Admin Client', this._kcAdmin);
     this._userCache = new MapCached(
       'users',
       'id',
       this._getUser.bind(this),
       this._getUsers.bind(this),
     );
-  }
-
-  ngOnInit() {
-    // console.log('Keycloak Admin Client', this._kcAdmin);
-    console.log('Keycloak Admin Client Token', this.keycloak.instance);
   }
 
   getUser(userId: string, fetchType = FetchType.AUTO): Promise<UserRepresentation> {

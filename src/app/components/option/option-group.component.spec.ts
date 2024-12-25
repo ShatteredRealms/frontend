@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DefaultSelectComponent } from './default-select.component';
+import { OptionGroupComponent } from './option-group.component';
 
-describe('DefaultSelectComponent', () => {
-  let component: DefaultSelectComponent;
-  let fixture: ComponentFixture<DefaultSelectComponent>;
+describe('OptionGroupComponent', () => {
+  let component: OptionGroupComponent;
+  let fixture: ComponentFixture<OptionGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DefaultSelectComponent]
+      imports: [OptionGroupComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DefaultSelectComponent);
+    fixture = TestBed.createComponent(OptionGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,22 @@
+<li
+  class="relative cursor-default py-2 pr-9 pl-3 text-gray-100 {{ selected ? 'bg-indigo-900 font-bold' : '' }} {{ active ? 'bg-indigo-800 font-semibold' : '' }} hover:bg-indigo-700"
+  id="listbox-option-0" role="option">
+  <span class="block truncate font-normal" [classList]="{'font-normal': selected, 'font-semibold': selected}">
+    @if (_multiple) {
+    <input type="checkbox"
+      class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 forced-colors:appearance-auto"
+      [checked]="selected" [disabled]="disabled">
+    }
+    <ng-content></ng-content>
+    @if (selected) {
+    <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600">
+      <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+        <path fill-rule="evenodd"
+          d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z"
+          clip-rule="evenodd" />
+      </svg>
+    </span>
+    }
+  </span>
+  <ng-content select=".option-icon-container"></ng-content>
+</li>

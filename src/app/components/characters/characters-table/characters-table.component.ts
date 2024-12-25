@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { timeAge, timeStringFromSeconds } from '../../../helpers/time';
 import { UserService } from '../../../services/backend/user.service';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
+import { SROGroups } from '../../../auth/groups';
 
 interface Badge {
   name: string;
@@ -66,17 +67,21 @@ export class CharactersTableComponent {
     if (!owner) {
       return [];
     }
+
     const groups = this.userGroups.get(owner.id!) || [];
 
     const badges: Badge[] = [];
-    if (groups.includes('Banned')) {
+    if (groups.includes(SROGroups.Banned)) {
       badges.push({ name: 'Banned', classes: 'text-red-400 bg-red-400/10 ring-red-400/20' });
     }
-    if (groups.includes('Admin')) {
+    if (groups.includes(SROGroups.Admin)) {
       badges.push({ name: 'Admin', classes: 'text-green-400 bg-green-400/10 ring-green-400/20' });
     }
-    if (groups.includes('Moderator')) {
+    if (groups.includes(SROGroups.Moderator)) {
       badges.push({ name: 'Moderator', classes: 'text-gray-400 bg-gray-400/10 ring-gray-400/20' });
+    }
+    if (groups.includes(SROGroups.Member)) {
+      badges.push({ name: 'Member', classes: 'text-indigo-400 bg-indigo-400/10 ring-indigo-400/20' });
     }
     return badges;
   }

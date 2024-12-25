@@ -1,0 +1,37 @@
+<div class="relative mt-2">
+  <input #input appInput #filtereInput [formControl]="selectFilter" [attr.role]="'searchbox'" type="text"
+    class="grid w-full cursor-default grid-cols-1 rounded-md bg-white/5 py-1.5 pr-2 pl-3 text-left outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-white"
+    [readOnly]="!filter" (click)="toggle()" (focus)="onFocus()" (blur)="onBlur()" [value]="selectionView"
+    [disabled]="disabled" [placeholder]="placeholder" />
+  <div class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-hidden pointer-events-none">
+    <svg class="size-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
+      <path fill-rule="evenodd"
+        d="M10.53 3.47a.75.75 0 0 0-1.06 0L6.22 6.72a.75.75 0 0 0 1.06 1.06L10 5.06l2.72 2.72a.75.75 0 1 0 1.06-1.06l-3.25-3.25Zm-4.31 9.81 3.25 3.25a.75.75 0 0 0 1.06 0l3.25-3.25a.75.75 0 1 0-1.06-1.06L10 14.94l-2.72-2.72a.75.75 0 0 0-1.06 1.06Z"
+        clip-rule="evenodd" />
+    </svg>
+  </div>
+  @if (clearButton && hasSelected) {
+  <span class="select-clear-btn d-block" [tabIndex]="clearButtonTabindex"
+    (keydown.enter)="handleSelectionClear(); $event.stopPropagation()"
+    (click)="handleSelectionClear($event); $event.stopPropagation()">&#x2715;</span>
+  }
+  <span class="select-arrow" (click)="toggle(); $event.stopPropagation()"></span>
+
+  <ng-template #dropdownTemplate>
+    <ul #dropdown [@dropdownContainerAnimation] tabindex="-1"
+      class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm {{ dropdownClass }}">
+      <div [@dropdownAnimation]="'visible'">
+        <div #optionsWrapper class="select-options-wrapper" [style]="{ 'max-height.px': dropdownHeight }">
+          <div class="select-options-list">
+            <ng-content select="app-select-all-option"></ng-content>
+            @if (filter && _showNoResultsMsg && notFoundMsg) {
+            <span class="select-no-results" [style.height.px]="optionHeight">{{ notFoundMsg }}</span>
+            }
+            <ng-content select="app-option, app-option-group"></ng-content>
+          </div>
+        </div>
+        <ng-content select=".select-custom-content"></ng-content>
+      </div>
+    </ul>
+  </ng-template>
+</div>

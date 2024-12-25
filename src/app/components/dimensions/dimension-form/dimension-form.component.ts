@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, input, model, output } from '@angular/core';
+import { Component, effect, input, model, output } from '@angular/core';
 import { Dimension } from '../../../../protos/sro/gameserver/dimension';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MapService } from '../../../services/backend/map.service';
@@ -76,12 +76,10 @@ export class DimensionFormComponent {
     });
 
     this._mapService.getMaps().then((maps) => {
-      console.log('maps', maps);
       maps.forEach((map) => {
         const m: MapForm = { ...map, selected: false }
         this.maps.value.push(new FormControl(m));
       });
-      console.log('maps', this.maps.value);
       this.loadingMaps = false;
     });
   }

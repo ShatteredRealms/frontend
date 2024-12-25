@@ -15,6 +15,7 @@ import { NewCharacterComponent as NewCharacterPage } from './pages/admin/charact
 import { EditCharacterComponent as EditCharacterPage } from './pages/admin/characters/details/edit/edit.component';
 import { CharacterDetailsComponent as CharacterDetailsPage } from './pages/admin/characters/details/details.component';
 import { AdminCharacterLayout } from './pages/admin/characters/layout.component';
+import { SROGroups } from './auth/groups';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayout,
-    data: { roles: [], groups: ['admin'] },
+    data: { roles: [], groups: [SROGroups.Admin] },
     canActivate: [authGuard],
     children: [
       { path: '', component: AdminDashboardPage },

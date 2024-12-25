@@ -7,6 +7,17 @@
       </p>
 
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2">
+        <app-form-control>
+          <label appLabel class="block text-sm/6 font-medium text-white">Example label</label>
+          <app-select [filter]="true">
+            <app-option [value]="'1'">Option 1</app-option>
+            <app-option [value]="'2'">Option 2</app-option>
+            <app-option [value]="'3'">Option 3</app-option>
+            <app-option [value]="'4'">Option 4</app-option>
+            <app-option [value]="'5'">Option 5</app-option>
+          </app-select>
+        </app-form-control>
+
         <div class="col-span-full">
           <label for="username" class="block text-sm/6 font-medium text-white">Name</label>
           <p class="text-sm/6 text-gray-400">
@@ -42,16 +53,6 @@
             }
           </div>
         </div>
-
-      </div>
-    </div>
-
-    <div class="border-b border-white/10 pb-12">
-      <h2 class="text-base/7 font-semibold text-white">Maps</h2>
-      <p class="mt-1 text-sm/6 text-gray-400">Maps used by this dimension.</p>
-
-
-      <div class="mt-10 space-y-10">
       </div>
     </div>
   </div>
