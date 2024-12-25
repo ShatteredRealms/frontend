@@ -140,6 +140,8 @@ export class CharacterFormComponent {
     character.realm = form.value.realm;
     character.gender = form.value.gender;
 
+    console.log(character);
+
     this.onSubmit.emit(character);
   }
 

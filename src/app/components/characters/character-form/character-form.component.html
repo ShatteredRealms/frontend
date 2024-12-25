@@ -7,16 +7,6 @@
       </p>
 
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2">
-        <app-form-control>
-          <label appLabel class="block text-sm/6 font-medium text-white">Example label</label>
-          <app-select [filter]="true" [clearButton]="true">
-            <app-option [value]="'1'">Option 1</app-option>
-            <app-option [value]="'2'">Option 2</app-option>
-            <app-option [value]="'3'">Option 3</app-option>
-            <app-option [value]="'4'">Option 4</app-option>
-            <app-option [value]="'5'">Option 5</app-option>
-          </app-select>
-        </app-form-control>
 
         <div class="col-span-full">
           <label for="username" class="block text-sm/6 font-medium text-white">Name</label>
@@ -39,19 +29,71 @@
         </div>
 
         <div class="col-span-full">
-          <label for="username" class="block text-sm/6 font-medium text-white">
-            Dimension
-          </label>
-          <p class="text-sm/6 text-gray-400">
-            Dimension the character can play in.
-          </p>
-          <div class="mt-2">
-            <!-- <app-default-select formControlName="dimensionId" [options]="dimensions$ | async" [labelKey]="'name'" -->
-            <!--   [valueKey]="'id'" [placeholder]="'Select a dimension'" /> -->
-            @if (isFormInvalid(dimensionId)) {
-            <p *ngIf="name!.hasError('required')" class="mt-1 text-xs/6 text-red-500">Dimension is required</p>
-            }
-          </div>
+          <app-form-control>
+            <label for="dimension" class="block text-sm/6 font-medium text-white">
+              Dimension
+            </label>
+            <p class="text-sm/6 text-gray-400">
+              Dimension the character can play in.
+            </p>
+            <app-select formControlName="dimensionId" id="dimension" [filter]="true" [clearButton]="true">
+              @for (dimension of dimensions; track dimension[0]) {
+              <app-option [value]="dimension[0]" [label]="dimension[1].name">
+                {{ dimension[1].name }}
+                <span class="ml-2 truncate text-gray-500 option-label">{{ dimension[0] }}</span>
+              </app-option>
+              }
+            </app-select>
+          </app-form-control>
+        </div>
+
+        <div class="col-span-full">
+          <app-form-control>
+            <label for="owner" class="block text-sm/6 font-medium text-white">
+              Owner
+            </label>
+            <p class="text-sm/6 text-gray-400">
+              Which player owns the character.
+            </p>
+            <app-select formControlName="ownerId" id="owner" [filter]="true" [clearButton]="true">
+              @for (user of users; track user[0]) {
+              <app-option [value]="user[0]" [label]="user[1].username!">
+                {{ user[1].username }}
+                <span class="ml-2 truncate text-gray-500 option-label">{{ user[0] }}</span>
+              </app-option>
+              }
+            </app-select>
+          </app-form-control>
+        </div>
+
+        <div class="col-span-full">
+          <app-form-control>
+            <label for="realm" class="block text-sm/6 font-medium text-white">
+              Realm
+            </label>
+            <p class="text-sm/6 text-gray-400">
+              Which realm the character belongs to.
+            </p>
+            <app-select formControlName="realm" id="realm" [filter]="true" [clearButton]="true">
+              <app-option value="human">Human</app-option>
+              <app-option value="cyborg">Cyborg</app-option>
+            </app-select>
+          </app-form-control>
+        </div>
+
+        <div class="col-span-full">
+          <app-form-control>
+            <label for="gender" class="block text-sm/6 font-medium text-white">
+              Gender
+            </label>
+            <p class="text-sm/6 text-gray-400">
+              Which gender the character belongs to.
+            </p>
+            <app-select formControlName="gender" id="gender" [filter]="true" [clearButton]="true">
+              <app-option value="male">Male</app-option>
+              <app-option value="female">Female</app-option>
+            </app-select>
+          </app-form-control>
         </div>
       </div>
     </div>
