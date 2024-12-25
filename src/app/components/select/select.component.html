@@ -11,12 +11,15 @@
     </svg>
   </div>
   @if (clearButton && hasSelected) {
-  <span class="select-clear-btn d-block" [tabIndex]="clearButtonTabindex"
-    (keydown.enter)="handleSelectionClear(); $event.stopPropagation()"
-    (click)="handleSelectionClear($event); $event.stopPropagation()">&#x2715;</span>
-  }
-  <span class="select-arrow" (click)="toggle(); $event.stopPropagation()"></span>
+  <span class="absolute inset-y-0 right-6 flex items-center rounded-r-md px-2 cursor-pointer text-gray-100 size-9"
+    [tabIndex]="clearButtonTabindex" (keydown.enter)="handleSelectionClear(); $event.stopPropagation()"
+    (click)="handleSelectionClear($event); $event.stopPropagation()">
+    <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+    </svg>
 
+  </span>
+  }
   <ng-template #dropdownTemplate>
     <ul #dropdown [@dropdownContainerAnimation] tabindex="-1"
       class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-gray-900 py-1 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm {{ dropdownClass }}">
