@@ -65,14 +65,13 @@ export class CharacterService {
 
   createCharacter(data: CreateCharacterRequest): Promise<CharacterDetails> {
     return new Promise(async (resolve, reject) => {
-      const finished = await this.instance.createCharacter(data);
-      if (finished.response) {
+      this.instance.createCharacter(data).then((finished) => {
         this.characterCache.save(finished.response);
         this._showSuccess('Character created');
         resolve(finished.response);
-        return
-      }
-      reject(finished.status.detail);
+      }).catch((e) => {
+        reject(e);
+      });
     });
   }
 

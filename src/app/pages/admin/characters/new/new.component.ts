@@ -5,7 +5,7 @@ import { NotificationService } from '../../../../services/ui/notification.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertComponent } from '../../../../components/alert/alert.component';
 import { CharacterFormComponent } from '../../../../components/characters/character-form/character-form.component';
-import { CharacterDetails } from '../../../../../protos/sro/character/character';
+import { CharacterDetails, CreateCharacterRequest } from '../../../../../protos/sro/character/character';
 
 @Component({
   selector: 'app-new-character',
