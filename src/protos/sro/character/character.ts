@@ -675,6 +675,6 @@ export const CharacterService = new ServiceType("sro.character.CharacterService"
     { name: "GetCharactersForUser", options: { "google.api.http": { get: "/v1/characters/owner/{id}" } }, I: TargetId, O: CharactersDetails },
     { name: "CreateCharacter", options: { "google.api.http": { post: "/v1/characters", body: "*" } }, I: CreateCharacterRequest, O: CharacterDetails },
     { name: "DeleteCharacter", options: { "google.api.http": { delete: "/v1/characters/id/{id}" } }, I: TargetId, O: Empty },
-    { name: "EditCharacter", options: { "google.api.http": { put: "/v1/characters/id/{character_id}", body: "*" } }, I: EditCharacterRequest, O: Empty },
+    { name: "EditCharacter", options: { "google.api.http": { put: "/v1/characters/id/{character_id}", body: "*" } }, I: EditCharacterRequest, O: CharacterDetails },
     { name: "AddCharacterPlayTime", options: { "google.api.http": { put: "/v1/characters/id/{character_id}/playtime", body: "*" } }, I: AddPlayTimeRequest, O: PlayTimeResponse }
 ]);

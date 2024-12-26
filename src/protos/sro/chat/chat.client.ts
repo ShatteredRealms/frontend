@@ -54,17 +54,17 @@ export interface IChatServiceClient {
      */
     getChatChannel(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, ChatChannel>;
     /**
-     * @generated from protobuf rpc: CreateChatChannel(sro.chat.CreateChatChannelMessage) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: CreateChatChannel(sro.chat.CreateChatChannelMessage) returns (sro.chat.ChatChannel);
      */
-    createChatChannel(input: CreateChatChannelMessage, options?: RpcOptions): UnaryCall<CreateChatChannelMessage, Empty>;
+    createChatChannel(input: CreateChatChannelMessage, options?: RpcOptions): UnaryCall<CreateChatChannelMessage, ChatChannel>;
     /**
-     * @generated from protobuf rpc: DeleteChatChannel(sro.TargetId) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: DeleteChatChannel(sro.TargetId) returns (sro.chat.ChatChannel);
      */
-    deleteChatChannel(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, Empty>;
+    deleteChatChannel(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, ChatChannel>;
     /**
-     * @generated from protobuf rpc: EditChatChannel(sro.chat.UpdateChatChannelRequest) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: EditChatChannel(sro.chat.UpdateChatChannelRequest) returns (sro.chat.ChatChannel);
      */
-    editChatChannel(input: UpdateChatChannelRequest, options?: RpcOptions): UnaryCall<UpdateChatChannelRequest, Empty>;
+    editChatChannel(input: UpdateChatChannelRequest, options?: RpcOptions): UnaryCall<UpdateChatChannelRequest, ChatChannel>;
     /**
      * @generated from protobuf rpc: GetAuthorizedChatChannels(sro.TargetId) returns (sro.chat.ChatChannels);
      */
@@ -145,25 +145,25 @@ export class ChatServiceClient implements IChatServiceClient, ServiceInfo {
         return stackIntercept<TargetId, ChatChannel>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: CreateChatChannel(sro.chat.CreateChatChannelMessage) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: CreateChatChannel(sro.chat.CreateChatChannelMessage) returns (sro.chat.ChatChannel);
      */
-    createChatChannel(input: CreateChatChannelMessage, options?: RpcOptions): UnaryCall<CreateChatChannelMessage, Empty> {
+    createChatChannel(input: CreateChatChannelMessage, options?: RpcOptions): UnaryCall<CreateChatChannelMessage, ChatChannel> {
         const method = this.methods[6], opt = this._transport.mergeOptions(options);
-        return stackIntercept<CreateChatChannelMessage, Empty>("unary", this._transport, method, opt, input);
+        return stackIntercept<CreateChatChannelMessage, ChatChannel>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: DeleteChatChannel(sro.TargetId) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: DeleteChatChannel(sro.TargetId) returns (sro.chat.ChatChannel);
      */
-    deleteChatChannel(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, Empty> {
+    deleteChatChannel(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, ChatChannel> {
         const method = this.methods[7], opt = this._transport.mergeOptions(options);
-        return stackIntercept<TargetId, Empty>("unary", this._transport, method, opt, input);
+        return stackIntercept<TargetId, ChatChannel>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: EditChatChannel(sro.chat.UpdateChatChannelRequest) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: EditChatChannel(sro.chat.UpdateChatChannelRequest) returns (sro.chat.ChatChannel);
      */
-    editChatChannel(input: UpdateChatChannelRequest, options?: RpcOptions): UnaryCall<UpdateChatChannelRequest, Empty> {
+    editChatChannel(input: UpdateChatChannelRequest, options?: RpcOptions): UnaryCall<UpdateChatChannelRequest, ChatChannel> {
         const method = this.methods[8], opt = this._transport.mergeOptions(options);
-        return stackIntercept<UpdateChatChannelRequest, Empty>("unary", this._transport, method, opt, input);
+        return stackIntercept<UpdateChatChannelRequest, ChatChannel>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: GetAuthorizedChatChannels(sro.TargetId) returns (sro.chat.ChatChannels);

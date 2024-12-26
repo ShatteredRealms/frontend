@@ -1,16 +1,15 @@
 <router-outlet #outlet="outlet"></router-outlet>
 @if (!outlet.isActivated) {
-@if (characters.size > 0) {
-<app-characters-table [data]="characters"></app-characters-table>
+@if (chats.size > 0) {
+<app-chat-channels-table [data]="chats"></app-chat-channels-table>
 } @else {
 <div class="my-10 max-w-xl mx-auto">
   <button type="button" [routerLink]="['new']"
     class="relative block w-full rounded-lg border-2 border-dashed border-gray-700 p-12 text-center hover:border-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden">
     <svg class="mx-auto size-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-      <path stroke-linecap="round" stroke-linejoin="round"
-        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
     </svg>
-    <span class="mt-2 block text-sm font-semibold text-gray-300">Create a new character</span>
+    <span class="mt-2 block text-sm font-semibold text-gray-300">Create a new chat</span>
   </button>
 </div>
 }

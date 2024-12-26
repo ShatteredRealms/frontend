@@ -6,7 +6,6 @@ import { AdminDashboardComponent as AdminDashboardPage } from './pages/admin/das
 import { authGuard } from './auth/auth.guard';
 import { AdminDimensionsComponent as DimensionDashboardPage } from './pages/admin/dimensions/dimensions.component';
 import { AdminCharactersComponent as CharacterDashboardPage } from './pages/admin/characters/characters.component';
-import { AdminChatComponent as ChatDashboardPage } from './pages/admin/chat/chat.component';
 import { NewDimensionComponent as NewDimensionPage } from './pages/admin/dimensions/new/new.component';
 import { EditDimensionComponent as EditDimensionPage } from './pages/admin/dimensions/details/edit/edit.component';
 import { DimensionDetailsComponent as DimensionDetailsPage } from './pages/admin/dimensions/details/details.component';
@@ -16,6 +15,11 @@ import { EditCharacterComponent as EditCharacterPage } from './pages/admin/chara
 import { CharacterDetailsComponent as CharacterDetailsPage } from './pages/admin/characters/details/details.component';
 import { AdminCharacterLayout } from './pages/admin/characters/layout.component';
 import { SROGroups } from './auth/groups';
+import { AdminChatLayout } from './pages/admin/chats/layout.component';
+import { NewChatComponent } from './pages/admin/chats/new/new.component';
+import { ChatChannelComponent } from './pages/admin/chats/details/details.component';
+import { EditChatComponent } from './pages/admin/chats/details/edit/edit.component';
+import { AdminChatsComponent } from './pages/admin/chats/chats.component';
 
 export const routes: Routes = [
   {
@@ -70,7 +74,24 @@ export const routes: Routes = [
         ],
       },
 
-      { path: 'chat', component: ChatDashboardPage },
+      {
+        path: 'chats',
+        component: AdminChatLayout,
+        children: [
+          {
+            path: '', component: AdminChatsComponent, data: { breadcrumb: 'Chats' },
+            children: [
+              { path: 'new', component: NewChatComponent, data: { breadcrumb: 'New Chat' } },
+              {
+                path: ':id', component: ChatChannelComponent, data: { breadcrumb: ':id' },
+                children: [
+                  { path: 'edit', component: EditChatComponent, data: { breadcrumb: 'Edit Chat' } },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ]
   }
 ];

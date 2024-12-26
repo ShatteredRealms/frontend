@@ -40,9 +40,9 @@ export interface ICharacterServiceClient {
      */
     deleteCharacter(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, Empty>;
     /**
-     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (sro.character.CharacterDetails);
      */
-    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, Empty>;
+    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, CharacterDetails>;
     /**
      * Adds the given amount of playtime to the character and returns the total
      * playtime
@@ -96,11 +96,11 @@ export class CharacterServiceClient implements ICharacterServiceClient, ServiceI
         return stackIntercept<TargetId, Empty>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (google.protobuf.Empty);
+     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (sro.character.CharacterDetails);
      */
-    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, Empty> {
+    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, CharacterDetails> {
         const method = this.methods[5], opt = this._transport.mergeOptions(options);
-        return stackIntercept<EditCharacterRequest, Empty>("unary", this._transport, method, opt, input);
+        return stackIntercept<EditCharacterRequest, CharacterDetails>("unary", this._transport, method, opt, input);
     }
     /**
      * Adds the given amount of playtime to the character and returns the total

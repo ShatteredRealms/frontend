@@ -7,6 +7,10 @@ import { UserService } from '../../../services/backend/user.service';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 import { SROGroups } from '../../../auth/groups';
 import { RouterLink } from '@angular/router';
+import { TableDirective } from '../../table/table.directive';
+import { TablePaginationComponent } from '../../table/table-pagination.component';
+import { TableSortDirective } from '../../table/table-sort.directive';
+import { TableSortHeaderDirective } from '../../table/table-sort-header.component';
 
 interface Badge {
   name: string;
@@ -18,6 +22,10 @@ interface Badge {
   imports: [
     CommonModule,
     RouterLink,
+    TableDirective,
+    TablePaginationComponent,
+    TableSortDirective,
+    TableSortHeaderDirective,
   ],
   templateUrl: './characters-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,9 +35,11 @@ export class CharactersTableComponent {
   actions = true;
 
   data = input.required<Map<string, CharacterDetails>>();
+  datasource: CharacterDetails[] = [];
   owners = new Map<string, UserRepresentation>();
   userGroups = new Map<string, string[]>();
   getUserErrors: string[] = [];
+  header = ['Username', 'Realm', 'Gender', 'Dimension', 'Status', 'Playtime', 'Age'];
 
   constructor(
     protected _characterService: CharacterService,
@@ -37,6 +47,7 @@ export class CharactersTableComponent {
     protected _cdr: ChangeDetectorRef,
   ) {
     effect(() => {
+      this.datasource = Array.from(this.data().values());
       this.getUserErrors = [];
       this.data().forEach((char) => {
         this._userService.getUser(char.ownerId).then((user) => {
@@ -57,10 +68,6 @@ export class CharactersTableComponent {
 
   timeAge(unixTime: number): string {
     return timeAge(new Date(Number(unixTime) * 1000));
-  }
-
-  getCharacters(): CharacterDetails[] {
-    return this.data ? Array.from(this.data().values()) : [];
   }
 
   prettyTime(seconds: number) {

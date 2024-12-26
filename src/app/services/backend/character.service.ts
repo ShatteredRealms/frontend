@@ -3,7 +3,7 @@ import { CharacterServiceClient } from '../../../protos/sro/character/character.
 import { KeycloakService } from '../../auth/keycloak.service';
 import { createGrpcWebTransport } from './util';
 import { environment } from '../../../environments/environment';
-import { CharacterDetails, CreateCharacterRequest } from '../../../protos/sro/character/character';
+import { CharacterDetails, CreateCharacterRequest, EditCharacterRequest } from '../../../protos/sro/character/character';
 import { FetchType } from './fetch';
 import { NotificationService } from '../ui/notification.service';
 import { AlertComponent } from '../../components/alert/alert.component';
@@ -47,6 +47,18 @@ export class CharacterService {
         type: 'success',
       },
       autohide: false,
+    });
+  }
+
+  editCharacter(request: EditCharacterRequest): Promise<CharacterDetails> {
+    return new Promise(async (resolve, reject) => {
+      this.instance.editCharacter(request).then((finished) => {
+        this.characterCache.save(finished.response);
+        this._showSuccess('Character updated');
+        resolve(finished.response);
+      }).catch((e) => {
+        reject(e);
+      });
     });
   }
 
