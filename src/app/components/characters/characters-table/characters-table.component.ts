@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, Input, input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, Input, input, ViewChild } from '@angular/core';
 import { CharacterDetails } from '../../../../protos/sro/character/character';
 import { CharacterService } from '../../../services/backend/character.service';
 import { CommonModule } from '@angular/common';
 import { timeAge, timeStringFromSeconds } from '../../../helpers/time';
 import { UserService } from '../../../services/backend/user.service';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
-import { SROGroups } from '../../../auth/groups';
 import { RouterLink } from '@angular/router';
 import { TableDirective } from '../../table/table.directive';
 import { TablePaginationComponent } from '../../table/table-pagination.component';
 import { TableSortDirective } from '../../table/table-sort.directive';
 import { TableSortHeaderDirective } from '../../table/table-sort-header.component';
+import { DimensionService } from '../../../services/backend/dimension.service';
+import { Dimension } from '../../../../protos/sro/gameserver/dimension';
+import { defaultFilterFn, GlobalFilterService } from '../../../services/util/global-filter.service';
 
 interface Badge {
   name: string;
@@ -28,9 +30,11 @@ interface Badge {
     TableSortHeaderDirective,
   ],
   templateUrl: './characters-table.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CharactersTableComponent {
+  @ViewChild('table') table!: TableDirective<CharacterDetails>;
+
   @Input()
   actions = true;
 
@@ -39,14 +43,17 @@ export class CharactersTableComponent {
   owners = new Map<string, UserRepresentation>();
   userGroups = new Map<string, string[]>();
   getUserErrors: string[] = [];
-  header = ['Username', 'Realm', 'Gender', 'Dimension', 'Status', 'Playtime', 'Age'];
+  dimensions: Map<string, Dimension> = new Map();
 
   constructor(
     protected _characterService: CharacterService,
+    protected _dimensionService: DimensionService,
     protected _userService: UserService,
+    protected _globalFilterService: GlobalFilterService,
     protected _cdr: ChangeDetectorRef,
   ) {
     effect(() => {
+      console.log('effect');
       this.datasource = Array.from(this.data().values());
       this.getUserErrors = [];
       this.data().forEach((char) => {
@@ -64,6 +71,13 @@ export class CharactersTableComponent {
   }
 
   ngOnInit() {
+    this._dimensionService.getDimensions().then((dimensions) => {
+      this.dimensions = dimensions;
+      this._cdr.markForCheck();
+    });
+    this._globalFilterService.filter$.subscribe((searchTerm) => {
+      this.table.search(searchTerm);
+    });
   }
 
   timeAge(unixTime: number): string {
@@ -83,16 +97,16 @@ export class CharactersTableComponent {
     const groups = this.userGroups.get(owner.id!) || [];
 
     const badges: Badge[] = [];
-    if (groups.includes(SROGroups.Banned)) {
+    if (groups.includes('Banned')) {
       badges.push({ name: 'Banned', classes: 'text-red-400 bg-red-400/10 ring-red-400/20' });
     }
-    if (groups.includes(SROGroups.Admin)) {
+    if (groups.includes('Admin')) {
       badges.push({ name: 'Admin', classes: 'text-green-400 bg-green-400/10 ring-green-400/20' });
     }
-    if (groups.includes(SROGroups.Moderator)) {
+    if (groups.includes('Moderator')) {
       badges.push({ name: 'Moderator', classes: 'text-gray-400 bg-gray-400/10 ring-gray-400/20' });
     }
-    if (groups.includes(SROGroups.Member)) {
+    if (groups.includes('Member')) {
       badges.push({ name: 'Member', classes: 'text-indigo-400 bg-indigo-400/10 ring-indigo-400/20' });
     }
     return badges;
@@ -100,5 +114,9 @@ export class CharactersTableComponent {
 
   getOwnerName(characterId: string): string {
     return this.owners.get(characterId)?.username || `Unknown (${characterId})`;
+  }
+
+  filterFn(data: any, searchTerm: string): boolean {
+    return defaultFilterFn(data, searchTerm);
   }
 }

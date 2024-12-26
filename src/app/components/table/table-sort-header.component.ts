@@ -5,8 +5,6 @@ import {
   HostListener,
   Inject,
   Input,
-  OnDestroy,
-  OnInit,
 } from '@angular/core';
 import { TableSortDirective, SortDirection } from './table-sort.directive';
 

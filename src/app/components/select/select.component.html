@@ -1,4 +1,4 @@
-<div class="relative mt-2">
+<div class="relative">
   <input #input appInput #filtereInput [formControl]="selectFilter" [attr.role]="'searchbox'" type="text"
     class="grid w-full cursor-default grid-cols-1 rounded-md bg-white/5 py-1.5 pr-2 pl-3 text-left outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 text-white"
     [readOnly]="!filter" (click)="toggle()" (focus)="onFocus()" (blur)="onBlur()" [value]="selectionView"

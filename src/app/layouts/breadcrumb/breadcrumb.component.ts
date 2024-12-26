@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { GlobalFilterService } from '../../services/util/global-filter.service';
 
 interface Breadcrumb {
   label: string;
@@ -31,6 +32,7 @@ export class BreadcrumbLayoutComponent {
   constructor(
     protected _router: Router,
     protected _activatedRoute: ActivatedRoute,
+    protected _globalFilterService: GlobalFilterService,
   ) {
   }
 
@@ -65,5 +67,9 @@ export class BreadcrumbLayoutComponent {
 
   isLastBreadcrumb(b: Breadcrumb): boolean {
     return this.breadcrumbs.lastIndexOf(b) === this.breadcrumbs.length - 1;
+  }
+
+  searchChange(value: Event) {
+    this._globalFilterService.setFilter((value.target as HTMLInputElement).value);
   }
 }

@@ -1,17 +1,18 @@
-<table class="mt-6 w-full text-left whitespace-nowrap">
+<table class="min-w-full divide-y divide-gray-600" appTable appTableSort #table="appTable" #sort="appTableSort"
+  [dataSource]="datasource" [pagination]="pagination" [sort]="sort" [filterFn]="filterFn">
   <thead class="border-b border-white/10 text-sm/6 text-white">
     <tr>
-      <th scope="col" class="py-2 pr-8 pl-4 font-semibold sm:pl-6 lg:pl-8">
+      <th scope="col" class="py-2 pr-8 pl-4 font-semibold sm:pl-6 lg:pl-8" appTableSortHeader="name">
         Name
       </th>
-      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell">
+      <th scope="col" class="py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="dimensionId">
         Dimenson
       </th>
-      <th scope="col" class="py-2 pr-4 pl-0 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20">
+      <th scope="col" class="py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="id">
         Id
       </th>
       @if (actions) {
-      <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-3">
+      <th scope="col" class="relative py-2 pr-8 pl-0 font-semibold sm:table-cell">
         <span class="sr-only">Chat Actions</span>
       </th>
       }
@@ -19,7 +20,7 @@
   </thead>
   <div *ngIf="data === undefined; chatsLoaded" class="text-white">Loading...</div>
   <tbody class="divide-y divide-white/5 text-start" #chatsLoaded>
-    <tr *ngFor="let chatChannel of getChats()">
+    <tr *ngFor="let chatChannel of table.data">
       <td class="py-4 pr-8 pl-4 sm:pl-6 lg:pl-8">
         <div class="flex items-center gap-x-4">
           <div class="truncate text-sm/6 font-medium text-white">
@@ -57,3 +58,4 @@
     </tr>
   </tbody>
 </table>
+<app-table-pagination #pagination></app-table-pagination>

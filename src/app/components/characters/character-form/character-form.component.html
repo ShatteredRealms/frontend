@@ -36,14 +36,16 @@
             <p class="text-sm/6 text-gray-400">
               Dimension the character can play in.
             </p>
-            <app-select formControlName="dimensionId" id="dimension" [filter]="true" [clearButton]="true">
-              @for (dimension of dimensions; track dimension[0]) {
-              <app-option [value]="dimension[0]" [label]="dimension[1].name">
-                {{ dimension[1].name }}
-                <span class="ml-2 truncate text-gray-500 option-label">{{ dimension[0] }}</span>
-              </app-option>
-              }
-            </app-select>
+            <div class="mt-2">
+              <app-select formControlName="dimensionId" id="dimension" [filter]="true" [clearButton]="true">
+                @for (dimension of dimensions; track dimension[0]) {
+                <app-option [value]="dimension[0]" [label]="dimension[1].name">
+                  {{ dimension[1].name }}
+                  <span class="ml-2 truncate text-gray-500 option-label">{{ dimension[0] }}</span>
+                </app-option>
+                }
+              </app-select>
+            </div>
           </app-form-control>
         </div>
 
@@ -55,14 +57,16 @@
             <p class="text-sm/6 text-gray-400">
               Which player owns the character.
             </p>
-            <app-select formControlName="ownerId" id="owner" [filter]="true" [clearButton]="true">
-              @for (user of users; track user[0]) {
-              <app-option [value]="user[0]" [label]="user[1].username!">
-                {{ user[1].username }}
-                <span class="ml-2 truncate text-gray-500 option-label">{{ user[0] }}</span>
-              </app-option>
-              }
-            </app-select>
+            <div class="mt-2">
+              <app-select formControlName="ownerId" id="owner" [filter]="true" [clearButton]="true">
+                @for (user of users; track user[0]) {
+                <app-option [value]="user[0]" [label]="user[1].username!">
+                  {{ user[1].username }}
+                  <span class="ml-2 truncate text-gray-500 option-label">{{ user[0] }}</span>
+                </app-option>
+                }
+              </app-select>
+            </div>
           </app-form-control>
         </div>
 
@@ -74,10 +78,12 @@
             <p class="text-sm/6 text-gray-400">
               Which realm the character belongs to.
             </p>
-            <app-select formControlName="realm" id="realm" [filter]="true" [clearButton]="true">
-              <app-option value="human">Human</app-option>
-              <app-option value="cyborg">Cyborg</app-option>
-            </app-select>
+            <div class="mt-2">
+              <app-select formControlName="realm" id="realm" [filter]="true" [clearButton]="true">
+                <app-option value="human">Human</app-option>
+                <app-option value="cyborg">Cyborg</app-option>
+              </app-select>
+            </div>
           </app-form-control>
         </div>
 
@@ -89,10 +95,12 @@
             <p class="text-sm/6 text-gray-400">
               Which gender the character belongs to.
             </p>
-            <app-select formControlName="gender" id="gender" [filter]="true" [clearButton]="true">
-              <app-option value="male">Male</app-option>
-              <app-option value="female">Female</app-option>
-            </app-select>
+            <div class="mt-2">
+              <app-select formControlName="gender" id="gender" [filter]="true" [clearButton]="true">
+                <app-option value="male">Male</app-option>
+                <app-option value="female">Female</app-option>
+              </app-select>
+            </div>
           </app-form-control>
         </div>
       </div>
