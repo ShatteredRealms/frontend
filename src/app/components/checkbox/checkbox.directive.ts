@@ -24,7 +24,7 @@ export class CheckboxChange {
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
-  selector: '[Checkbox]',
+  selector: '[appCheckbox]',
   providers: [_CHECKBOX_VALUE_ACCESSOR],
 })
 export class CheckboxDirective {

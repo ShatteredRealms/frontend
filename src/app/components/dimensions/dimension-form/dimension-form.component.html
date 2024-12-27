@@ -81,85 +81,8 @@
               <!--   <button type="button" class="inline-flex items-center rounded-sm bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Bulk edit</button> -->
               <!--   <button type="button" class="inline-flex items-center rounded-sm bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">Delete all</button> -->
               <!-- </div> -->
-
-              <table class="min-w-full table-fixed divide-y divide-gray-300" aria-colcount="4">
-                <thead class="border-b border-white/10 text-sm text-gray-300 font-semibold text-left">
-                  <tr>
-                    <th scope=" col" class="relative px-7 sm:w-12 sm:px-6">
-                      <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
-                        <input type="checkbox" [checked]="isAllSelected()" (change)="toggleAll($event.target)"
-                          class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-                        <svg
-                          class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-100/25"
-                          viewBox="0 0 14 14" fill="none">
-                          <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                          <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      </div>
-                    </th>
-                    <th scope="col" class="min-w-[12rem] py-3.5 pr-3">
-                      Name
-                    </th>
-                    <th scope="col" class="px-3 py-3.5">
-                      Map Path
-                    </th>
-                    <th scope="col" class="px-3 py-3.5">
-                      Id
-                    </th>
-                    <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-3">
-                      <span class="sr-only">Map Actions</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-800 text-gray-400">
-                  <!-- Selected: "bg-gray-50" -->
-
-                  @for (map of this.form.get('maps')?.value; track map; let i = $index) {
-                  <tr>
-                    <td class="relative px-7 sm:w-12 sm:px-6">
-                      <!-- Selected row marker, only show when row is selected. -->
-                      <!-- <div class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div> -->
-
-                      <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
-                        <input type="checkbox" [checked]="isSelected(i)"
-                          class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-                        <svg
-                          class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
-                          viewBox="0 0 14 14" fill="none">
-                          <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                          <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                      </div>
-                    </td>
-                    <!-- Selected: "text-indigo-600", Not Selected: "text-gray-900" -->
-                    <td class="py-4 pr-3 text-sm font-medium whitespace-nowrap">
-                      {{map.value.name}}
-                    </td>
-                    <td class="px-3 py-4 text-sm whitespace-nowrap">
-                      {{map.value.mapPath}}
-                    </td>
-                    <td class="px-3 py-4 text-sm whitespace-nowrap">
-                      {{map.value.id}}
-                    </td>
-                    <td class="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
-                      <a [routerLink]="['/admin','maps',map.value.id]" class="text-indigo-600 hover:text-indigo-900">
-                        View
-                        <span class="sr-only">{{map.value.name}}</span>
-                      </a>
-                      <a [routerLink]="['/admin','maps',map.value.id,'edit']"
-                        class="ml-1 text-indigo-600 hover:text-indigo-900">
-                        Edit
-                        <span class="sr-only">{{map.value.name}}</span>
-                      </a>
-                    </td>
-                  </tr>
-                  }
-                </tbody>
-              </table>
+              <app-maps-table [selectable]="true" [actions]="true" [data]="maps" [startingSelections]="startingMaps"
+                (selectionChange)="selectedMapsChanged($event)"></app-maps-table>
             </div>
           </div>
         </div>

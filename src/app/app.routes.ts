@@ -20,6 +20,11 @@ import { NewChatComponent } from './pages/admin/chats/new/new.component';
 import { ChatChannelComponent } from './pages/admin/chats/details/details.component';
 import { EditChatComponent } from './pages/admin/chats/details/edit/edit.component';
 import { AdminChatsComponent } from './pages/admin/chats/chats.component';
+import { AdminMapLayout } from './pages/admin/maps/layout.component';
+import { AdminMapsComponent } from './pages/admin/maps/maps.component';
+import { NewMapComponent } from './pages/admin/maps/new/new.component';
+import { MapChannelComponent } from './pages/admin/maps/details/details.component';
+import { EditMapComponent } from './pages/admin/maps/details/edit/edit.component';
 
 export const routes: Routes = [
   {
@@ -86,6 +91,25 @@ export const routes: Routes = [
                 path: ':id', component: ChatChannelComponent, data: { breadcrumb: ':id' },
                 children: [
                   { path: 'edit', component: EditChatComponent, data: { breadcrumb: 'Edit Chat' } },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        path: 'maps',
+        component: AdminMapLayout,
+        children: [
+          {
+            path: '', component: AdminMapsComponent, data: { breadcrumb: 'Maps' },
+            children: [
+              { path: 'new', component: NewMapComponent, data: { breadcrumb: 'New Map' } },
+              {
+                path: ':id', component: MapChannelComponent, data: { breadcrumb: ':id' },
+                children: [
+                  { path: 'edit', component: EditMapComponent, data: { breadcrumb: 'Edit Map' } },
                 ],
               },
             ],

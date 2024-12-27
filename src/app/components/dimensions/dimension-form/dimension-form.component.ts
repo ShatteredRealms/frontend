@@ -1,13 +1,12 @@
 import { Component, effect, input, model, output } from '@angular/core';
 import { Dimension } from '../../../../protos/sro/gameserver/dimension';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MapService } from '../../../services/backend/map.service';
 import { DimensionService } from '../../../services/backend/dimension.service';
 import { RouterLink } from '@angular/router';
 import { Map as GSMap } from '../../../../protos/sro/gameserver/map';
 import { CommonModule } from '@angular/common';
-
-type MapForm = GSMap & { selected: boolean };
+import { MapsTableComponent } from '../../maps/maps-table/maps-table.component';
 
 @Component({
   selector: 'app-dimension-form',
@@ -15,6 +14,7 @@ type MapForm = GSMap & { selected: boolean };
     RouterLink,
     ReactiveFormsModule,
     CommonModule,
+    MapsTableComponent,
   ],
   templateUrl: './dimension-form.component.html',
 })
@@ -25,10 +25,10 @@ export class DimensionFormComponent {
 
   form: FormGroup;
   loadingMaps = true;
+  maps: Map<string, GSMap>;
+  selectedMaps: Set<GSMap> = new Set();
+  startingMaps: Set<GSMap>;
 
-  get maps() {
-    return this.form.get('maps') as FormArray;
-  }
   get name(): AbstractControl<string> | null {
     return this.form.get('name');
   }
@@ -52,9 +52,9 @@ export class DimensionFormComponent {
         return;
       }
 
-      this.maps.value.forEach((map: FormControl<MapForm>) => {
-        map.value.selected = this.dimension().mapIds.includes(map.value.id);
-      });
+      if (this.maps) {
+        this._setupStartingMaps();
+      }
     });
   }
 
@@ -72,15 +72,36 @@ export class DimensionFormComponent {
       version: new FormControl(this.dimension().version, [
         Validators.required,
       ]),
-      maps: new FormArray([]),
     });
 
     this._mapService.getMaps().then((maps) => {
-      maps.forEach((map) => {
-        const m: MapForm = { ...map, selected: false }
-        this.maps.value.push(new FormControl(m));
-      });
+      this.maps = maps;
       this.loadingMaps = false;
+
+      if (this.dimension().mapIds) {
+        this._setupStartingMaps();
+      }
+    });
+  }
+
+  private _setupStartingMaps() {
+    if (!this.maps) {
+      return;
+    }
+
+    if (!this.dimension().mapIds) {
+      return;
+    }
+
+    if (this.startingMaps) {
+      return;
+    }
+
+    this.startingMaps = new Set();
+    this.maps.forEach((map) => {
+      if (this.dimension().mapIds.includes(map.id)) {
+        this.startingMaps.add(map);
+      }
     });
   }
 
@@ -93,26 +114,8 @@ export class DimensionFormComponent {
     dimension.name = form.get('name')?.value;
     dimension.location = form.get('location')?.value;
     dimension.version = form.get('version')?.value;
-    dimension.mapIds = this.maps.value.filter((map: FormControl<MapForm>) => map.value.selected).map((map: FormControl<MapForm>) => map.value.id);
+    dimension.mapIds = [...this.selectedMaps].map((map) => map.id);
     this.onSubmit.emit(dimension);
-  }
-
-  toggleAll(event: any) {
-    this.maps.value.forEach((map: FormControl<MapForm>) => {
-      map.value.selected = event.checked;
-    })
-  }
-
-  isAllSelected() {
-    return this.maps.value.every((map: FormControl<MapForm>) => map.value.selected);
-  }
-
-  isSelected(index: number) {
-    return this.maps.value[index].value.selected;
-  }
-
-  mapSelectionChange(event: any, index: number) {
-    this.maps.value[index].value.selected = event.checked;
   }
 
   isNameInvalid() {
@@ -135,5 +138,9 @@ export class DimensionFormComponent {
     }
 
     return false;
+  }
+
+  selectedMapsChanged(maps: Set<GSMap>) {
+    this.selectedMaps = maps;
   }
 }

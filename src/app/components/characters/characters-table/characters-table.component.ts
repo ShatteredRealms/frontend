@@ -53,7 +53,6 @@ export class CharactersTableComponent {
     protected _cdr: ChangeDetectorRef,
   ) {
     effect(() => {
-      console.log('effect');
       this.datasource = Array.from(this.data().values());
       this.getUserErrors = [];
       this.data().forEach((char) => {
@@ -76,7 +75,7 @@ export class CharactersTableComponent {
       this._cdr.markForCheck();
     });
     this._globalFilterService.filter$.subscribe((searchTerm) => {
-      this.table.search(searchTerm);
+      this.table?.search(searchTerm);
     });
   }
 

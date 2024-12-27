@@ -6,12 +6,16 @@ import { ModalService } from '../../../../services/ui/modal.service';
 import { ModalComponent } from '../../../../components/modal/modal.component';
 import { NotificationService } from '../../../../services/ui/notification.service';
 import { AlertComponent } from '../../../../components/alert/alert.component';
+import { MapService } from '../../../../services/backend/map.service';
+import { Map as GSMap } from '../../../../../protos/sro/gameserver/map';
+import { MapsTableComponent } from '../../../../components/maps/maps-table/maps-table.component';
 
 @Component({
   selector: 'app-dimension-details',
   imports: [
     RouterOutlet,
     RouterLink,
+    MapsTableComponent,
   ],
   templateUrl: './details.component.html',
 })
@@ -20,8 +24,12 @@ export class DimensionDetailsComponent {
 
   @Input() dimension: Dimension | undefined;
 
+  maps: Map<string, GSMap>;
+  dimensionMaps: Map<string, GSMap>;
+
   constructor(
     protected _dimensionsService: DimensionService,
+    protected _mapService: MapService,
     protected _modalService: ModalService,
     protected _notificationService: NotificationService,
     protected _router: Router,
@@ -29,11 +37,33 @@ export class DimensionDetailsComponent {
   ) { }
 
   ngOnInit() {
+    this._mapService.getMaps().then((maps) => {
+      this.maps = maps;
+      this._setupDimensionMaps();
+    });
     if (!this.dimension) {
       this._dimensionsService.getDimension(this.id).then((dimension) => {
         this.dimension = dimension;
+        this._setupDimensionMaps();
       });
     }
+  }
+
+  private _setupDimensionMaps() {
+    if (!this.dimension) {
+      return;
+    }
+    if (!this.maps) {
+      return;
+    }
+    if (this.dimensionMaps) {
+      return;
+    }
+
+    this.dimensionMaps = new Map();
+    this.dimension.mapIds.forEach((mapId) => {
+      this.dimensionMaps.set(mapId, this.maps.get(mapId)!);
+    });
   }
 
   async deleteDimension() {

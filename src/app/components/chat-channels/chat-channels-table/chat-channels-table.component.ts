@@ -12,6 +12,8 @@ import { TablePaginationComponent } from '../../table/table-pagination.component
 import { TableSortDirective } from '../../table/table-sort.directive';
 import { TableSortHeaderDirective } from '../../table/table-sort-header.component';
 import { defaultFilterFn, GlobalFilterService } from '../../../services/util/global-filter.service';
+import { SelectableTable } from '../../table/selectable';
+import { CheckboxDirective } from '../../checkbox/checkbox.directive';
 
 
 @Component({
@@ -23,11 +25,12 @@ import { defaultFilterFn, GlobalFilterService } from '../../../services/util/glo
     TablePaginationComponent,
     TableSortDirective,
     TableSortHeaderDirective,
+    CheckboxDirective,
   ],
   templateUrl: './chat-channels-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatChannelsTableComponent {
+export class ChatChannelsTableComponent extends SelectableTable<ChatChannel> {
   @ViewChild('table') table!: TableDirective<ChatChannel>;
 
   @Input()
@@ -46,11 +49,11 @@ export class ChatChannelsTableComponent {
     protected _globalFilterService: GlobalFilterService,
     protected _cdr: ChangeDetectorRef,
   ) {
+    super()
     effect(() => {
       this.datasource = Array.from(this.data().values());
       this._dimensionService.getDimensions().then((dimensions) => {
         this.dimensions = dimensions;
-        console.log('Dimensions:', dimensions);
         this._cdr.markForCheck();
       }).catch((err) => {
         this._notificationService.open(AlertComponent, {
@@ -65,7 +68,7 @@ export class ChatChannelsTableComponent {
 
   ngOnInit() {
     this._globalFilterService.filter$.subscribe((searchTerm) => {
-      this.table.search(searchTerm);
+      this.table?.search(searchTerm);
     });
   }
 
