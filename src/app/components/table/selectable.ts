@@ -20,6 +20,8 @@ export abstract class SelectableTable<T> extends Table<T> {
     }
   }
 
+  @Input() compareFunc: (a: T, b: T) => boolean = (a, b) => a == b;
+
   private _startingSelections: Set<T> = new Set();
   selections: Set<T> = new Set();
 

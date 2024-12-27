@@ -6,11 +6,15 @@ import { MapService } from '../../../../../services/backend/map.service';
 import { NotificationService } from '../../../../../services/ui/notification.service';
 import { AlertComponent } from '../../../../../components/alert/alert.component';
 import { CharacterFormComponent } from '../../../../../components/characters/character-form/character-form.component';
+import { ChatChannel } from '../../../../../../protos/sro/chat/chat';
+import { ChatService } from '../../../../../services/backend/chat.service';
+import { ChatChannelsTableComponent } from '../../../../../components/chat-channels/chat-channels-table/chat-channels-table.component';
 
 @Component({
   selector: 'app-edit-character',
   imports: [
     CharacterFormComponent,
+    ChatChannelsTableComponent,
   ],
   templateUrl: './edit.component.html',
 })
@@ -20,9 +24,14 @@ export class EditCharacterComponent {
 
   pendingSave = false;
 
+  chatChannels: Map<string, ChatChannel>;
+  startingChatChannels: Set<ChatChannel>;
+  selectedChatChannels: Set<ChatChannel> = new Set();
+
   constructor(
     protected _charactersService: CharacterService,
     protected _mapService: MapService,
+    protected _chatService: ChatService,
     protected _notificationService: NotificationService,
     protected _route: ActivatedRoute,
     protected _router: Router,
@@ -37,9 +46,20 @@ export class EditCharacterComponent {
     this._charactersService.getCharacter(this.id).then((character) => {
       this.character = character;
     });
+    this._chatService.getChats().then((channels) => {
+      this.chatChannels = channels;
+      this._chatService.getAuthorizedChats(this.id).then((chatChannels) => {
+        this.startingChatChannels = new Set();
+        this.chatChannels.forEach((channel) => {
+          if (chatChannels.channels.some((c) => c.id === channel.id)) {
+            this.startingChatChannels.add(channel);
+          }
+        });
+      });
+    });
   }
 
-  onSubmit(character: CharacterDetails) {
+  onCharacterSubmit(character: CharacterDetails) {
     if (this.pendingSave) {
       return;
     }
@@ -78,5 +98,16 @@ export class EditCharacterComponent {
     }).finally(() => {
       this.pendingSave = false;
     })
+  }
+
+  chatChannelChange(channels: Set<ChatChannel>) {
+    this.selectedChatChannels = channels;
+  }
+
+  onChatChannelsSubmit() {
+    this.pendingSave = true;
+    this._chatService.setAuthorizedChatChannels(this.id, [...this.selectedChatChannels].map((channel) => channel.id)).finally(() => {
+      this.pendingSave = false;
+    });
   }
 }

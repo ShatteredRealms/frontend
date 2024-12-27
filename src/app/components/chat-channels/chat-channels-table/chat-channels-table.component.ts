@@ -37,7 +37,6 @@ export class ChatChannelsTableComponent extends SelectableTable<ChatChannel> {
   actions = true;
 
   data = input.required<Map<string, ChatChannel>>();
-  datasource: ChatChannel[] = [];
   dimensions = new Map<string, Dimension>();
   userGroups = new Map<string, string[]>();
   getUserErrors: string[] = [];
@@ -51,7 +50,9 @@ export class ChatChannelsTableComponent extends SelectableTable<ChatChannel> {
   ) {
     super()
     effect(() => {
-      this.datasource = Array.from(this.data().values());
+      if (this.data()) {
+        this.dataSource = Array.from(this.data().values());
+      }
       this._dimensionService.getDimensions().then((dimensions) => {
         this.dimensions = dimensions;
         this._cdr.markForCheck();

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createGrpcWebTransport } from './util';
 import { MapCached } from './cacheable';
-import { ChatChannel, UpdateChatChannelRequest } from '../../../protos/sro/chat/chat';
+import { ChatChannel, ChatChannels, RequestSetCharacterSetChatChannelAuth, UpdateChatChannelRequest } from '../../../protos/sro/chat/chat';
 import { ChatServiceClient } from '../../../protos/sro/chat/chat.client';
 import { KeycloakService } from '../../auth/keycloak.service';
 import { NotificationService } from '../ui/notification.service';
@@ -30,6 +30,32 @@ export class ChatService {
       this._getChat.bind(this),
       this._getChats.bind(this),
     );
+  }
+
+  setAuthorizedChatChannels(characterId: string, chatIds: string[]): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const request = RequestSetCharacterSetChatChannelAuth.create();
+        request.characterId = characterId;
+        request.ids = chatIds;
+        await this.instance.setCharacterChatChannelAuth(request);
+        this._showSuccess('Chat channels updated');
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  getAuthorizedChats(characterId: string): Promise<ChatChannels> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.instance.getAuthorizedChatChannels({ id: characterId });
+        resolve(response.response);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   createChatChannel(chat: ChatChannel): Promise<ChatChannel> {
