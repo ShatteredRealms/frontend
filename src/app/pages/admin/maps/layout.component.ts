@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BreadcrumbLayoutComponent, ExtraButton } from '../../../layouts/breadcrumb/breadcrumb.component';
 
 @Component({
-  selector: 'app-chats-layout',
+  selector: 'app-maps-layout',
   imports: [
     BreadcrumbLayoutComponent,
   ],

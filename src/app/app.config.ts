@@ -12,9 +12,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideAppInitializer(() => {
+    provideAppInitializer(async () => {
       const keycloak = inject(KeycloakService);
-      return keycloak.init();
+      return await keycloak.init();
     }),
     provideHttpClient(
       withInterceptors([authInterceptor])

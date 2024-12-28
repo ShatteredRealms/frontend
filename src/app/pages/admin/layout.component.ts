@@ -46,7 +46,7 @@ export class AdminLayoutComponent {
       active: false,
     },
     {
-      title: 'Chat',
+      title: 'Chats',
       link: '/admin/chats',
       icon: "heroChatBubbleLeftEllipsis",
       active: false,

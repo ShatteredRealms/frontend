@@ -25,6 +25,7 @@ import { AdminMapsComponent } from './pages/admin/maps/maps.component';
 import { NewMapComponent } from './pages/admin/maps/new/new.component';
 import { MapChannelComponent } from './pages/admin/maps/details/details.component';
 import { EditMapComponent } from './pages/admin/maps/details/edit/edit.component';
+import { ChatConnectComponent } from './pages/admin/chats/details/connect/connect.component';
 
 export const routes: Routes = [
   {
@@ -91,6 +92,7 @@ export const routes: Routes = [
                 path: ':id', component: ChatChannelComponent, data: { breadcrumb: ':id' },
                 children: [
                   { path: 'edit', component: EditChatComponent, data: { breadcrumb: 'Edit Chat' } },
+                  { path: 'connect', component: ChatConnectComponent, data: { breadcrumb: 'Connect' } },
                 ],
               },
             ],

@@ -11,6 +11,11 @@
     <div class="px-4 py-5 sm:px-6">
       <div class="space-y-12">
         <div class="border-b border-white/10 pb-12">
+          <h2 class="text-base/7 font-semibold text-white">Authorized Chat Channels</h2>
+          <p class="mt-1 text-sm/6 text-gray-400 pb-12">
+            Select the chat channels that this character is authorized to use.
+          </p>
+
           <app-chat-channels-table [selectable]="true" [data]="chatChannels" [startingSelections]="startingChatChannels"
             (selectionChange)="chatChannelChange($event)"></app-chat-channels-table>
         </div>

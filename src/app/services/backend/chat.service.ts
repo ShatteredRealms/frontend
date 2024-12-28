@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
 import { createGrpcWebTransport } from './util';
 import { MapCached } from './cacheable';
-import { ChatChannel, ChatChannels, RequestSetCharacterSetChatChannelAuth, UpdateChatChannelRequest } from '../../../protos/sro/chat/chat';
+import { ChatChannel, ChatChannels, ChatMessage, RequestSetCharacterSetChatChannelAuth, UpdateChatChannelRequest } from '../../../protos/sro/chat/chat';
 import { ChatServiceClient } from '../../../protos/sro/chat/chat.client';
 import { KeycloakService } from '../../auth/keycloak.service';
 import { NotificationService } from '../ui/notification.service';
 import { environment } from '../../../environments/environment';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { FetchType } from './fetch';
+import { Subject, Observable } from 'rxjs';
+
+interface ChatSession {
+  channelId: string;
+  characterId: string;
+  _messages$: Subject<ChatMessage>;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +24,14 @@ export class ChatService {
 
   private chatCache: MapCached<ChatChannel>;
 
+  private connectedChats: ChatSession[] = [];
+
   constructor(
-    protected keycloak: KeycloakService,
+    protected _keycloak: KeycloakService,
     protected _notificationService: NotificationService,
   ) {
     this.instance = new ChatServiceClient(
-      createGrpcWebTransport(environment.CHAT_GRPC_URL, keycloak),
+      createGrpcWebTransport(environment.CHAT_GRPC_URL, this._keycloak),
     );
     this.chatCache = new MapCached(
       'chats',
@@ -30,6 +39,66 @@ export class ChatService {
       this._getChat.bind(this),
       this._getChats.bind(this),
     );
+  }
+
+  sendChatMessage(channelId: string, chatMessage: ChatMessage): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.instance.sendChatChannelMessage({ channelId, chatMessage });
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  disconnectChatChannel(characterId: string, channelId: string): boolean {
+    return this.disconnectSession(this._getSession(characterId, channelId));
+  }
+
+  disconnectSession(session: ChatSession | undefined): boolean {
+    if (session) {
+      session._messages$.complete();
+      return this.connectedChats.splice(this.connectedChats.indexOf(session), 1).length == 1;
+    }
+    return false
+  }
+
+  connectChatChannel(characterId: string, channelId: string): Observable<ChatMessage> {
+    const session = this._getSession(characterId, channelId);
+    if (session) {
+      return session._messages$.asObservable();
+    }
+
+    const newSession = {
+      channelId,
+      characterId,
+      _messages$: new Subject<ChatMessage>(),
+    };
+    this._readMessages(newSession);
+
+    return newSession._messages$.asObservable();
+  }
+
+  private _getSession(characterId: string, channelId: string): ChatSession | undefined {
+    return this.connectedChats.find((session) => session.characterId === characterId && session.channelId === channelId);
+  }
+
+  private async _readMessages(session: ChatSession) {
+    try {
+      const call = this.instance.connectChatChannel({ characterId: session.characterId, channelId: session.channelId })
+      for await (const message of call.responses) {
+        session._messages$.next(message);
+      }
+
+      const status = await call.status;
+      if (status.code !== "Ok") {
+        session._messages$.error(status);
+      }
+    } catch (e) {
+      session._messages$.error(e);
+    }
+    this.disconnectSession(session);
   }
 
   setAuthorizedChatChannels(characterId: string, chatIds: string[]): Promise<void> {
