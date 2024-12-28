@@ -13,7 +13,14 @@ import { Subject, Observable } from 'rxjs';
 interface ChatSession {
   channelId: string;
   characterId: string;
-  _messages$: Subject<ChatMessage>;
+  _messages$: Subject<ChatSessionMessage>;
+}
+
+interface ChatSessionMessage {
+  message?: ChatMessage;
+  info?: string;
+  warning?: string;
+  error?: string;
 }
 
 @Injectable({
@@ -64,18 +71,18 @@ export class ChatService {
     return false
   }
 
-  connectChatChannel(characterId: string, channelId: string): Observable<ChatMessage> {
+  connectChatChannel(characterId: string, channelId: string, autoRetry: boolean = true): Observable<ChatSessionMessage> {
     const session = this._getSession(characterId, channelId);
     if (session) {
       return session._messages$.asObservable();
     }
 
-    const newSession = {
+    const newSession: ChatSession = {
       channelId,
       characterId,
-      _messages$: new Subject<ChatMessage>(),
+      _messages$: new Subject<ChatSessionMessage>(),
     };
-    this._readMessages(newSession);
+    this._readMessages(newSession, autoRetry);
 
     return newSession._messages$.asObservable();
   }
@@ -84,20 +91,45 @@ export class ChatService {
     return this.connectedChats.find((session) => session.characterId === characterId && session.channelId === channelId);
   }
 
-  private async _readMessages(session: ChatSession) {
+  private async _readMessages(session: ChatSession, autoRetry: boolean) {
     try {
       const call = this.instance.connectChatChannel({ characterId: session.characterId, channelId: session.channelId })
       for await (const message of call.responses) {
-        session._messages$.next(message);
+        session._messages$.next({ message });
       }
 
+      session._messages$.next({ warning: 'Chat disconnected' });
+
       const status = await call.status;
+      session._messages$.next({ info: `Chat disconnected: ${status.code}` });
       if (status.code !== "Ok") {
-        session._messages$.error(status);
+        session._messages$.next({ error: `${status.code}: ${status.detail}` });
       }
-    } catch (e) {
-      session._messages$.error(e);
+    } catch (e: any) {
+      if (autoRetry) {
+        if (e.code === 'PERMISSION_DENIED') {
+          session._messages$.next({ error: 'You do not have permission to access this chat' });
+          this.disconnectSession(session);
+          return
+        }
+
+        if (e.code === 'UNAUTHENTICATED') {
+          session._messages$.next({ error: 'You are not authenticated' });
+          this.disconnectSession(session);
+          return
+        }
+      }
+      session._messages$.next({ error: `Chat connection: ${e}` });
     }
+
+    if (autoRetry) {
+      session._messages$.next({ info: 'Reconnecting...' });
+      if (this.connectedChats.includes(session)) {
+        setTimeout(() => this._readMessages(session, autoRetry), 1000);
+      }
+      return
+    }
+
     this.disconnectSession(session);
   }
 

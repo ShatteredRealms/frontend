@@ -4,7 +4,7 @@
     <div class="flex flex-row items-center px-4 py-5 sm:px-6">
       <p class="pr-2 text-gray-300">Connected as</p>
       <div class="flex-grow">
-        <app-select id="dimension" [filter]="true" [clearButton]="true" [(ngModel)]="character"
+        <app-select id="dimension" [filter]="true" [clearButton]="true" [(ngModel)]="selectedCharacterId"
           (ngModelChange)="characterChange($event)">
           @for (c of characters; track c[0]) {
           <app-option [value]="c[0]" [label]="c[1].name">
@@ -28,6 +28,12 @@
         <p class="text-sm font-normal text-gray-400">
           <span class="text-red-500">Error:</span>
           {{ item.error }}
+        </p>
+        }
+        @if (item.warning) {
+        <p class="text-sm font-normal text-gray-400">
+          <span class="text-yellow-500">Warning:</span>
+          {{ item.warning }}
         </p>
         }
       </div>

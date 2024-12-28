@@ -2,20 +2,26 @@ import { MethodInfo, NextUnaryFn, RpcInterceptor, RpcOptions, UnaryCall } from "
 import { KeycloakService } from "../../auth/keycloak.service";
 import { GrpcWebFetchTransport } from "@protobuf-ts/grpcweb-transport";
 
-const keycloakAuthInterceptor = (keycloak: KeycloakService) => (next: NextUnaryFn, method: MethodInfo, input: object, options: RpcOptions): UnaryCall => {
+function injectionAuth(keycloak: KeycloakService, options: RpcOptions) {
   if (!options.meta)
     options.meta = {};
 
   if (keycloak.instance.authenticated)
-    options.meta['Authorization'] = `Bearer ${keycloak.instance.token}`;
-
-  return next(method, input, options);
-};
+    options.meta['authorization'] = `Bearer ${keycloak.instance.token}`;
+}
 
 const createGrpcWebTransport = (baseUrl: string, keycloak: KeycloakService, interceptors: RpcInterceptor[] = []) => {
   return new GrpcWebFetchTransport({
     interceptors: [{
-      interceptUnary: keycloakAuthInterceptor(keycloak)
+      // interceptUnary: keycloakAuthInterceptor(keycloak),
+      interceptUnary(next, method, input, options) {
+        injectionAuth(keycloak, options);
+        return next(method, input, options);
+      },
+      interceptServerStreaming(next, method, input, options) {
+        injectionAuth(keycloak, options);
+        return next(method, input, options);
+      },
     },
     ...interceptors
     ],

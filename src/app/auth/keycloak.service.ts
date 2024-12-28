@@ -91,6 +91,7 @@ export class KeycloakService {
       }
     }
 
+    console.log('Keycloak initialized', authenticated);
     return authenticated;
   }
 

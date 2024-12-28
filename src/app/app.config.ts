@@ -14,7 +14,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAppInitializer(async () => {
       const keycloak = inject(KeycloakService);
-      return await keycloak.init();
+      await keycloak.init();
     }),
     provideHttpClient(
       withInterceptors([authInterceptor])

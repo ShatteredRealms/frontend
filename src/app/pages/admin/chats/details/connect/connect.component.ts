@@ -13,6 +13,7 @@ import { OptionComponent } from '../../../../../components/option/option.compone
 interface ChatChannelHistory {
   message?: ChatMessage;
   info?: string;
+  warning?: string;
   error?: string;
 }
 
@@ -33,12 +34,15 @@ export class ChatConnectComponent {
   chatHistory: ChatChannelHistory[] = [];
   id: string = '';
   character: CharacterDetails | undefined = undefined;
+  selectedCharacterId: string = '';
   characters: Map<string, CharacterDetails> = new Map();
 
   prevMsgCount: number = 0;
   wasScrolledBottom: boolean = true;
 
   warnMessage: NotificationRef;
+
+  connected: boolean = false;
 
   constructor(
     protected _chatService: ChatService,
@@ -63,14 +67,27 @@ export class ChatConnectComponent {
       this.chatHistory.push({ error: 'No character selected. Please select a character.' });
     }
 
-    this.chatHistory.push({ info: `Connecting to chat as ${this.character!.characterId}` });
+    this.chatHistory.push({ info: `Connecting to chat as ${this.getCharacterName()}` });
+    this.connected = true;
     this._chatService.connectChatChannel(this.character!.characterId, this.id).subscribe({
-      next: (message) => {
+      next: (session) => {
         this.wasScrolledBottom = this.chatMessages.nativeElement.scrollTop + this.chatMessages.nativeElement.clientHeight >= this.chatMessages.nativeElement.scrollHeight;
-        this.chatHistory.push({ message });
+        if (session.message) {
+          this.chatHistory.push({ message: session.message });
+        } else if (session.info) {
+          this.chatHistory.push({ info: session.info });
+        } else if (session.error) {
+          this.chatHistory.push({ error: session.error });
+        } else if (session.warning) {
+          this.chatHistory.push({ warning: session.warning });
+        }
       },
       error: (error) => {
         this.chatHistory.push({ error: `Connecting to chat: ${error}` });
+        this.connected = false;
+      },
+      complete: () => {
+        this.connected = false;
       },
     });
   }
@@ -90,30 +107,28 @@ export class ChatConnectComponent {
     }
 
     if (this.character === undefined) {
-      console.log('sendMessage', 'no character');
       this.chatHistory.push({ error: 'No character selected. Please select a characeter.' });
       return;
     }
     const chatMessage = ChatMessage.create();
     chatMessage.content = this.message;
     chatMessage.senderCharacterId = this.character.characterId;
-
     this._chatService.sendChatMessage(this.id, chatMessage).then(() => {
       this.message = '';
     }).catch((error) => {
       this.chatHistory.push({ error: `Sending message: ${error}` });
+    }).finally(() => {
     });
   }
 
   disconnectChat() {
-    if (this.character?.characterId) {
-      this.chatHistory.push({ info: `Disconnecting from chat as ${this.character.characterId}` });
-      this._chatService.disconnectChatChannel(this.character.characterId, this.id)
+    if (this.connected) {
+      this.chatHistory.push({ info: `Disconnecting from chat as ${this.getCharacterName()}` });
+      this._chatService.disconnectChatChannel(this.character!.characterId, this.id)
     }
   }
 
   characterChange(characterId: string) {
-    console.log('characterChange', characterId, this.character);
     if (characterId) {
       const character = this.characters.get(characterId);
       if (character) {
@@ -134,5 +149,12 @@ export class ChatConnectComponent {
     this.disconnectChat();
     this.character = undefined;
     return;
+  }
+
+  getCharacterName(): string {
+    if (this.character?.name !== '') {
+      return this.character!.name;
+    }
+    return `Unknown (${this.character.characterId})`;
   }
 }
