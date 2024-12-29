@@ -231,6 +231,10 @@ export interface ChatMessage {
      * @generated from protobuf field: string content = 2;
      */
     content: string;
+    /**
+     * @generated from protobuf field: int64 sent_time_ms = 3;
+     */
+    sentTimeMs: number;
 }
 /**
  * @generated from protobuf message sro.chat.SendChatChannelMessageRequest
@@ -925,13 +929,15 @@ class ChatMessage$Type extends MessageType<ChatMessage> {
     constructor() {
         super("sro.chat.ChatMessage", [
             { no: 1, name: "sender_character_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 2, name: "content", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "sent_time_ms", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ }
         ]);
     }
     create(value?: PartialMessage<ChatMessage>): ChatMessage {
         const message = globalThis.Object.create((this.messagePrototype!));
         message.senderCharacterId = "";
         message.content = "";
+        message.sentTimeMs = 0;
         if (value !== undefined)
             reflectionMergePartial<ChatMessage>(this, message, value);
         return message;
@@ -946,6 +952,9 @@ class ChatMessage$Type extends MessageType<ChatMessage> {
                     break;
                 case /* string content */ 2:
                     message.content = reader.string();
+                    break;
+                case /* int64 sent_time_ms */ 3:
+                    message.sentTimeMs = reader.int64().toNumber();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -965,6 +974,9 @@ class ChatMessage$Type extends MessageType<ChatMessage> {
         /* string content = 2; */
         if (message.content !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.content);
+        /* int64 sent_time_ms = 3; */
+        if (message.sentTimeMs !== 0)
+            writer.tag(3, WireType.Varint).int64(message.sentTimeMs);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

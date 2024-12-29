@@ -38,6 +38,13 @@
         }
       </div>
       }
+      <div #resumeScrollingButton
+        class="sticky inset-0 flex justify-center items-end z-10 text-gray-300 cursor-pointer overflow-hidden {{pauseScrolling ? '' : 'hidden'}}"
+        (click)="resumeScrolling()">
+        <div class="bg-gray-900 hover:bg-gray-800 shadow shadow-gray-700 rounded-lg p-2 text-xs">
+          SCROLL TO BOTTOM
+        </div>
+      </div>
     </div>
     <div class="group flex items-center justify-between space-x-3 px-4 py-2 sm:px-6">
       <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 w-full">

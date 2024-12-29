@@ -14,6 +14,7 @@ interface ChatSession {
   channelId: string;
   characterId: string;
   _messages$: Subject<ChatSessionMessage>;
+  abortController: AbortController;
 }
 
 interface ChatSessionMessage {
@@ -65,6 +66,7 @@ export class ChatService {
 
   disconnectSession(session: ChatSession | undefined): boolean {
     if (session) {
+      session.abortController.abort();
       session._messages$.complete();
       return this.connectedChats.splice(this.connectedChats.indexOf(session), 1).length == 1;
     }
@@ -81,7 +83,9 @@ export class ChatService {
       channelId,
       characterId,
       _messages$: new Subject<ChatSessionMessage>(),
+      abortController: new AbortController(),
     };
+    this.connectedChats.push(newSession);
     this._readMessages(newSession, autoRetry);
 
     return newSession._messages$.asObservable();
@@ -93,7 +97,9 @@ export class ChatService {
 
   private async _readMessages(session: ChatSession, autoRetry: boolean) {
     try {
-      const call = this.instance.connectChatChannel({ characterId: session.characterId, channelId: session.channelId })
+      const call = this.instance.connectChatChannel({ characterId: session.characterId, channelId: session.channelId }, {
+        abort: session.abortController.signal,
+      })
       for await (const message of call.responses) {
         session._messages$.next({ message });
       }

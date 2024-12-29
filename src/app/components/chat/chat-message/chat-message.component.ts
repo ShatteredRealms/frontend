@@ -12,14 +12,12 @@ import { fromEvent } from 'rxjs';
 })
 export class ChatMessageComponent {
   @Input() message: ChatMessage;
-  receivedTime: Date;
   showMenu: boolean = false;
   characters: Map<string, CharacterDetails> = new Map();
 
   constructor(
     protected _characterService: CharacterService,
   ) {
-    this.receivedTime = new Date();
     fromEvent(document, 'click').subscribe((event: any) => {
       if (event.target.id !== 'dropdownMenuIconButton') {
         this.hideDropdown()
@@ -46,7 +44,7 @@ export class ChatMessageComponent {
   }
 
   getReceivedTime(): string {
-    return this.receivedTime.toLocaleTimeString();
+    return new Date(this.message.sentTimeMs).toLocaleTimeString();
   }
 
   toggleDropdown() {

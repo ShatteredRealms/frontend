@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { ChatMessage } from '../../../../../../protos/sro/chat/chat';
 import { ChatService } from '../../../../../services/backend/chat.service';
 import { ActivatedRoute } from '@angular/router';
@@ -29,6 +29,7 @@ interface ChatChannelHistory {
 })
 export class ChatConnectComponent {
   @ViewChild('chatMessages') chatMessages: ElementRef;
+  @ViewChild('resumeScrollingButton') resumeScrollingButton: ElementRef;
 
   message: string = '';
   chatHistory: ChatChannelHistory[] = [];
@@ -38,7 +39,8 @@ export class ChatConnectComponent {
   characters: Map<string, CharacterDetails> = new Map();
 
   prevMsgCount: number = 0;
-  wasScrolledBottom: boolean = true;
+  pauseScrolling: boolean = false;
+  prevScrollTop: number = 0;
 
   warnMessage: NotificationRef;
 
@@ -60,6 +62,36 @@ export class ChatConnectComponent {
       this.characters = characters;
       this.chatHistory.push({ info: "Select character to connect" });
     });
+
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    if (!this.pauseScrolling) {
+      this._scrollBottom();
+      return
+    }
+
+    if (this.chatMessages.nativeElement.scrollTop == 0) {
+      this._scrollBottom();
+      return
+    }
+
+    if (this._isScrolledBottom()) {
+      this._scrollBottom();
+    }
+  }
+
+  ngAfterViewInit() {
+    this.chatMessages.nativeElement.addEventListener('scroll', () => {
+      const currentScroll = this.chatMessages.nativeElement.scrollTop;
+      if (this.prevScrollTop > currentScroll) {
+        this.pauseScrolling = true;
+      } else if (this.pauseScrolling && this._isScrolledBottom()) {
+        this._scrollBottom();
+      }
+      this.prevScrollTop = currentScroll;
+    });
   }
 
   connect() {
@@ -71,7 +103,6 @@ export class ChatConnectComponent {
     this.connected = true;
     this._chatService.connectChatChannel(this.character!.characterId, this.id).subscribe({
       next: (session) => {
-        this.wasScrolledBottom = this.chatMessages.nativeElement.scrollTop + this.chatMessages.nativeElement.clientHeight >= this.chatMessages.nativeElement.scrollHeight;
         if (session.message) {
           this.chatHistory.push({ message: session.message });
         } else if (session.info) {
@@ -95,10 +126,15 @@ export class ChatConnectComponent {
   ngAfterViewChecked() {
     if (this.prevMsgCount !== this.chatHistory.length) {
       this.prevMsgCount = this.chatHistory.length;
-      if (this.wasScrolledBottom) {
-        this.chatMessages.nativeElement.scrollTo({ behavior: 'smooth', top: this.chatMessages.nativeElement.scrollHeight });
+      if (!this.pauseScrolling) {
+        this._scrollBottom();
       }
     }
+  }
+
+  private _scrollBottom() {
+    this.pauseScrolling = false;
+    this.chatMessages.nativeElement.scrollTo({ behavior: 'smooth', top: this.chatMessages.nativeElement.scrollHeight });
   }
 
   sendMessage() {
@@ -157,5 +193,14 @@ export class ChatConnectComponent {
       return this.character!.name;
     }
     return `Unknown (${this.character.characterId})`;
+  }
+
+  resumeScrolling() {
+    this.pauseScrolling = false;
+    this._scrollBottom();
+  }
+
+  private _isScrolledBottom(): boolean {
+    return this.chatMessages.nativeElement.scrollTop >= this.chatMessages.nativeElement.scrollHeight - this.chatMessages.nativeElement.clientHeight - 75
   }
 }
