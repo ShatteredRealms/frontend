@@ -54,7 +54,6 @@ export class ChatMessageComponent {
   }
 
   hideDropdown() {
-    console.log('hide');
     this.showMenu = false;
   }
 }

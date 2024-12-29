@@ -125,6 +125,7 @@ export class ChatConnectComponent {
     if (this.connected) {
       this.chatHistory.push({ info: `Disconnecting from chat as ${this.getCharacterName()}` });
       this._chatService.disconnectChatChannel(this.character!.characterId, this.id)
+      this.connected = false;
     }
   }
 
