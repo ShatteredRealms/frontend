@@ -5,7 +5,7 @@ import { NotificationService } from '../../../../services/ui/notification.servic
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { ModalComponent } from '../../../../components/modal/modal.component';
 import { AlertComponent } from '../../../../components/alert/alert.component';
-import { CharacterDetails } from '../../../../../protos/sro/character/character';
+import { Character } from '../../../../../protos/sro/character/character';
 import { UserService } from '../../../../services/backend/user.service';
 import UserRepresentation from '@keycloak/keycloak-admin-client/lib/defs/userRepresentation';
 import { Dimension } from '../../../../../protos/sro/gameserver/dimension';
@@ -37,7 +37,7 @@ export interface Person {
 export class CharacterDetailsComponent {
   @Input() id!: string;
 
-  @Input() character: CharacterDetails | undefined;
+  @Input() character: Character | undefined;
   owner: UserRepresentation | undefined;
   dimension: Dimension | undefined;
 
@@ -58,7 +58,7 @@ export class CharacterDetailsComponent {
     if (!this.character) {
       this._charactersService.getCharacter(this.id).then((character) => {
         this.character = character;
-        this._chatService.getAuthorizedChats(character.characterId).then((chatChannels) => {
+        this._chatService.getAuthorizedChats(character.id).then((chatChannels) => {
           this.characterChatChannels = new Map(chatChannels.channels.map((channel) => [channel.id, channel]));
         });
         this._userSerivce.getUser(character.ownerId).then((user) => {

@@ -14,6 +14,64 @@ import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Location } from "../globals";
+import { QueryFilters } from "../filter";
+import { FieldMask } from "../../google/protobuf/field_mask";
+/**
+ * @generated from protobuf message sro.character.GetCharacterRequest
+ */
+export interface GetCharacterRequest {
+    /**
+     * @generated from protobuf field: google.protobuf.FieldMask mask = 1;
+     */
+    mask?: FieldMask;
+    /**
+     * @generated from protobuf field: string id = 2;
+     */
+    id: string;
+}
+/**
+ * @generated from protobuf message sro.character.GetCharactersRequest
+ */
+export interface GetCharactersRequest {
+    /**
+     * @generated from protobuf field: google.protobuf.FieldMask mask = 1;
+     */
+    mask?: FieldMask;
+    /**
+     * @generated from protobuf field: sro.QueryFilters filters = 2;
+     */
+    filters?: QueryFilters;
+}
+/**
+ * @generated from protobuf message sro.character.GetUserCharactersRequest
+ */
+export interface GetUserCharactersRequest {
+    /**
+     * @generated from protobuf field: google.protobuf.FieldMask mask = 1;
+     */
+    mask?: FieldMask;
+    /**
+     * @generated from protobuf field: sro.QueryFilters filters = 2;
+     */
+    filters?: QueryFilters;
+    /**
+     * @generated from protobuf field: string owner_id = 3;
+     */
+    ownerId: string;
+}
+/**
+ * @generated from protobuf message sro.character.EditCharacterRequest
+ */
+export interface EditCharacterRequest {
+    /**
+     * @generated from protobuf field: google.protobuf.FieldMask mask = 1;
+     */
+    mask?: FieldMask;
+    /**
+     * @generated from protobuf field: sro.character.Character character = 2;
+     */
+    character?: Character;
+}
 /**
  * @generated from protobuf message sro.character.CreateCharacterRequest
  */
@@ -40,13 +98,13 @@ export interface CreateCharacterRequest {
     dimensionId: string;
 }
 /**
- * @generated from protobuf message sro.character.CharacterDetails
+ * @generated from protobuf message sro.character.Character
  */
-export interface CharacterDetails {
+export interface Character {
     /**
-     * @generated from protobuf field: string character_id = 1;
+     * @generated from protobuf field: string id = 1;
      */
-    characterId: string;
+    id: string;
     /**
      * @generated from protobuf field: string owner_id = 2;
      */
@@ -64,146 +122,277 @@ export interface CharacterDetails {
      */
     realm: string;
     /**
-     * @generated from protobuf field: uint64 play_time = 6;
+     * @generated from protobuf field: int32 play_time = 6;
      */
     playTime: number;
     /**
-     * @generated from protobuf field: sro.Location location = 8;
+     * @generated from protobuf field: sro.Location location = 7;
      */
     location?: Location;
     /**
-     * @generated from protobuf field: string dimension_id = 9;
+     * @generated from protobuf field: string dimension_id = 8;
      */
     dimensionId: string;
     /**
-     * @generated from protobuf field: uint64 created_at = 10;
+     * @generated from protobuf field: int64 created_at = 9;
      */
     createdAt: number;
+    /**
+     * @generated from protobuf field: int64 updated_at = 10;
+     */
+    updatedAt: number;
+    /**
+     * @generated from protobuf field: int64 deleted_at = 11;
+     */
+    deletedAt: number;
 }
 /**
- * @generated from protobuf message sro.character.CharactersDetails
+ * @generated from protobuf message sro.character.Characters
  */
-export interface CharactersDetails {
+export interface Characters {
     /**
-     * @generated from protobuf field: repeated sro.character.CharacterDetails characters = 1;
+     * @generated from protobuf field: int64 total = 1;
      */
-    characters: CharacterDetails[];
-}
-/**
- * @generated from protobuf message sro.character.EditCharacterRequest
- */
-export interface EditCharacterRequest {
+    total: number;
     /**
-     * @generated from protobuf field: string character_id = 1;
+     * @generated from protobuf field: repeated sro.character.Character characters = 2;
      */
-    characterId: string;
-    /**
-     * @generated from protobuf oneof: optional_owner_id
-     */
-    optionalOwnerId: {
-        oneofKind: "ownerId";
-        /**
-         * @generated from protobuf field: string owner_id = 3;
-         */
-        ownerId: string;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf oneof: optional_new_name
-     */
-    optionalNewName: {
-        oneofKind: "newName";
-        /**
-         * @generated from protobuf field: string new_name = 4;
-         */
-        newName: string;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf oneof: optional_gender
-     */
-    optionalGender: {
-        oneofKind: "gender";
-        /**
-         * @generated from protobuf field: string gender = 5;
-         */
-        gender: string;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf oneof: optional_realm
-     */
-    optionalRealm: {
-        oneofKind: "realm";
-        /**
-         * @generated from protobuf field: string realm = 6;
-         */
-        realm: string;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf oneof: optional_play_time
-     */
-    optionalPlayTime: {
-        oneofKind: "playTime";
-        /**
-         * @generated from protobuf field: uint64 play_time = 7;
-         */
-        playTime: number;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf oneof: optional_location
-     */
-    optionalLocation: {
-        oneofKind: "location";
-        /**
-         * @generated from protobuf field: sro.Location location = 8;
-         */
-        location: Location;
-    } | {
-        oneofKind: undefined;
-    };
-    /**
-     * @generated from protobuf oneof: optional_dimension
-     */
-    optionalDimension: {
-        oneofKind: "dimensionId";
-        /**
-         * @generated from protobuf field: string dimension_id = 9;
-         */
-        dimensionId: string;
-    } | {
-        oneofKind: undefined;
-    };
-}
-/**
- * @generated from protobuf message sro.character.PlayTimeResponse
- */
-export interface PlayTimeResponse {
-    /**
-     * @generated from protobuf field: uint64 time = 1;
-     */
-    time: number;
+    characters: Character[];
 }
 /**
  * @generated from protobuf message sro.character.AddPlayTimeRequest
  */
 export interface AddPlayTimeRequest {
     /**
-     * @generated from protobuf field: string character_id = 1;
+     * @generated from protobuf field: string id = 1;
      */
-    characterId: string;
+    id: string;
     /**
-     * @generated from protobuf field: uint64 time = 2;
+     * @generated from protobuf field: int32 time = 2;
      */
     time: number;
 }
+// @generated message type with reflection information, may provide speed optimized methods
+class GetCharacterRequest$Type extends MessageType<GetCharacterRequest> {
+    constructor() {
+        super("sro.character.GetCharacterRequest", [
+            { no: 1, name: "mask", kind: "message", T: () => FieldMask },
+            { no: 2, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetCharacterRequest>): GetCharacterRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.id = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetCharacterRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetCharacterRequest): GetCharacterRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* google.protobuf.FieldMask mask */ 1:
+                    message.mask = FieldMask.internalBinaryRead(reader, reader.uint32(), options, message.mask);
+                    break;
+                case /* string id */ 2:
+                    message.id = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetCharacterRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* google.protobuf.FieldMask mask = 1; */
+        if (message.mask)
+            FieldMask.internalBinaryWrite(message.mask, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* string id = 2; */
+        if (message.id !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.id);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message sro.character.GetCharacterRequest
+ */
+export const GetCharacterRequest = new GetCharacterRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetCharactersRequest$Type extends MessageType<GetCharactersRequest> {
+    constructor() {
+        super("sro.character.GetCharactersRequest", [
+            { no: 1, name: "mask", kind: "message", T: () => FieldMask },
+            { no: 2, name: "filters", kind: "message", T: () => QueryFilters }
+        ]);
+    }
+    create(value?: PartialMessage<GetCharactersRequest>): GetCharactersRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetCharactersRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetCharactersRequest): GetCharactersRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* google.protobuf.FieldMask mask */ 1:
+                    message.mask = FieldMask.internalBinaryRead(reader, reader.uint32(), options, message.mask);
+                    break;
+                case /* sro.QueryFilters filters */ 2:
+                    message.filters = QueryFilters.internalBinaryRead(reader, reader.uint32(), options, message.filters);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetCharactersRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* google.protobuf.FieldMask mask = 1; */
+        if (message.mask)
+            FieldMask.internalBinaryWrite(message.mask, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* sro.QueryFilters filters = 2; */
+        if (message.filters)
+            QueryFilters.internalBinaryWrite(message.filters, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message sro.character.GetCharactersRequest
+ */
+export const GetCharactersRequest = new GetCharactersRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetUserCharactersRequest$Type extends MessageType<GetUserCharactersRequest> {
+    constructor() {
+        super("sro.character.GetUserCharactersRequest", [
+            { no: 1, name: "mask", kind: "message", T: () => FieldMask },
+            { no: 2, name: "filters", kind: "message", T: () => QueryFilters },
+            { no: 3, name: "owner_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<GetUserCharactersRequest>): GetUserCharactersRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.ownerId = "";
+        if (value !== undefined)
+            reflectionMergePartial<GetUserCharactersRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetUserCharactersRequest): GetUserCharactersRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* google.protobuf.FieldMask mask */ 1:
+                    message.mask = FieldMask.internalBinaryRead(reader, reader.uint32(), options, message.mask);
+                    break;
+                case /* sro.QueryFilters filters */ 2:
+                    message.filters = QueryFilters.internalBinaryRead(reader, reader.uint32(), options, message.filters);
+                    break;
+                case /* string owner_id */ 3:
+                    message.ownerId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetUserCharactersRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* google.protobuf.FieldMask mask = 1; */
+        if (message.mask)
+            FieldMask.internalBinaryWrite(message.mask, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* sro.QueryFilters filters = 2; */
+        if (message.filters)
+            QueryFilters.internalBinaryWrite(message.filters, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* string owner_id = 3; */
+        if (message.ownerId !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.ownerId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message sro.character.GetUserCharactersRequest
+ */
+export const GetUserCharactersRequest = new GetUserCharactersRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class EditCharacterRequest$Type extends MessageType<EditCharacterRequest> {
+    constructor() {
+        super("sro.character.EditCharacterRequest", [
+            { no: 1, name: "mask", kind: "message", T: () => FieldMask },
+            { no: 2, name: "character", kind: "message", T: () => Character }
+        ]);
+    }
+    create(value?: PartialMessage<EditCharacterRequest>): EditCharacterRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<EditCharacterRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: EditCharacterRequest): EditCharacterRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* google.protobuf.FieldMask mask */ 1:
+                    message.mask = FieldMask.internalBinaryRead(reader, reader.uint32(), options, message.mask);
+                    break;
+                case /* sro.character.Character character */ 2:
+                    message.character = Character.internalBinaryRead(reader, reader.uint32(), options, message.character);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: EditCharacterRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* google.protobuf.FieldMask mask = 1; */
+        if (message.mask)
+            FieldMask.internalBinaryWrite(message.mask, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* sro.character.Character character = 2; */
+        if (message.character)
+            Character.internalBinaryWrite(message.character, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message sro.character.EditCharacterRequest
+ */
+export const EditCharacterRequest = new EditCharacterRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class CreateCharacterRequest$Type extends MessageType<CreateCharacterRequest> {
     constructor() {
@@ -284,23 +473,25 @@ class CreateCharacterRequest$Type extends MessageType<CreateCharacterRequest> {
  */
 export const CreateCharacterRequest = new CreateCharacterRequest$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CharacterDetails$Type extends MessageType<CharacterDetails> {
+class Character$Type extends MessageType<Character> {
     constructor() {
-        super("sro.character.CharacterDetails", [
-            { no: 1, name: "character_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+        super("sro.character.Character", [
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "owner_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "gender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 5, name: "realm", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "play_time", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 8, name: "location", kind: "message", T: () => Location },
-            { no: 9, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 10, name: "created_at", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ }
+            { no: 6, name: "play_time", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 7, name: "location", kind: "message", T: () => Location },
+            { no: 8, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 9, name: "created_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 10, name: "updated_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 11, name: "deleted_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ }
         ]);
     }
-    create(value?: PartialMessage<CharacterDetails>): CharacterDetails {
+    create(value?: PartialMessage<Character>): Character {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.characterId = "";
+        message.id = "";
         message.ownerId = "";
         message.name = "";
         message.gender = "";
@@ -308,17 +499,19 @@ class CharacterDetails$Type extends MessageType<CharacterDetails> {
         message.playTime = 0;
         message.dimensionId = "";
         message.createdAt = 0;
+        message.updatedAt = 0;
+        message.deletedAt = 0;
         if (value !== undefined)
-            reflectionMergePartial<CharacterDetails>(this, message, value);
+            reflectionMergePartial<Character>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CharacterDetails): CharacterDetails {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Character): Character {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string character_id */ 1:
-                    message.characterId = reader.string();
+                case /* string id */ 1:
+                    message.id = reader.string();
                     break;
                 case /* string owner_id */ 2:
                     message.ownerId = reader.string();
@@ -332,17 +525,23 @@ class CharacterDetails$Type extends MessageType<CharacterDetails> {
                 case /* string realm */ 5:
                     message.realm = reader.string();
                     break;
-                case /* uint64 play_time */ 6:
-                    message.playTime = reader.uint64().toNumber();
+                case /* int32 play_time */ 6:
+                    message.playTime = reader.int32();
                     break;
-                case /* sro.Location location */ 8:
+                case /* sro.Location location */ 7:
                     message.location = Location.internalBinaryRead(reader, reader.uint32(), options, message.location);
                     break;
-                case /* string dimension_id */ 9:
+                case /* string dimension_id */ 8:
                     message.dimensionId = reader.string();
                     break;
-                case /* uint64 created_at */ 10:
-                    message.createdAt = reader.uint64().toNumber();
+                case /* int64 created_at */ 9:
+                    message.createdAt = reader.int64().toNumber();
+                    break;
+                case /* int64 updated_at */ 10:
+                    message.updatedAt = reader.int64().toNumber();
+                    break;
+                case /* int64 deleted_at */ 11:
+                    message.deletedAt = reader.int64().toNumber();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -355,10 +554,10 @@ class CharacterDetails$Type extends MessageType<CharacterDetails> {
         }
         return message;
     }
-    internalBinaryWrite(message: CharacterDetails, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string character_id = 1; */
-        if (message.characterId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.characterId);
+    internalBinaryWrite(message: Character, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
         /* string owner_id = 2; */
         if (message.ownerId !== "")
             writer.tag(2, WireType.LengthDelimited).string(message.ownerId);
@@ -371,18 +570,24 @@ class CharacterDetails$Type extends MessageType<CharacterDetails> {
         /* string realm = 5; */
         if (message.realm !== "")
             writer.tag(5, WireType.LengthDelimited).string(message.realm);
-        /* uint64 play_time = 6; */
+        /* int32 play_time = 6; */
         if (message.playTime !== 0)
-            writer.tag(6, WireType.Varint).uint64(message.playTime);
-        /* sro.Location location = 8; */
+            writer.tag(6, WireType.Varint).int32(message.playTime);
+        /* sro.Location location = 7; */
         if (message.location)
-            Location.internalBinaryWrite(message.location, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
-        /* string dimension_id = 9; */
+            Location.internalBinaryWrite(message.location, writer.tag(7, WireType.LengthDelimited).fork(), options).join();
+        /* string dimension_id = 8; */
         if (message.dimensionId !== "")
-            writer.tag(9, WireType.LengthDelimited).string(message.dimensionId);
-        /* uint64 created_at = 10; */
+            writer.tag(8, WireType.LengthDelimited).string(message.dimensionId);
+        /* int64 created_at = 9; */
         if (message.createdAt !== 0)
-            writer.tag(10, WireType.Varint).uint64(message.createdAt);
+            writer.tag(9, WireType.Varint).int64(message.createdAt);
+        /* int64 updated_at = 10; */
+        if (message.updatedAt !== 0)
+            writer.tag(10, WireType.Varint).int64(message.updatedAt);
+        /* int64 deleted_at = 11; */
+        if (message.deletedAt !== 0)
+            writer.tag(11, WireType.Varint).int64(message.deletedAt);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -390,30 +595,35 @@ class CharacterDetails$Type extends MessageType<CharacterDetails> {
     }
 }
 /**
- * @generated MessageType for protobuf message sro.character.CharacterDetails
+ * @generated MessageType for protobuf message sro.character.Character
  */
-export const CharacterDetails = new CharacterDetails$Type();
+export const Character = new Character$Type();
 // @generated message type with reflection information, may provide speed optimized methods
-class CharactersDetails$Type extends MessageType<CharactersDetails> {
+class Characters$Type extends MessageType<Characters> {
     constructor() {
-        super("sro.character.CharactersDetails", [
-            { no: 1, name: "characters", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => CharacterDetails }
+        super("sro.character.Characters", [
+            { no: 1, name: "total", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 2, name: "characters", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Character }
         ]);
     }
-    create(value?: PartialMessage<CharactersDetails>): CharactersDetails {
+    create(value?: PartialMessage<Characters>): Characters {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.total = 0;
         message.characters = [];
         if (value !== undefined)
-            reflectionMergePartial<CharactersDetails>(this, message, value);
+            reflectionMergePartial<Characters>(this, message, value);
         return message;
     }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CharactersDetails): CharactersDetails {
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: Characters): Characters {
         let message = target ?? this.create(), end = reader.pos + length;
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* repeated sro.character.CharacterDetails characters */ 1:
-                    message.characters.push(CharacterDetails.internalBinaryRead(reader, reader.uint32(), options));
+                case /* int64 total */ 1:
+                    message.total = reader.int64().toNumber();
+                    break;
+                case /* repeated sro.character.Character characters */ 2:
+                    message.characters.push(Character.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -426,10 +636,13 @@ class CharactersDetails$Type extends MessageType<CharactersDetails> {
         }
         return message;
     }
-    internalBinaryWrite(message: CharactersDetails, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* repeated sro.character.CharacterDetails characters = 1; */
+    internalBinaryWrite(message: Characters, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int64 total = 1; */
+        if (message.total !== 0)
+            writer.tag(1, WireType.Varint).int64(message.total);
+        /* repeated sro.character.Character characters = 2; */
         for (let i = 0; i < message.characters.length; i++)
-            CharacterDetails.internalBinaryWrite(message.characters[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+            Character.internalBinaryWrite(message.characters[i], writer.tag(2, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -437,191 +650,20 @@ class CharactersDetails$Type extends MessageType<CharactersDetails> {
     }
 }
 /**
- * @generated MessageType for protobuf message sro.character.CharactersDetails
+ * @generated MessageType for protobuf message sro.character.Characters
  */
-export const CharactersDetails = new CharactersDetails$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class EditCharacterRequest$Type extends MessageType<EditCharacterRequest> {
-    constructor() {
-        super("sro.character.EditCharacterRequest", [
-            { no: 1, name: "character_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "owner_id", kind: "scalar", oneof: "optionalOwnerId", T: 9 /*ScalarType.STRING*/ },
-            { no: 4, name: "new_name", kind: "scalar", oneof: "optionalNewName", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "gender", kind: "scalar", oneof: "optionalGender", T: 9 /*ScalarType.STRING*/ },
-            { no: 6, name: "realm", kind: "scalar", oneof: "optionalRealm", T: 9 /*ScalarType.STRING*/ },
-            { no: 7, name: "play_time", kind: "scalar", oneof: "optionalPlayTime", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 8, name: "location", kind: "message", oneof: "optionalLocation", T: () => Location },
-            { no: 9, name: "dimension_id", kind: "scalar", oneof: "optionalDimension", T: 9 /*ScalarType.STRING*/ }
-        ]);
-    }
-    create(value?: PartialMessage<EditCharacterRequest>): EditCharacterRequest {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.characterId = "";
-        message.optionalOwnerId = { oneofKind: undefined };
-        message.optionalNewName = { oneofKind: undefined };
-        message.optionalGender = { oneofKind: undefined };
-        message.optionalRealm = { oneofKind: undefined };
-        message.optionalPlayTime = { oneofKind: undefined };
-        message.optionalLocation = { oneofKind: undefined };
-        message.optionalDimension = { oneofKind: undefined };
-        if (value !== undefined)
-            reflectionMergePartial<EditCharacterRequest>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: EditCharacterRequest): EditCharacterRequest {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string character_id */ 1:
-                    message.characterId = reader.string();
-                    break;
-                case /* string owner_id */ 3:
-                    message.optionalOwnerId = {
-                        oneofKind: "ownerId",
-                        ownerId: reader.string()
-                    };
-                    break;
-                case /* string new_name */ 4:
-                    message.optionalNewName = {
-                        oneofKind: "newName",
-                        newName: reader.string()
-                    };
-                    break;
-                case /* string gender */ 5:
-                    message.optionalGender = {
-                        oneofKind: "gender",
-                        gender: reader.string()
-                    };
-                    break;
-                case /* string realm */ 6:
-                    message.optionalRealm = {
-                        oneofKind: "realm",
-                        realm: reader.string()
-                    };
-                    break;
-                case /* uint64 play_time */ 7:
-                    message.optionalPlayTime = {
-                        oneofKind: "playTime",
-                        playTime: reader.uint64().toNumber()
-                    };
-                    break;
-                case /* sro.Location location */ 8:
-                    message.optionalLocation = {
-                        oneofKind: "location",
-                        location: Location.internalBinaryRead(reader, reader.uint32(), options, (message.optionalLocation as any).location)
-                    };
-                    break;
-                case /* string dimension_id */ 9:
-                    message.optionalDimension = {
-                        oneofKind: "dimensionId",
-                        dimensionId: reader.string()
-                    };
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: EditCharacterRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string character_id = 1; */
-        if (message.characterId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.characterId);
-        /* string owner_id = 3; */
-        if (message.optionalOwnerId.oneofKind === "ownerId")
-            writer.tag(3, WireType.LengthDelimited).string(message.optionalOwnerId.ownerId);
-        /* string new_name = 4; */
-        if (message.optionalNewName.oneofKind === "newName")
-            writer.tag(4, WireType.LengthDelimited).string(message.optionalNewName.newName);
-        /* string gender = 5; */
-        if (message.optionalGender.oneofKind === "gender")
-            writer.tag(5, WireType.LengthDelimited).string(message.optionalGender.gender);
-        /* string realm = 6; */
-        if (message.optionalRealm.oneofKind === "realm")
-            writer.tag(6, WireType.LengthDelimited).string(message.optionalRealm.realm);
-        /* uint64 play_time = 7; */
-        if (message.optionalPlayTime.oneofKind === "playTime")
-            writer.tag(7, WireType.Varint).uint64(message.optionalPlayTime.playTime);
-        /* sro.Location location = 8; */
-        if (message.optionalLocation.oneofKind === "location")
-            Location.internalBinaryWrite(message.optionalLocation.location, writer.tag(8, WireType.LengthDelimited).fork(), options).join();
-        /* string dimension_id = 9; */
-        if (message.optionalDimension.oneofKind === "dimensionId")
-            writer.tag(9, WireType.LengthDelimited).string(message.optionalDimension.dimensionId);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message sro.character.EditCharacterRequest
- */
-export const EditCharacterRequest = new EditCharacterRequest$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class PlayTimeResponse$Type extends MessageType<PlayTimeResponse> {
-    constructor() {
-        super("sro.character.PlayTimeResponse", [
-            { no: 1, name: "time", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ }
-        ]);
-    }
-    create(value?: PartialMessage<PlayTimeResponse>): PlayTimeResponse {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.time = 0;
-        if (value !== undefined)
-            reflectionMergePartial<PlayTimeResponse>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: PlayTimeResponse): PlayTimeResponse {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* uint64 time */ 1:
-                    message.time = reader.uint64().toNumber();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: PlayTimeResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* uint64 time = 1; */
-        if (message.time !== 0)
-            writer.tag(1, WireType.Varint).uint64(message.time);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message sro.character.PlayTimeResponse
- */
-export const PlayTimeResponse = new PlayTimeResponse$Type();
+export const Characters = new Characters$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class AddPlayTimeRequest$Type extends MessageType<AddPlayTimeRequest> {
     constructor() {
         super("sro.character.AddPlayTimeRequest", [
-            { no: 1, name: "character_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "time", kind: "scalar", T: 4 /*ScalarType.UINT64*/, L: 2 /*LongType.NUMBER*/ }
+            { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "time", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<AddPlayTimeRequest>): AddPlayTimeRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.characterId = "";
+        message.id = "";
         message.time = 0;
         if (value !== undefined)
             reflectionMergePartial<AddPlayTimeRequest>(this, message, value);
@@ -632,11 +674,11 @@ class AddPlayTimeRequest$Type extends MessageType<AddPlayTimeRequest> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* string character_id */ 1:
-                    message.characterId = reader.string();
+                case /* string id */ 1:
+                    message.id = reader.string();
                     break;
-                case /* uint64 time */ 2:
-                    message.time = reader.uint64().toNumber();
+                case /* int32 time */ 2:
+                    message.time = reader.int32();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -650,12 +692,12 @@ class AddPlayTimeRequest$Type extends MessageType<AddPlayTimeRequest> {
         return message;
     }
     internalBinaryWrite(message: AddPlayTimeRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string character_id = 1; */
-        if (message.characterId !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.characterId);
-        /* uint64 time = 2; */
+        /* string id = 1; */
+        if (message.id !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.id);
+        /* int32 time = 2; */
         if (message.time !== 0)
-            writer.tag(2, WireType.Varint).uint64(message.time);
+            writer.tag(2, WireType.Varint).int32(message.time);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -670,11 +712,11 @@ export const AddPlayTimeRequest = new AddPlayTimeRequest$Type();
  * @generated ServiceType for protobuf service sro.character.CharacterService
  */
 export const CharacterService = new ServiceType("sro.character.CharacterService", [
-    { name: "GetCharacter", options: { "google.api.http": { get: "/v1/characters/id/{id}" } }, I: TargetId, O: CharacterDetails },
-    { name: "GetCharacters", options: { "google.api.http": { get: "/v1/characters" } }, I: Empty, O: CharactersDetails },
-    { name: "GetCharactersForUser", options: { "google.api.http": { get: "/v1/characters/owner/{id}" } }, I: TargetId, O: CharactersDetails },
-    { name: "CreateCharacter", options: { "google.api.http": { post: "/v1/characters", body: "*" } }, I: CreateCharacterRequest, O: CharacterDetails },
+    { name: "GetCharacter", options: { "google.api.http": { get: "/v1/characters/id/{id}" } }, I: GetCharacterRequest, O: Character },
+    { name: "GetCharacters", options: { "google.api.http": { get: "/v1/characters" } }, I: GetCharactersRequest, O: Characters },
+    { name: "GetCharactersForUser", options: { "google.api.http": { get: "/v1/characters/owner/{owner_id}" } }, I: GetUserCharactersRequest, O: Characters },
+    { name: "CreateCharacter", options: { "google.api.http": { post: "/v1/characters", body: "*" } }, I: CreateCharacterRequest, O: Character },
     { name: "DeleteCharacter", options: { "google.api.http": { delete: "/v1/characters/id/{id}" } }, I: TargetId, O: Empty },
-    { name: "EditCharacter", options: { "google.api.http": { put: "/v1/characters/id/{character_id}", body: "*" } }, I: EditCharacterRequest, O: CharacterDetails },
-    { name: "AddCharacterPlayTime", options: { "google.api.http": { put: "/v1/characters/id/{character_id}/playtime", body: "*" } }, I: AddPlayTimeRequest, O: PlayTimeResponse }
+    { name: "EditCharacter", options: { "google.api.http": { patch: "/v1/characters/id/{character.id}", body: "*" } }, I: EditCharacterRequest, O: Character },
+    { name: "AddCharacterPlayTime", options: { "google.api.http": { patch: "/v1/characters/id/{id}/playtime", body: "time" } }, I: AddPlayTimeRequest, O: Empty }
 ]);

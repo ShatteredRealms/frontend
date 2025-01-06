@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, input, model, output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CharacterDetails } from '../../../../protos/sro/character/character';
+import { Character } from '../../../../protos/sro/character/character';
 import { CharacterService } from '../../../services/backend/character.service';
 import { DimensionService } from '../../../services/backend/dimension.service';
 import { UserService } from '../../../services/backend/user.service';
@@ -27,8 +27,8 @@ import { SelectComponent } from '../../select/select.component';
   templateUrl: './character-form.component.html',
 })
 export class CharacterFormComponent {
-  character = input<CharacterDetails>(CharacterDetails.create());
-  onSubmit = output<CharacterDetails>();
+  character = input<Character>(Character.create());
+  onSubmit = output<Character>();
   pendingSave = model(false);
 
   form: FormGroup;
@@ -133,7 +133,7 @@ export class CharacterFormComponent {
       return;
     }
 
-    const character = CharacterDetails.create();
+    const character = Character.create();
     character.name = form.value.name;
     character.ownerId = form.value.ownerId;
     character.dimensionId = form.value.dimensionId;

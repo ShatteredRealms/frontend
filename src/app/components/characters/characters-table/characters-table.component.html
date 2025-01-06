@@ -44,7 +44,7 @@
           <div class="text-sm/6 font-medium text-white">
             {{ character.name }}
           </div>
-          @for (badge of getBadges(character.characterId); track badge.name) {
+          @for (badge of getBadges(character.id); track badge.name) {
           <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
             [ngClass]="badge.classes">
             {{ badge.name }}
@@ -55,7 +55,7 @@
       <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
         <div class="flex gap-x-3">
           <div class="text-sm/6 font-medium text-white">
-            {{ getOwnerName(character.characterId) }}
+            {{ getOwnerName(character.id) }}
           </div>
         </div>
       </td>
@@ -108,11 +108,11 @@
       </td>
       @if (actions) {
       <td class="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
-        <a [routerLink]="['/admin','characters',character.characterId]" class="text-indigo-600 hover:text-indigo-900">
+        <a [routerLink]="['/admin','characters',character.id]" class="text-indigo-600 hover:text-indigo-900">
           View
           <span class="sr-only">{{character.name}}</span>
         </a>
-        <a [routerLink]="['/admin','characters',character.characterId,'edit']"
+        <a [routerLink]="['/admin','characters',character.id,'edit']"
           class="ml-1 text-indigo-600 hover:text-indigo-900">
           Edit
           <span class="sr-only">{{character.name}}</span>

@@ -9,7 +9,7 @@ import { Dimension } from '../../../../protos/sro/gameserver/dimension';
 import { FormControlComponent } from "../../forms/form-control.component";
 import { OptionComponent } from '../../option/option.component';
 import { SelectComponent } from '../../select/select.component';
-import { CharacterDetails } from '../../../../protos/sro/character/character';
+import { Character } from '../../../../protos/sro/character/character';
 import { ChatChannel } from '../../../../protos/sro/chat/chat';
 
 
@@ -35,7 +35,7 @@ export class ChatChannelFormComponent {
   loadingMaps = true;
 
   dimensions: Map<string, Dimension> = new Map();
-  characters: Map<string, CharacterDetails> = new Map();
+  characters: Map<string, Character> = new Map();
 
   loading = {
     dimensions: true,

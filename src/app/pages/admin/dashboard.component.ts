@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CharactersTableComponent } from '../../components/characters/characters-table/characters-table.component';
-import { CharacterDetails } from '../../../protos/sro/character/character';
+import { Character } from '../../../protos/sro/character/character';
 import { CharacterService } from '../../services/backend/character.service';
 import { timeStringFromSeconds } from '../../helpers/time';
 import { NotificationService } from '../../services/ui/notification.service';
@@ -27,7 +27,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './dashboard.component.html',
 })
 export class AdminDashboardComponent {
-  characters: Map<string, CharacterDetails> = new Map<string, CharacterDetails>();
+  characters: Map<string, Character> = new Map<string, Character>();
   dimensions: Map<string, Dimension> = new Map<string, Dimension>();
 
   private _refresh: NotificationRef;

@@ -3,7 +3,7 @@ import { ChatMessage } from '../../../../../../protos/sro/chat/chat';
 import { ChatService } from '../../../../../services/backend/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterService } from '../../../../../services/backend/character.service';
-import { CharacterDetails } from '../../../../../../protos/sro/character/character';
+import { Character } from '../../../../../../protos/sro/character/character';
 import { NotificationRef } from '../../../../../services/ui/notification';
 import { ChatMessageComponent } from '../../../../../components/chat/chat-message/chat-message.component';
 import { FormsModule } from '@angular/forms';
@@ -34,9 +34,9 @@ export class ChatConnectComponent {
   message: string = '';
   chatHistory: ChatChannelHistory[] = [];
   id: string = '';
-  character: CharacterDetails | undefined = undefined;
+  character: Character | undefined = undefined;
   selectedCharacterId: string = '';
-  characters: Map<string, CharacterDetails> = new Map();
+  characters: Map<string, Character> = new Map();
 
   prevMsgCount: number = 0;
   pauseScrolling: boolean = false;
@@ -101,7 +101,7 @@ export class ChatConnectComponent {
 
     this.chatHistory.push({ info: `Connecting to chat as ${this.getCharacterName()}` });
     this.connected = true;
-    this._chatService.connectChatChannel(this.character!.characterId, this.id).subscribe({
+    this._chatService.connectChatChannel(this.character!.id, this.id).subscribe({
       next: (session) => {
         if (session.message) {
           this.chatHistory.push({ message: session.message });
@@ -148,7 +148,7 @@ export class ChatConnectComponent {
     }
     const chatMessage = ChatMessage.create();
     chatMessage.content = this.message;
-    chatMessage.senderCharacterId = this.character.characterId;
+    chatMessage.senderCharacterId = this.character.id;
     this._chatService.sendChatMessage(this.id, chatMessage).then(() => {
       this.message = '';
     }).catch((error) => {
@@ -160,7 +160,7 @@ export class ChatConnectComponent {
   disconnectChat() {
     if (this.connected) {
       this.chatHistory.push({ info: `Disconnecting from chat as ${this.getCharacterName()}` });
-      this._chatService.disconnectChatChannel(this.character!.characterId, this.id)
+      this._chatService.disconnectChatChannel(this.character!.id, this.id)
       this.connected = false;
     }
   }
@@ -192,7 +192,7 @@ export class ChatConnectComponent {
     if (this.character?.name !== '') {
       return this.character!.name;
     }
-    return `Unknown (${this.character.characterId})`;
+    return `Unknown (${this.character.id})`;
   }
 
   resumeScrolling() {

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
-import { CharacterDetails, EditCharacterRequest } from '../../../../../../protos/sro/character/character';
+import { Component, inject } from '@angular/core';
+import { Character, EditCharacterRequest } from '../../../../../../protos/sro/character/character';
 import { ActivatedRoute, Router, ROUTER_OUTLET_DATA } from '@angular/router';
 import { CharacterService } from '../../../../../services/backend/character.service';
 import { MapService } from '../../../../../services/backend/map.service';
@@ -9,6 +9,7 @@ import { CharacterFormComponent } from '../../../../../components/characters/cha
 import { ChatChannel } from '../../../../../../protos/sro/chat/chat';
 import { ChatService } from '../../../../../services/backend/chat.service';
 import { ChatChannelsTableComponent } from '../../../../../components/chat-channels/chat-channels-table/chat-channels-table.component';
+import { FieldMask } from '../../../../../../protos/google/protobuf/field_mask';
 
 @Component({
   selector: 'app-edit-character',
@@ -19,7 +20,7 @@ import { ChatChannelsTableComponent } from '../../../../../components/chat-chann
   templateUrl: './edit.component.html',
 })
 export class EditCharacterComponent {
-  character: CharacterDetails = inject<CharacterDetails>(ROUTER_OUTLET_DATA);
+  character: Character = inject<Character>(ROUTER_OUTLET_DATA);
   id: string;
 
   pendingSave = false;
@@ -59,19 +60,36 @@ export class EditCharacterComponent {
     });
   }
 
-  onCharacterSubmit(character: CharacterDetails) {
+  onCharacterSubmit(character: Character) {
     if (this.pendingSave) {
       return;
     }
 
     this.pendingSave = true;
     const request = EditCharacterRequest.create();
-    request.characterId = this.id;
-    request.optionalRealm = { oneofKind: 'realm', realm: character.realm }
-    request.optionalGender = { oneofKind: 'gender', gender: character.gender }
-    request.optionalNewName = { oneofKind: 'newName', newName: character.name }
-    request.optionalDimension = { oneofKind: 'dimensionId', dimensionId: character.dimensionId }
-    request.optionalOwnerId = { oneofKind: 'ownerId', ownerId: character.ownerId }
+    request.character = Character.create();
+    request.character.id = this.id;
+    request.mask = FieldMask.create()
+    if (character.realm !== this.character.realm) {
+      request.mask.paths.push('character.realm');
+      request.character.realm = character.realm;
+    }
+    if (character.gender !== this.character.gender) {
+      request.mask.paths.push('character.gender');
+      request.character.gender = character.gender
+    }
+    if (character.name !== this.character.name) {
+      request.mask.paths.push('character.name');
+      request.character.name = character.name;
+    }
+    if (character.dimensionId !== this.character.dimensionId) {
+      request.mask.paths.push('character.dimension_id');
+      request.character.dimensionId = character.dimensionId;
+    }
+    if (character.ownerId !== this.character.ownerId) {
+      request.mask.paths.push('character.owner_id');
+      request.character.ownerId = character.ownerId;
+    }
 
     this._charactersService.editCharacter(request).then((character) => {
       this.character = character;

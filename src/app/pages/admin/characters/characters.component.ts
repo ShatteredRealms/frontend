@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { CharacterDetails } from '../../../../protos/sro/character/character';
+import { Character } from '../../../../protos/sro/character/character';
 import { CharacterService } from '../../../services/backend/character.service';
 import { CharactersTableComponent } from '../../../components/characters/characters-table/characters-table.component';
 
@@ -14,7 +14,7 @@ import { CharactersTableComponent } from '../../../components/characters/charact
   templateUrl: './characters.component.html',
 })
 export class AdminCharactersComponent {
-  characters: Map<string, CharacterDetails> = new Map();
+  characters: Map<string, Character> = new Map();
 
   constructor(
     private _charactersService: CharacterService,

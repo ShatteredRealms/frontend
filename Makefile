@@ -36,16 +36,9 @@ REGISTRY = $(SRO_REGISTRY)/$(APP_NAME)
 time=$(shell date +%s)
 
 # Protos
-PROTO_DIR="$(ROOT_DIR)/src/protos"
-SRO_DIR = $(realpath $(ROOT_DIR)/../)
-CHARACTER_PROTOS = $(shell find "$(SRO_DIR)/character-service/api/sro/character" -name "*.proto")
-CHAT_PROTOS = $(shell find "$(SRO_DIR)/chat-service/api/sro/chat" -name "*.proto")
-GAMESERVER_PROTOS = $(shell find "$(SRO_DIR)/gameserver-service/api/sro/gameserver" -name "*.proto")
-COMMON_PROTOS = $(shell find "$(SRO_DIR)/go-common-service/api/sro" -name "*.proto")
-
-COMMON_PROTOS_DIR = "$(SRO_DIR)/go-common-service/api"
-
-PROTOS = $(CHARACTER_PROTOS) $(CHAT_PROTOS) $(GAMESERVER_PROTOS) $(COMMON_PROTOS)
+PROTOS_DIR = "$(ROOT_DIR)/api"
+PROTO_OUT_DIR="$(ROOT_DIR)/src/protos"
+PROTOS = $(shell find "$(PROTOS_DIR)" -name "*.proto")
 
 # Versioning
 VERSION=$(BASE_VERSION)
@@ -79,18 +72,18 @@ docker-push: docker push
 .PHONY: clean-protos protos $(PROTOS)
 
 clean-protos:
-	rm -rf "$(PROTO_DIR)"
-	mkdir -p "$(PROTO_DIR)"
+	rm -rf "$(PROTO_OUT_DIR)"
+	mkdir -p "$(PROTO_OUT_DIR)"
+	git submodule update --remote --merge
 
 protos: clean-protos $(PROTOS)
 
 $(PROTOS):
 	protoc "$@" \
-		-I $(COMMON_PROTOS_DIR) \
-		-I $(shell realpath "$(@D)/../../") \
+		-I $(PROTOS_DIR) \
 		--plugin=protoc-gen-ts=$(ROOT_DIR)/node_modules/.bin/protoc-gen-ts \
     --ts_opt=long_type_number \
-		--ts_out=$(PROTO_DIR)
+		--ts_out=$(PROTO_OUT_DIR)
 
 
 

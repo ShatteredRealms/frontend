@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, Input, input, ViewChild } from '@angular/core';
-import { CharacterDetails } from '../../../../protos/sro/character/character';
+import { Character } from '../../../../protos/sro/character/character';
 import { CharacterService } from '../../../services/backend/character.service';
 import { CommonModule } from '@angular/common';
 import { timeAge, timeStringFromSeconds } from '../../../helpers/time';
@@ -33,13 +33,13 @@ interface Badge {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class CharactersTableComponent {
-  @ViewChild('table') table!: TableDirective<CharacterDetails>;
+  @ViewChild('table') table!: TableDirective<Character>;
 
   @Input()
   actions = true;
 
-  data = input.required<Map<string, CharacterDetails>>();
-  datasource: CharacterDetails[] = [];
+  data = input.required<Map<string, Character>>();
+  datasource: Character[] = [];
   owners = new Map<string, UserRepresentation>();
   userGroups = new Map<string, string[]>();
   getUserErrors: string[] = [];
@@ -57,7 +57,7 @@ export class CharactersTableComponent {
       this.getUserErrors = [];
       this.data().forEach((char) => {
         this._userService.getUser(char.ownerId).then((user) => {
-          this.owners.set(char.characterId, user);
+          this.owners.set(char.id, user);
           this._userService.getGroups(user.id!).then((groups) => {
             this.userGroups.set(user.id!, groups.map((group) => group.name!));
             this._cdr.markForCheck();

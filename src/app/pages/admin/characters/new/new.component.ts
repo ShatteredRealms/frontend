@@ -5,7 +5,7 @@ import { NotificationService } from '../../../../services/ui/notification.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertComponent } from '../../../../components/alert/alert.component';
 import { CharacterFormComponent } from '../../../../components/characters/character-form/character-form.component';
-import { CharacterDetails, CreateCharacterRequest } from '../../../../../protos/sro/character/character';
+import { Character } from '../../../../../protos/sro/character/character';
 
 @Component({
   selector: 'app-new-character',
@@ -26,7 +26,7 @@ export class NewCharacterComponent {
   ) {
   }
 
-  onSubmit(character: CharacterDetails) {
+  onSubmit(character: Character) {
     if (this.pendingSave) {
       return;
     }
@@ -35,7 +35,7 @@ export class NewCharacterComponent {
     this._charactersService.createCharacter(character).then((character) => {
       this._notificationService.open(AlertComponent, {
         data: {
-          message: `Character ${character.name} (${character.characterId}) created!`,
+          message: `Character ${character.name} (${character.id}) created!`,
           type: 'success',
           persist: true,
         },

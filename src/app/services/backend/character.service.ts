@@ -3,7 +3,7 @@ import { CharacterServiceClient } from '../../../protos/sro/character/character.
 import { KeycloakService } from '../../auth/keycloak.service';
 import { createGrpcWebTransport } from './util';
 import { environment } from '../../../environments/environment';
-import { CharacterDetails, CreateCharacterRequest, EditCharacterRequest } from '../../../protos/sro/character/character';
+import { Character, CreateCharacterRequest, EditCharacterRequest } from '../../../protos/sro/character/character';
 import { FetchType } from './fetch';
 import { NotificationService } from '../ui/notification.service';
 import { AlertComponent } from '../../components/alert/alert.component';
@@ -15,7 +15,7 @@ import { MapCached } from './cacheable';
 export class CharacterService {
   private instance: CharacterServiceClient;
 
-  private characterCache: MapCached<CharacterDetails>;
+  private characterCache: MapCached<Character>;
 
   constructor(
     protected keycloak: KeycloakService,
@@ -24,7 +24,7 @@ export class CharacterService {
     this.instance = new CharacterServiceClient(createGrpcWebTransport(environment.CHARACTER_GRPC_URL, keycloak));
     this.characterCache = new MapCached(
       'characters',
-      'characterId',
+      'id',
       this._getCharacter.bind(this),
       this._getCharacters.bind(this),
     );
@@ -50,7 +50,7 @@ export class CharacterService {
     });
   }
 
-  editCharacter(request: EditCharacterRequest): Promise<CharacterDetails> {
+  editCharacter(request: EditCharacterRequest): Promise<Character> {
     return new Promise(async (resolve, reject) => {
       this.instance.editCharacter(request).then((finished) => {
         this.characterCache.save(finished.response);
@@ -75,7 +75,7 @@ export class CharacterService {
     });
   }
 
-  createCharacter(data: CreateCharacterRequest): Promise<CharacterDetails> {
+  createCharacter(data: CreateCharacterRequest): Promise<Character> {
     return new Promise(async (resolve, reject) => {
       this.instance.createCharacter(data).then((finished) => {
         this.characterCache.save(finished.response);
@@ -87,15 +87,15 @@ export class CharacterService {
     });
   }
 
-  getCharacters(fetchType = FetchType.AUTO): Promise<Map<string, CharacterDetails>> {
+  getCharacters(fetchType = FetchType.AUTO): Promise<Map<string, Character>> {
     return this.characterCache.getAll(fetchType);
   }
 
-  getCharacter(characterId: string, fetchType = FetchType.AUTO): Promise<CharacterDetails> {
+  getCharacter(characterId: string, fetchType = FetchType.AUTO): Promise<Character> {
     return this.characterCache.get(characterId, fetchType);
   }
 
-  private _getCharacters(fetchType = FetchType.AUTO): Promise<CharacterDetails[]> {
+  private _getCharacters(fetchType = FetchType.AUTO): Promise<Character[]> {
     return new Promise(async (resolve, reject) => {
       try {
         const finished = await this.instance.getCharacters({});
@@ -106,7 +106,7 @@ export class CharacterService {
     });
   }
 
-  private _getCharacter(characterId: string, fetchType = FetchType.AUTO): Promise<CharacterDetails> {
+  private _getCharacter(characterId: string, fetchType = FetchType.AUTO): Promise<Character> {
     return new Promise(async (resolve, reject) => {
       try {
         const finished = await this.instance.getCharacter({ id: characterId });

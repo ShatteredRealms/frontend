@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ChatMessage } from '../../../../protos/sro/chat/chat';
 import { CharacterService } from '../../../services/backend/character.service';
-import { CharacterDetails } from '../../../../protos/sro/character/character';
+import { Character } from '../../../../protos/sro/character/character';
 import { fromEvent } from 'rxjs';
 
 @Component({
@@ -13,7 +13,7 @@ import { fromEvent } from 'rxjs';
 export class ChatMessageComponent {
   @Input() message: ChatMessage;
   showMenu: boolean = false;
-  characters: Map<string, CharacterDetails> = new Map();
+  characters: Map<string, Character> = new Map();
 
   constructor(
     protected _characterService: CharacterService,

@@ -4,15 +4,17 @@
 import type { RpcTransport } from "@protobuf-ts/runtime-rpc";
 import type { ServiceInfo } from "@protobuf-ts/runtime-rpc";
 import { CharacterService } from "./character";
-import type { PlayTimeResponse } from "./character";
 import type { AddPlayTimeRequest } from "./character";
 import type { EditCharacterRequest } from "./character";
-import type { CreateCharacterRequest } from "./character";
-import type { CharactersDetails } from "./character";
 import type { Empty } from "../../google/protobuf/empty";
-import { stackIntercept } from "@protobuf-ts/runtime-rpc";
-import type { CharacterDetails } from "./character";
 import type { TargetId } from "../globals";
+import type { CreateCharacterRequest } from "./character";
+import type { GetUserCharactersRequest } from "./character";
+import type { Characters } from "./character";
+import type { GetCharactersRequest } from "./character";
+import { stackIntercept } from "@protobuf-ts/runtime-rpc";
+import type { Character } from "./character";
+import type { GetCharacterRequest } from "./character";
 import type { UnaryCall } from "@protobuf-ts/runtime-rpc";
 import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
 /**
@@ -20,36 +22,36 @@ import type { RpcOptions } from "@protobuf-ts/runtime-rpc";
  */
 export interface ICharacterServiceClient {
     /**
-     * @generated from protobuf rpc: GetCharacter(sro.TargetId) returns (sro.character.CharacterDetails);
+     * @generated from protobuf rpc: GetCharacter(sro.character.GetCharacterRequest) returns (sro.character.Character);
      */
-    getCharacter(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, CharacterDetails>;
+    getCharacter(input: GetCharacterRequest, options?: RpcOptions): UnaryCall<GetCharacterRequest, Character>;
     /**
-     * @generated from protobuf rpc: GetCharacters(google.protobuf.Empty) returns (sro.character.CharactersDetails);
+     * @generated from protobuf rpc: GetCharacters(sro.character.GetCharactersRequest) returns (sro.character.Characters);
      */
-    getCharacters(input: Empty, options?: RpcOptions): UnaryCall<Empty, CharactersDetails>;
+    getCharacters(input: GetCharactersRequest, options?: RpcOptions): UnaryCall<GetCharactersRequest, Characters>;
     /**
-     * @generated from protobuf rpc: GetCharactersForUser(sro.TargetId) returns (sro.character.CharactersDetails);
+     * @generated from protobuf rpc: GetCharactersForUser(sro.character.GetUserCharactersRequest) returns (sro.character.Characters);
      */
-    getCharactersForUser(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, CharactersDetails>;
+    getCharactersForUser(input: GetUserCharactersRequest, options?: RpcOptions): UnaryCall<GetUserCharactersRequest, Characters>;
     /**
-     * @generated from protobuf rpc: CreateCharacter(sro.character.CreateCharacterRequest) returns (sro.character.CharacterDetails);
+     * @generated from protobuf rpc: CreateCharacter(sro.character.CreateCharacterRequest) returns (sro.character.Character);
      */
-    createCharacter(input: CreateCharacterRequest, options?: RpcOptions): UnaryCall<CreateCharacterRequest, CharacterDetails>;
+    createCharacter(input: CreateCharacterRequest, options?: RpcOptions): UnaryCall<CreateCharacterRequest, Character>;
     /**
      * @generated from protobuf rpc: DeleteCharacter(sro.TargetId) returns (google.protobuf.Empty);
      */
     deleteCharacter(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, Empty>;
     /**
-     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (sro.character.CharacterDetails);
+     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (sro.character.Character);
      */
-    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, CharacterDetails>;
+    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, Character>;
     /**
      * Adds the given amount of playtime to the character and returns the total
      * playtime
      *
-     * @generated from protobuf rpc: AddCharacterPlayTime(sro.character.AddPlayTimeRequest) returns (sro.character.PlayTimeResponse);
+     * @generated from protobuf rpc: AddCharacterPlayTime(sro.character.AddPlayTimeRequest) returns (google.protobuf.Empty);
      */
-    addCharacterPlayTime(input: AddPlayTimeRequest, options?: RpcOptions): UnaryCall<AddPlayTimeRequest, PlayTimeResponse>;
+    addCharacterPlayTime(input: AddPlayTimeRequest, options?: RpcOptions): UnaryCall<AddPlayTimeRequest, Empty>;
 }
 /**
  * @generated from protobuf service sro.character.CharacterService
@@ -61,32 +63,32 @@ export class CharacterServiceClient implements ICharacterServiceClient, ServiceI
     constructor(private readonly _transport: RpcTransport) {
     }
     /**
-     * @generated from protobuf rpc: GetCharacter(sro.TargetId) returns (sro.character.CharacterDetails);
+     * @generated from protobuf rpc: GetCharacter(sro.character.GetCharacterRequest) returns (sro.character.Character);
      */
-    getCharacter(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, CharacterDetails> {
+    getCharacter(input: GetCharacterRequest, options?: RpcOptions): UnaryCall<GetCharacterRequest, Character> {
         const method = this.methods[0], opt = this._transport.mergeOptions(options);
-        return stackIntercept<TargetId, CharacterDetails>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetCharacterRequest, Character>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetCharacters(google.protobuf.Empty) returns (sro.character.CharactersDetails);
+     * @generated from protobuf rpc: GetCharacters(sro.character.GetCharactersRequest) returns (sro.character.Characters);
      */
-    getCharacters(input: Empty, options?: RpcOptions): UnaryCall<Empty, CharactersDetails> {
+    getCharacters(input: GetCharactersRequest, options?: RpcOptions): UnaryCall<GetCharactersRequest, Characters> {
         const method = this.methods[1], opt = this._transport.mergeOptions(options);
-        return stackIntercept<Empty, CharactersDetails>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetCharactersRequest, Characters>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: GetCharactersForUser(sro.TargetId) returns (sro.character.CharactersDetails);
+     * @generated from protobuf rpc: GetCharactersForUser(sro.character.GetUserCharactersRequest) returns (sro.character.Characters);
      */
-    getCharactersForUser(input: TargetId, options?: RpcOptions): UnaryCall<TargetId, CharactersDetails> {
+    getCharactersForUser(input: GetUserCharactersRequest, options?: RpcOptions): UnaryCall<GetUserCharactersRequest, Characters> {
         const method = this.methods[2], opt = this._transport.mergeOptions(options);
-        return stackIntercept<TargetId, CharactersDetails>("unary", this._transport, method, opt, input);
+        return stackIntercept<GetUserCharactersRequest, Characters>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: CreateCharacter(sro.character.CreateCharacterRequest) returns (sro.character.CharacterDetails);
+     * @generated from protobuf rpc: CreateCharacter(sro.character.CreateCharacterRequest) returns (sro.character.Character);
      */
-    createCharacter(input: CreateCharacterRequest, options?: RpcOptions): UnaryCall<CreateCharacterRequest, CharacterDetails> {
+    createCharacter(input: CreateCharacterRequest, options?: RpcOptions): UnaryCall<CreateCharacterRequest, Character> {
         const method = this.methods[3], opt = this._transport.mergeOptions(options);
-        return stackIntercept<CreateCharacterRequest, CharacterDetails>("unary", this._transport, method, opt, input);
+        return stackIntercept<CreateCharacterRequest, Character>("unary", this._transport, method, opt, input);
     }
     /**
      * @generated from protobuf rpc: DeleteCharacter(sro.TargetId) returns (google.protobuf.Empty);
@@ -96,20 +98,20 @@ export class CharacterServiceClient implements ICharacterServiceClient, ServiceI
         return stackIntercept<TargetId, Empty>("unary", this._transport, method, opt, input);
     }
     /**
-     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (sro.character.CharacterDetails);
+     * @generated from protobuf rpc: EditCharacter(sro.character.EditCharacterRequest) returns (sro.character.Character);
      */
-    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, CharacterDetails> {
+    editCharacter(input: EditCharacterRequest, options?: RpcOptions): UnaryCall<EditCharacterRequest, Character> {
         const method = this.methods[5], opt = this._transport.mergeOptions(options);
-        return stackIntercept<EditCharacterRequest, CharacterDetails>("unary", this._transport, method, opt, input);
+        return stackIntercept<EditCharacterRequest, Character>("unary", this._transport, method, opt, input);
     }
     /**
      * Adds the given amount of playtime to the character and returns the total
      * playtime
      *
-     * @generated from protobuf rpc: AddCharacterPlayTime(sro.character.AddPlayTimeRequest) returns (sro.character.PlayTimeResponse);
+     * @generated from protobuf rpc: AddCharacterPlayTime(sro.character.AddPlayTimeRequest) returns (google.protobuf.Empty);
      */
-    addCharacterPlayTime(input: AddPlayTimeRequest, options?: RpcOptions): UnaryCall<AddPlayTimeRequest, PlayTimeResponse> {
+    addCharacterPlayTime(input: AddPlayTimeRequest, options?: RpcOptions): UnaryCall<AddPlayTimeRequest, Empty> {
         const method = this.methods[6], opt = this._transport.mergeOptions(options);
-        return stackIntercept<AddPlayTimeRequest, PlayTimeResponse>("unary", this._transport, method, opt, input);
+        return stackIntercept<AddPlayTimeRequest, Empty>("unary", this._transport, method, opt, input);
     }
 }
