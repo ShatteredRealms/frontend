@@ -71,23 +71,23 @@ export class EditCharacterComponent {
     request.character.id = this.id;
     request.mask = FieldMask.create()
     if (character.realm !== this.character.realm) {
-      request.mask.paths.push('character.realm');
+      request.mask.paths.push('realm');
       request.character.realm = character.realm;
     }
     if (character.gender !== this.character.gender) {
-      request.mask.paths.push('character.gender');
+      request.mask.paths.push('gender');
       request.character.gender = character.gender
     }
     if (character.name !== this.character.name) {
-      request.mask.paths.push('character.name');
+      request.mask.paths.push('name');
       request.character.name = character.name;
     }
     if (character.dimensionId !== this.character.dimensionId) {
-      request.mask.paths.push('character.dimension_id');
+      request.mask.paths.push('dimension_id');
       request.character.dimensionId = character.dimensionId;
     }
     if (character.ownerId !== this.character.ownerId) {
-      request.mask.paths.push('character.owner_id');
+      request.mask.paths.push('owner_id');
       request.character.ownerId = character.ownerId;
     }
 
