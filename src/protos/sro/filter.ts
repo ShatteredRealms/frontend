@@ -15,9 +15,9 @@ import { MessageType } from "@protobuf-ts/runtime";
  */
 export interface QueryFilters {
     /**
-     * @generated from protobuf field: int32 count = 1;
+     * @generated from protobuf field: int32 limit = 1;
      */
-    count: number;
+    limit: number;
     /**
      * @generated from protobuf field: int32 offset = 2;
      */
@@ -27,13 +27,13 @@ export interface QueryFilters {
 class QueryFilters$Type extends MessageType<QueryFilters> {
     constructor() {
         super("sro.QueryFilters", [
-            { no: 1, name: "count", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
+            { no: 1, name: "limit", kind: "scalar", T: 5 /*ScalarType.INT32*/ },
             { no: 2, name: "offset", kind: "scalar", T: 5 /*ScalarType.INT32*/ }
         ]);
     }
     create(value?: PartialMessage<QueryFilters>): QueryFilters {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.count = 0;
+        message.limit = 0;
         message.offset = 0;
         if (value !== undefined)
             reflectionMergePartial<QueryFilters>(this, message, value);
@@ -44,8 +44,8 @@ class QueryFilters$Type extends MessageType<QueryFilters> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* int32 count */ 1:
-                    message.count = reader.int32();
+                case /* int32 limit */ 1:
+                    message.limit = reader.int32();
                     break;
                 case /* int32 offset */ 2:
                     message.offset = reader.int32();
@@ -62,9 +62,9 @@ class QueryFilters$Type extends MessageType<QueryFilters> {
         return message;
     }
     internalBinaryWrite(message: QueryFilters, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* int32 count = 1; */
-        if (message.count !== 0)
-            writer.tag(1, WireType.Varint).int32(message.count);
+        /* int32 limit = 1; */
+        if (message.limit !== 0)
+            writer.tag(1, WireType.Varint).int32(message.limit);
         /* int32 offset = 2; */
         if (message.offset !== 0)
             writer.tag(2, WireType.Varint).int32(message.offset);
