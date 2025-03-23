@@ -1,9 +1,10 @@
 import { Component, Inject, Renderer2 } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { KeycloakService } from '../../auth/keycloak.service';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { trigger, transition, animate, style, state } from '@angular/animations';
 import { SROGroups } from '../../auth/groups';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-default',
@@ -37,6 +38,11 @@ export class DefaultLayoutComponent {
       link: '/',
       active: false,
     },
+    {
+      title: 'Dev Log',
+      link: '/blog',
+      active: false,
+    },
   ];
 
   showProfile = false;
@@ -61,13 +67,12 @@ export class DefaultLayoutComponent {
         active: false,
       });
     }
-
-    this._route.url.subscribe(url => {
+    this._router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
       this.links.forEach(link => {
-        if (url.length === 0) {
-          link.active = link.link === '/';
+        if (link.link === '/') {
+          link.active = event.url === '' || event.url === '/';
         } else {
-          link.active = url[0].path.startsWith(link.link);
+          link.active = event.url.startsWith(link.link);
         }
       });
     });

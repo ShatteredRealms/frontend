@@ -26,12 +26,20 @@ import { NewMapComponent } from './pages/admin/maps/new/new.component';
 import { MapChannelComponent } from './pages/admin/maps/details/details.component';
 import { EditMapComponent } from './pages/admin/maps/details/edit/edit.component';
 import { ChatConnectComponent } from './pages/admin/chats/details/connect/connect.component';
+import { BlogComponent } from './pages/home/blog/blog.component';
+import { ArticleComponent } from './pages/home/blog/article/article.component';
 
 export const routes: Routes = [
   {
     path: '', component: DefaultLayout,
     children: [
       { path: '', component: HomePage },
+      {
+        path: 'blog', component: BlogComponent,
+        children: [
+          { path: ':id', component: ArticleComponent },
+        ],
+      }
     ]
   },
   {
