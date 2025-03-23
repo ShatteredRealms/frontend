@@ -1,5 +1,5 @@
 import { Component, Inject, Renderer2 } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { KeycloakService } from '../../auth/keycloak.service';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { trigger, transition, animate, style, state } from '@angular/animations';
@@ -49,7 +49,6 @@ export class DefaultLayoutComponent {
   showMobileMenu = false;
 
   constructor(
-    protected _route: ActivatedRoute,
     protected _router: Router,
     protected _keycloak: KeycloakService,
     protected renderer: Renderer2,
@@ -67,14 +66,20 @@ export class DefaultLayoutComponent {
         active: false,
       });
     }
+    this.updateActiveLink(this._router.url);
     this._router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-      this.links.forEach(link => {
-        if (link.link === '/') {
-          link.active = event.url === '' || event.url === '/';
-        } else {
-          link.active = event.url.startsWith(link.link);
-        }
-      });
+      this.updateActiveLink(event.url);
+    });
+  }
+
+  updateActiveLink(url: string) {
+    console.log('updateActiveLink:', url);
+    this.links.forEach(link => {
+      if (link.link === '/') {
+        link.active = url === '' || url === '/';
+      } else {
+        link.active = url.startsWith(link.link);
+      }
     });
   }
 
