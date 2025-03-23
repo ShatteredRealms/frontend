@@ -14,6 +14,7 @@ import { TableSortHeaderDirective } from '../../table/table-sort-header.componen
 import { defaultFilterFn, GlobalFilterService } from '../../../services/util/global-filter.service';
 import { SelectableTable } from '../../table/selectable';
 import { CheckboxDirective } from '../../checkbox/checkbox.directive';
+import { ChatChannelPublicBadgeComponent } from '../chat-channel-public-badge/chat-channel-public-badge.component';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { CheckboxDirective } from '../../checkbox/checkbox.directive';
     TableSortDirective,
     TableSortHeaderDirective,
     CheckboxDirective,
+    ChatChannelPublicBadgeComponent,
   ],
   templateUrl: './chat-channels-table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

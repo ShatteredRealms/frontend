@@ -1,0 +1,13 @@
+<span class="inline-flex items-center gap-x-1.5 rounded-md px-2 py-1 text-xs font-medium text-white ring-1 ring-inset"
+  [ngClass]="{
+    'ring-gray-800': !dark(),
+    'ring-gray-700': dark()
+  }">
+  <svg class="size-1.5" viewBox="0 0 6 6" aria-hidden="true" [ngClass]="{
+    'fill-green-400': chatChannel().public,
+    'fill-gray-400': !chatChannel().public
+    }">
+    <circle cx="3" cy="3" r="3" />
+  </svg>
+  {{ chatChannel().public ? 'Public' : 'Private' }}
+</span>

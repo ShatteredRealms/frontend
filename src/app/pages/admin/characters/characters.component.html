@@ -1,7 +1,9 @@
 <router-outlet #outlet="outlet"></router-outlet>
 @if (!outlet.isActivated) {
 @if (characters.size > 0) {
-<app-characters-table [data]="characters"></app-characters-table>
+<div class="py-2 align-middle sm:px-6 lg:px-8">
+  <app-characters-table [data]="characters"></app-characters-table>
+</div>
 } @else {
 <div class="my-10 max-w-xl mx-auto">
   <button type="button" [routerLink]="['new']"

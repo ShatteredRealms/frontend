@@ -19,8 +19,7 @@
 
   <!-- Bread crumbs -->
   <header>
-    <nav
-      class="flex justify-between overflow-x-auto border-b border-white/10 py-4 px-4 sm:px-6 lg:px-8 flex-col sm:flex-row">
+    <nav class="flex justify-between overflow-x-auto py-4 px-4 sm:px-6 lg:px-8 flex-col sm:flex-row">
       <!--
 ol      gap-x-6 px-4 text-sm/6 font-semibold text-gray-400 sm:px-6 lg:px-8
 -->
@@ -41,7 +40,7 @@ ol      gap-x-6 px-4 text-sm/6 font-semibold text-gray-400 sm:px-6 lg:px-8
         }
       </ol>
       <ol
-        class="flex items-center sm:justify-end justify-center flex-col sm:flex-row gap-x-6 px-4 sm:px-6 lg:px-8 order-first sm:order-none mb-4">
+        class="flex items-center sm:justify-end justify-center flex-col sm:flex-row gap-x-6 pl-4 sm:pl-6 lg:pl-8 order-first sm:order-none mb-4">
         @for (btn of extraButtons(); track btn.label) {
         <li>
           <button type="button" [routerLink]="btn.routerLink"
@@ -52,22 +51,6 @@ ol      gap-x-6 px-4 text-sm/6 font-semibold text-gray-400 sm:px-6 lg:px-8
         }
       </ol>
     </nav>
-    <!--   <nav -->
-    <!--     class="flex flex-col items-start justify-between border-white/10 border-b gap-x-8 gap-y-4 bg-gray-900/20 px-4 py-4 sm:flex-row sm:items-center sm:px-6 lg:px-8"> -->
-    <!--     <div> -->
-    <!--       @for (breadcrumb of breadcrumbs; track breadcrumb.url) { -->
-    <!--       <div class="flex items-center gap-x-3 text-sm/6 font-semibold text-gray-400"> -->
-    <!--         <a class="text-sm/6" [class.text-indigo-400]="isLastBreadcrumb(breadcrumb)"> -->
-    <!--           {{breadcrumb.label}} -->
-    <!--         </a> -->
-    <!--       </div> -->
-    <!--       } -->
-    <!--     </div> -->
-    <!--     <button type="button" routerLink="/admin/dimensions/new" -->
-    <!--       class="order-first rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 sm:order-none"> -->
-    <!--       New Dimension -->
-    <!--     </button> -->
-    <!--   </nav> -->
   </header>
 
   <!-- Main content -->

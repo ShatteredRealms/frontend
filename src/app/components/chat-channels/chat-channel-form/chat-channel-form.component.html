@@ -9,7 +9,7 @@
       <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 md:grid-cols-2">
 
         <div class="col-span-full">
-          <label for="username" class="block text-sm/6 font-medium text-white">Name</label>
+          <label for="name" class="block text-sm/6 font-medium text-white">Name</label>
           <p class="text-sm/6 text-gray-400">
             Name of the channel as seen in game.
           </p>
@@ -29,13 +29,39 @@
         </div>
 
         <div class="col-span-full">
+          <div class="flex gap-3">
+            <div class="flex h-6 shrink-0 items-center">
+              <div class="group grid size-4 grid-cols-1">
+                <input type="checkbox" appCheckbox (click)="$event.stopPropagation()"
+                  (checkboxChange)="togglePublic($event)" [checked]="public.value" [indeterminate]="false"
+                  class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto checked">
+                <svg
+                  class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
+                  viewBox="0 0 14 14" fill="none">
+                  <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="text-sm/6">
+              <label for="public" class="block text-sm/6 font-medium text-white">Public</label>
+              <p class="text-sm/6 text-gray-400">
+                Whether the channel is public and can be joined by anyone by default.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-span-full">
           <app-form-control>
             <label for="dimension" class="block text-sm/6 font-medium text-white">
               Dimension
             </label>
             <p class="text-sm/6 text-gray-400">
               Dimension the channel is accesible for. If empty, it's available for all dimensions. Permissions are still
-              needed to access the channel.
+              needed to access the channel unless it is public.
             </p>
             <app-select formControlName="dimensionId" id="dimension" [filter]="true" [clearButton]="true">
               @for (dimension of dimensions; track dimension[0]) {

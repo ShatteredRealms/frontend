@@ -1,7 +1,9 @@
 <router-outlet #outlet="outlet"></router-outlet>
 @if (!outlet.isActivated) {
 @if (chats.size > 0) {
-<app-chat-channels-table [data]="chats"></app-chat-channels-table>
+<div class="py-2 align-middle sm:px-6 lg:px-8">
+  <app-chat-channels-table [data]="chats"></app-chat-channels-table>
+</div>
 } @else {
 <div class="my-10 max-w-xl mx-auto">
   <button type="button" [routerLink]="['new']"

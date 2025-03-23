@@ -9,12 +9,14 @@ import { ChatChannel } from '../../../../../protos/sro/chat/chat';
 import { UserService } from '../../../../services/backend/user.service';
 import { Dimension } from '../../../../../protos/sro/gameserver/dimension';
 import { DimensionService } from '../../../../services/backend/dimension.service';
+import { ChatChannelPublicBadgeComponent } from '../../../../components/chat-channels/chat-channel-public-badge/chat-channel-public-badge.component';
 
 @Component({
   selector: 'app-chat-details',
   imports: [
     RouterOutlet,
     RouterLink,
+    ChatChannelPublicBadgeComponent,
   ],
   templateUrl: './details.component.html',
 })

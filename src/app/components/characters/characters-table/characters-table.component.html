@@ -1,86 +1,85 @@
-<table class="min-w-full divide-y divide-gray-600" appTable appTableSort #table="appTable" #sort="appTableSort"
-  [dataSource]="datasource" [pagination]="pagination" [sort]="sort" [filterFn]="filterFn">
-  <thead class="border-b border-white/10 text-sm/6 text-white">
-    <tr>
-      <th scope="col" class="py-2 pr-8 pl-4 font-semibold sm:pl-6 lg:pl-8" appTableSortHeader="Name">
-        Username
-      </th>
-      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="ownerId">
-        Owner
-      </th>
-      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="realm">
-        Realm
-      </th>
-      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="gender">
-        Gender
-      </th>
-      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="dimensionId">
-        Dimension
-      </th>
-      <!--
-        <th scope="col" class="py-2 pr-4 pl-0 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20"
-          appTableSortHeader="Status">
-          Status
+<div class="overflow-hidden ring-1 shadow-sm ring-white/5 sm:rounded-lg">
+  <table class="min-w-full divide-y divide-gray-600" appTable appTableSort #table="appTable" #sort="appTableSort"
+    [dataSource]="datasource" [pagination]="pagination" [sort]="sort" [filterFn]="filterFn">
+    <thead class="border-b border-white/10 text-sm text-gray-300 font-semibold text-left bg-gray-900">
+      <tr>
+        <th scope="col" class="min-w-[12rem] py-3.5 pr-3 whitespace-nowrap" appTableSortHeader="Name">
+          Username
+        </th>
+        <th scope="col" class="py-3.5" appTableSortHeader="ownerId">
+          Owner
+        </th>
+        <th scope="col" class="py-3.5 hidden sm:table-cell" appTableSortHeader="realm">
+          Realm
+        </th>
+        <th scope="col" class="py-3.5 hidden sm:table-cell" appTableSortHeader="gender">
+          Gender
+        </th>
+        <th scope="col" class="py-3.5" appTableSortHeader="dimensionId">
+          Dimension
+        </th>
+        <!--
+        <th scope="col" class="py-3.5" appTableSortHeader="status">
+          Statsu
         </th>
         -->
-      <th scope="col" class="hidden py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="playtime">
-        Playtime
-      </th>
-      <th scope="col" class="hidden py-2 pr-8 pl-0 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8"
-        [appTableSortHeader]="'createdAt'">
-        Age
-      </th>
-      @if (actions) {
-      <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-3">
-        <span class="sr-only">Character Actions</span>
-      </th>
-      }
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let character of table.data" class="even:bg-gray-900/50">
-      <td class="py-4 pr-8 pl-4 sm:pl-6 lg:pl-8">
-        <div class="flex items-center gap-x-4">
-          <div class="text-sm/6 font-medium text-white">
-            {{ character.name }}
+        <th scope="col" class="py-3.5 hidden sm:table-cell" appTableSortHeader="playtime">
+          Playtime
+        </th>
+        <th scope="col" class="py-3.5 hidden sm:table-cell" [appTableSortHeader]="'createdAt'">
+          Age
+        </th>
+        @if (actions) {
+        <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-3">
+          <span class="sr-only">Character Actions</span>
+        </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let character of table.data" class="even:bg-gray-900/50 text-white">
+        <td class="px-3 py-4 pr-3 text-sm font-medium whitespace-nowrap">
+          <div class="flex items-center gap-x-4">
+            <div class="text-sm/6 font-medium text-white">
+              {{ character.name }}
+            </div>
           </div>
-          @for (badge of getBadges(character.id); track badge.name) {
-          <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
-            [ngClass]="badge.classes">
-            {{ badge.name }}
-          </span>
-          }
-        </div>
-      </td>
-      <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
-        <div class="flex gap-x-3">
-          <div class="text-sm/6 font-medium text-white">
-            {{ getOwnerName(character.id) }}
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap">
+          <div class="flex gap-x-3">
+            <div class="text-sm/6 font-medium">
+              {{ getOwnerName(character.id) }}
+              @for (badge of getBadges(character.id); track badge.name) {
+              <span class="inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset"
+                [ngClass]="badge.classes">
+                {{ badge.name }}
+              </span>
+              }
+            </div>
           </div>
-        </div>
-      </td>
-      <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
-        <div class="flex gap-x-3">
-          <div class="truncate text-sm/6 font-medium text-white">
-            {{ character.realm | titlecase }}
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap hidden sm:table-cell">
+          <div class="flex gap-x-3">
+            <div class="truncate text-sm/6 font-medium">
+              {{ character.realm | titlecase }}
+            </div>
           </div>
-        </div>
-      </td>
-      <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
-        <div class="flex gap-x-3">
-          <div class="truncate text-sm/6 font-medium text-white">
-            {{ character.gender | titlecase }}
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap hidden sm:table-cell">
+          <div class="flex gap-x-3">
+            <div class="truncate text-sm/6 font-medium">
+              {{ character.gender | titlecase }}
+            </div>
           </div>
-        </div>
-      </td>
-      <td class="hidden py-4 pr-4 pl-0 sm:table-cell sm:pr-8">
-        <div class="flex gap-x-3">
-          <div class="truncate text-sm/6 font-medium text-white">
-            {{ dimensions.get(character.dimensionId)?.name }}
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap">
+          <div class="flex gap-x-3">
+            <div class="truncate text-sm/6 font-medium">
+              {{ dimensions.get(character.dimensionId)?.name }}
+            </div>
           </div>
-        </div>
-      </td>
-      <!--
+        </td>
+        <!--
         <td class="py-4 pr-4 pl-0 text-sm/6 sm:pr-8 lg:pr-20">
           <div class="flex items-center justify-end gap-x-2 sm:justify-start">
             <div class="flex-none rounded-full bg-green-400/10 p-1 text-green-400">
@@ -100,27 +99,30 @@
           </div>
         </td>
         -->
-      <td class="hidden py-4 pr-8 pl-0 text-sm/6 text-gray-400 md:table-cell lg:pr-20">
-        {{ prettyTime(character.playTime) }}
-      </td>
-      <td class="hidden py-4 pr-4 pl-0 text-right text-sm/6 text-gray-400 sm:table-cell sm:pr-6 lg:pr-8">
-        <time datetime="2023-01-23T11:00">{{ timeAge(character.createdAt) }}</time>
-      </td>
-      @if (actions) {
-      <td class="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
-        <a [routerLink]="['/admin','characters',character.id]" class="text-indigo-600 hover:text-indigo-900">
-          View
-          <span class="sr-only">{{character.name}}</span>
-        </a>
-        <a [routerLink]="['/admin','characters',character.id,'edit']"
-          class="ml-1 text-indigo-600 hover:text-indigo-900">
-          Edit
-          <span class="sr-only">{{character.name}}</span>
-        </a>
-      </td>
-      }
-    </tr>
+        <td class="px-3 py-4 text-sm whitespace-nowrap hidden sm:table-cell">
+          {{ prettyTime(character.playTime) }}
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap hidden sm:table-cell">
+          <time datetime="2023-01-23T11:00">{{ timeAge(character.createdAt) }}</time>
+        </td>
+        @if (actions) {
+        <td class="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
+          <a [routerLink]="['/admin','characters',character.id]" class="text-indigo-600 hover:text-indigo-900">
+            View
+            <span class="sr-only">{{character.name}}</span>
+          </a>
+          <a [routerLink]="['/admin','characters',character.id,'edit']"
+            class="ml-1 text-indigo-600 hover:text-indigo-900">
+            Edit
+            <span class="sr-only">{{character.name}}</span>
+          </a>
+        </td>
+        }
+      </tr>
 
-  </tbody>
-</table>
-<app-table-pagination #pagination></app-table-pagination>
+    </tbody>
+  </table>
+  <div class="bg-gray-900">
+    <app-table-pagination #pagination></app-table-pagination>
+  </div>
+</div>

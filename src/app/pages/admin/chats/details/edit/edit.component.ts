@@ -48,6 +48,7 @@ export class EditChatComponent {
     const request = UpdateChatChannelRequest.create();
     request.channelId = this.id;
     request.optionalDimension = { oneofKind: 'dimension', dimension: chat.dimensionId }
+    request.optionalPublic = { oneofKind: 'public', public: chat.public }
 
     this._chatsService.editChat(request).then((chat) => {
       this.chat = chat;

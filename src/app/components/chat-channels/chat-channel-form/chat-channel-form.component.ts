@@ -11,6 +11,7 @@ import { OptionComponent } from '../../option/option.component';
 import { SelectComponent } from '../../select/select.component';
 import { Character } from '../../../../protos/sro/character/character';
 import { ChatChannel } from '../../../../protos/sro/chat/chat';
+import { CheckboxChange, CheckboxDirective } from '../../checkbox/checkbox.directive';
 
 
 
@@ -23,6 +24,7 @@ import { ChatChannel } from '../../../../protos/sro/chat/chat';
     FormControlComponent,
     OptionComponent,
     SelectComponent,
+    CheckboxDirective,
   ],
   templateUrl: './chat-channel-form.component.html',
 })
@@ -42,12 +44,16 @@ export class ChatChannelFormComponent {
     characters: true,
   };
 
-  get name(): AbstractControl<string> | null {
-    return this.form.get('name');
+  get name(): AbstractControl<string> {
+    return this.form.get('name')!;
   }
 
-  get dimensionId(): AbstractControl<string> | null {
-    return this.form.get('dimensionId');
+  get dimensionId(): AbstractControl<string> {
+    return this.form.get('dimensionId')!;
+  }
+
+  get public(): AbstractControl<boolean> {
+    return this.form.get('public')!;
   }
 
   constructor(
@@ -58,6 +64,7 @@ export class ChatChannelFormComponent {
     effect(() => {
       this.form.get('name')?.setValue(this.chat().name);
       this.form.get('dimensionId')?.setValue(this.chat().dimensionId);
+      this.form.get('public')?.setValue(this.chat().public);
     });
   }
 
@@ -71,6 +78,7 @@ export class ChatChannelFormComponent {
       ]),
       dimensionId: new FormControl('', [
       ]),
+      public: new FormControl(this.chat().public),
     });
 
     this._dimensionService.getDimensions().then((dimensions) => {
@@ -87,6 +95,7 @@ export class ChatChannelFormComponent {
     const chat = ChatChannel.create();
     chat.name = form.value.name;
     chat.dimensionId = form.value.dimensionId;
+    chat.public = form.value.public;
 
     this.onSubmit.emit(chat);
   }
@@ -97,5 +106,8 @@ export class ChatChannelFormComponent {
     }
 
     return true;
+  }
+  togglePublic(event: CheckboxChange) {
+    this.public.setValue(event.checked);
   }
 }

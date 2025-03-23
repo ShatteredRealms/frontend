@@ -66,7 +66,7 @@
           <p class="mt-1 max-w-2xl text-sm/6 text-gray-400">All maps that are playable in this dimension</p>
         </div>
       </div>
-      <div class="mt-6 border-t border-white/10">
+      <div class="mt-6">
         @if (dimension) {
         <app-maps-table [selectable]="false" [actions]="true" [data]="dimensionMaps"></app-maps-table>
         } @else {

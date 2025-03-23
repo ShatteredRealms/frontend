@@ -1,103 +1,115 @@
-<table class="min-w-full divide-y divide-gray-600" appTable appTableSort #table="appTable" #sort="appTableSort"
-  [dataSource]="dataSource" [pagination]="pagination" [sort]="sort" [filterFn]="filterFn">
-  <thead class="border-b border-white/10 text-sm/6 text-white">
-    <tr>
-      @if (selectable) {
-      <th scope=" col" class="relative px-7 sm:w-12 sm:px-6">
-        <!-- Selected row marker, only show when row is selected. -->
-        @if (allRowsSelected()) {
-        <div class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
-        }
+<div class="overflow-hidden ring-1 shadow-sm ring-white/5 sm:rounded-lg">
+  <table class="min-w-full divide-y divide-gray-600" appTable appTableSort #table="appTable" #sort="appTableSort"
+    [dataSource]="dataSource" [pagination]="pagination" [sort]="sort" [filterFn]="filterFn">
+    <thead class="border-b border-white/10 text-sm text-gray-300 font-semibold text-left bg-gray-900">
+      <tr>
+        @if (selectable) {
+        <th scope=" col" class="relative px-7 sm:w-12 sm:px-6">
+          <!-- Selected row marker, only show when row is selected. -->
+          @if (allRowsSelected()) {
+          <div class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
+          }
 
-        <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
-          <input type="checkbox" appCheckbox (click)="$event.stopPropagation()" (checkboxChange)="toggleAll($event)"
-            [checked]="allRowsSelected()" [indeterminate]="someRowsSelected()"
-            class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto checked">
-          <svg
-            class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
-            viewBox="0 0 14 14" fill="none">
-            <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-            <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </div>
-      </th>
-      }
-      <th scope="col" class="py-2 pr-8 pl-4 font-semibold sm:pl-6 lg:pl-8" appTableSortHeader="name">
-        Name
-      </th>
-      <th scope="col" class="py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="dimensionId">
-        Dimenson
-      </th>
-      <th scope="col" class="py-2 pr-8 pl-0 font-semibold sm:table-cell" appTableSortHeader="id">
-        Id
-      </th>
-      @if (actions) {
-      <th scope="col" class="relative py-2 pr-8 pl-0 font-semibold sm:table-cell">
-        <span class="sr-only">Chat Actions</span>
-      </th>
-      }
-    </tr>
-  </thead>
-  <div *ngIf="data === undefined; chatsLoaded" class="text-white">Loading...</div>
-  <tbody class="divide-y divide-white/5 text-start" #chatsLoaded>
-    <tr *ngFor="let chatChannel of table.data">
-      @if (selectable) {
-      <td class="relative px-7 sm:w-12 sm:px-6">
-        <!-- Selected row marker, only show when row is selected. -->
-        @if (selections.has(chatChannel)) {
-        <div class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
+          <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
+            <input type="checkbox" appCheckbox (click)="$event.stopPropagation()" (checkboxChange)="toggleAll($event)"
+              [checked]="allRowsSelected()" [indeterminate]="someRowsSelected()"
+              class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto checked">
+            <svg
+              class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
+              viewBox="0 0 14 14" fill="none">
+              <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+              <path class="opacity-0 group-has-[:indeterminate]:opacity-100" d="M3 7H11" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </th>
         }
+        <th scope="col" class="min-w-[12rem] py-3.5 pr-3 whitespace-nowrap" appTableSortHeader="name">
+          Name
+        </th>
+        <th scope="col" class="py-3.5" appTableSortHeader="dimensionId">
+          Dimenson
+        </th>
+        <th scope="col" class="py-3.5" appTableSortHeader="id">
+          Id
+        </th>
+        @if (actions) {
+        <th scope="col" class="relative py-3.5 pr-4 pl-3 sm:pr-3">
+          <span class="sr-only">Chat Actions</span>
+        </th>
+        }
+      </tr>
+    </thead>
+    <div *ngIf="data === undefined; chatsLoaded" class="text-white">Loading...</div>
+    <tbody class="divide-y divide-white/5 text-start" #chatsLoaded>
+      <tr *ngFor="let chatChannel of table.data">
+        @if (selectable) {
+        <td class="relative px-4 sm:w-12 sm:px-6">
+          <!-- Selected row marker, only show when row is selected. -->
+          @if (selections.has(chatChannel)) {
+          <div class="absolute inset-y-0 left-0 w-0.5 bg-indigo-600"></div>
+          }
 
-        <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
-          <input type="checkbox" appCheckbox (click)="$event.stopPropagation()"
-            (checkboxChange)="toggleSelection($event, chatChannel)" [checked]="selections.has(chatChannel)"
-            class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-          <svg
-            class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
-            viewBox="0 0 14 14" fill="none">
-            <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </div>
-      </td>
-      }
-      <td class="py-4 pr-8 pl-4 sm:pl-6 lg:pl-8">
-        <div class="flex items-center gap-x-4">
-          <div class="truncate text-sm/6 font-medium text-white">
-            {{ chatChannel.name }}
+          <div class="group absolute top-1/2 left-4 -mt-2 grid size-4 grid-cols-1">
+            <input type="checkbox" appCheckbox (click)="$event.stopPropagation()"
+              (checkboxChange)="toggleSelection($event, chatChannel)" [checked]="selections.has(chatChannel)"
+              class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-gray-700 checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-500 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+            <svg
+              class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25"
+              viewBox="0 0 14 14" fill="none">
+              <path class="opacity-0 group-has-[:checked]:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </div>
-        </div>
-      </td>
-      <td class="hidden py-4 pr-4 sm:table-cell sm:pr-8">
-        <div class="flex gap-x-3">
-          <div class="truncate text-sm/6 font-medium text-white">
-            {{ dimensions.get(chatChannel.dimensionId)?.name }}
-            <span class="font-mono ml-2 truncate text-gray-500 text-xs">{{ chatChannel.dimensionId }}</span>
+        </td>
+        }
+        <td class="px-3 py-4 pr-3 text-sm font-medium whitespace-nowrap">
+          <div class="flex items-center gap-x-4">
+            <div class="truncate text-sm/6 font-medium text-white">
+              {{ chatChannel.name }}
+              <span class="ml-2">
+                <app-chat-channel-public-badge [chatChannel]="chatChannel" [dark]=true></app-chat-channel-public-badge>
+              </span>
+            </div>
           </div>
-        </div>
-      </td>
-      <td class="py-4 pr-8">
-        <div class="flex items-center gap-x-4">
-          <div class="truncate text-sm/6 font-medium text-white">
-            {{ chatChannel.id }}
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap self-end">
+          <div class="flex gap-x-3">
+            @if (chatChannel.dimensionId) {
+            <div class="truncate text-sm/6 font-medium text-white">
+              {{ dimensions.get(chatChannel.dimensionId)?.name }}
+              <span class="font-mono ml-2 truncate text-gray-500 text-xs">{{ chatChannel.dimensionId }}</span>
+            </div>
+            } @else {
+            <div class="truncate text-sm/6 font-medium text-white">
+              Global
+              <span class="font-mono ml-2 truncate text-gray-500 text-xs">Empty</span>
+            </div>
+            }
           </div>
-        </div>
-      </td>
-      @if (actions) {
-      <td class="py-4 pr-4 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
-        <a [routerLink]="['/admin','chats',chatChannel.id]" class="text-indigo-600 hover:text-indigo-900">
-          View
-          <span class="sr-only">{{chatChannel.name}}</span>
-        </a>
-        <a [routerLink]="['/admin','chats',chatChannel.id,'edit']" class="ml-1 text-indigo-600 hover:text-indigo-900">
-          Edit
-          <span class="sr-only">{{chatChannel.name}}</span>
-        </a>
-      </td>
-      }
-    </tr>
-  </tbody>
-</table>
-<app-table-pagination #pagination></app-table-pagination>
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap self-end">
+          <div class="flex gap-x-4">
+            <div class="truncate text-sm/6 font-medium text-white">
+              {{ chatChannel.id }}
+            </div>
+          </div>
+        </td>
+        @if (actions) {
+        <td class="py-4 pr-4 text-right text-sm font-medium whitespace-nowrap sm:pr-3">
+          <a [routerLink]="['/admin','chats',chatChannel.id]" class="text-indigo-600 hover:text-indigo-900">
+            View
+            <span class="sr-only">{{chatChannel.name}}</span>
+          </a>
+          <a [routerLink]="['/admin','chats',chatChannel.id,'edit']" class="ml-1 text-indigo-600 hover:text-indigo-900">
+            Edit
+            <span class="sr-only">{{chatChannel.name}}</span>
+          </a>
+        </td>
+        }
+      </tr>
+    </tbody>
+  </table>
+  <app-table-pagination #pagination></app-table-pagination>
+</div>

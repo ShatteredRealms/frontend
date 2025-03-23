@@ -196,6 +196,10 @@ export interface ChatChannel {
      * @generated from protobuf field: string dimension_id = 3;
      */
     dimensionId: string;
+    /**
+     * @generated from protobuf field: bool public = 4;
+     */
+    public: boolean;
 }
 /**
  * @generated from protobuf message sro.chat.ChatChannels
@@ -291,6 +295,18 @@ export interface UpdateChatChannelRequest {
          * @generated from protobuf field: string dimension = 3;
          */
         dimension: string;
+    } | {
+        oneofKind: undefined;
+    };
+    /**
+     * @generated from protobuf oneof: optional_public
+     */
+    optionalPublic: {
+        oneofKind: "public";
+        /**
+         * @generated from protobuf field: bool public = 4;
+         */
+        public: boolean;
     } | {
         oneofKind: undefined;
     };
@@ -765,7 +781,8 @@ class ChatChannel$Type extends MessageType<ChatChannel> {
         super("sro.chat.ChatChannel", [
             { no: 1, name: "id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "public", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<ChatChannel>): ChatChannel {
@@ -773,6 +790,7 @@ class ChatChannel$Type extends MessageType<ChatChannel> {
         message.id = "";
         message.name = "";
         message.dimensionId = "";
+        message.public = false;
         if (value !== undefined)
             reflectionMergePartial<ChatChannel>(this, message, value);
         return message;
@@ -790,6 +808,9 @@ class ChatChannel$Type extends MessageType<ChatChannel> {
                     break;
                 case /* string dimension_id */ 3:
                     message.dimensionId = reader.string();
+                    break;
+                case /* bool public */ 4:
+                    message.public = reader.bool();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -812,6 +833,9 @@ class ChatChannel$Type extends MessageType<ChatChannel> {
         /* string dimension_id = 3; */
         if (message.dimensionId !== "")
             writer.tag(3, WireType.LengthDelimited).string(message.dimensionId);
+        /* bool public = 4; */
+        if (message.public !== false)
+            writer.tag(4, WireType.Varint).bool(message.public);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -1101,7 +1125,8 @@ class UpdateChatChannelRequest$Type extends MessageType<UpdateChatChannelRequest
         super("sro.chat.UpdateChatChannelRequest", [
             { no: 1, name: "channel_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 2, name: "name", kind: "scalar", oneof: "optionalName", T: 9 /*ScalarType.STRING*/ },
-            { no: 3, name: "dimension", kind: "scalar", oneof: "optionalDimension", T: 9 /*ScalarType.STRING*/ }
+            { no: 3, name: "dimension", kind: "scalar", oneof: "optionalDimension", T: 9 /*ScalarType.STRING*/ },
+            { no: 4, name: "public", kind: "scalar", oneof: "optionalPublic", T: 8 /*ScalarType.BOOL*/ }
         ]);
     }
     create(value?: PartialMessage<UpdateChatChannelRequest>): UpdateChatChannelRequest {
@@ -1109,6 +1134,7 @@ class UpdateChatChannelRequest$Type extends MessageType<UpdateChatChannelRequest
         message.channelId = "";
         message.optionalName = { oneofKind: undefined };
         message.optionalDimension = { oneofKind: undefined };
+        message.optionalPublic = { oneofKind: undefined };
         if (value !== undefined)
             reflectionMergePartial<UpdateChatChannelRequest>(this, message, value);
         return message;
@@ -1133,6 +1159,12 @@ class UpdateChatChannelRequest$Type extends MessageType<UpdateChatChannelRequest
                         dimension: reader.string()
                     };
                     break;
+                case /* bool public */ 4:
+                    message.optionalPublic = {
+                        oneofKind: "public",
+                        public: reader.bool()
+                    };
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -1154,6 +1186,9 @@ class UpdateChatChannelRequest$Type extends MessageType<UpdateChatChannelRequest
         /* string dimension = 3; */
         if (message.optionalDimension.oneofKind === "dimension")
             writer.tag(3, WireType.LengthDelimited).string(message.optionalDimension.dimension);
+        /* bool public = 4; */
+        if (message.optionalPublic.oneofKind === "public")
+            writer.tag(4, WireType.Varint).bool(message.optionalPublic.public);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
