@@ -25,7 +25,7 @@
     <div class="mx-auto max-w-2xl shrink-0 lg:mx-0 lg:pt-8">
       <img src="imgs/logo/white.svg" alt="Shattered Realms Online">
       <div class="mt-24 sm:mt-32 lg:mt-16">
-        <a href="#" class="inline-flex space-x-6">
+        <a href="blog" class="inline-flex space-x-6">
           <span
             class="rounded-full bg-indigo-500/10 px-3 py-1 text-sm/6 font-semibold text-indigo-400 ring-1 ring-indigo-500/20 ring-inset">
             What's new
@@ -52,13 +52,13 @@
           class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
           Create an Account
         </a>
-        <a href="#" class="text-sm/6 font-semibold text-white">
+        <a href="#gameplay" class="text-sm/6 font-semibold text-white">
           Learn more <span aria-hidden="true">→</span>
         </a>
       </div>
     </div>
     <div class="mx-auto flex max-w-2xl sm:mt-12 lg:mt-0 lg:mr-0 lg:max-w-none relative mix-blend-overlay">
-      <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none bg-linear-to-t from-gray-900 to-transparent">
+      <div class="max-w-3xl flex-none sm:max-w-5xl lg:max-w-none">
         <img src="imgs/temp/CyberPunkCharacter_1-Cropped.png" alt="App screenshot"
           class="w-[50rem] h-[50rem] bg-transparent bg-blend-overlay" />
         <div class="absolute inset-0 w-screen bg-gradient-to-t from-gray-900 to-transparent to-40%"></div>
@@ -67,7 +67,24 @@
   </div>
 </div>
 
-<div class="bg-gray-900 pb-24 sm:pb-32">
+<div id="gameplay" class="bg-gray-900 pb-24 sm:pb-32 relative">
+  <!-- <div class="absolute size-24 left-"> -->
+  <!--   <svg class="text-indigo-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" -->
+  <!--     stroke-linecap="round" stroke-linejoin="round"> -->
+  <!--     <g id="SVGRepo_bgCarrier" stroke-width="0"></g> -->
+  <!--     <g id="SVGRepo_tracerCarrier"></g> -->
+  <!--     <g id="SVGRepo_iconCarrier"> -->
+  <!--       <path d="M3 3L21 21"></path> -->
+  <!--       <path -->
+  <!--         d="M7 15C7.55228 15 8 14.5523 8 14C8 13.4477 7.55228 13 7 13C6.44772 13 6 13.4477 6 14C6 14.5523 6.44772 15 7 15Z" -->
+  <!--         fill="currentColor"></path> -->
+  <!--       <path d="M18.5 19H2.6C2.26863 19 2 18.7314 2 18.4V9H8.5"></path> -->
+  <!--       <path d="M2 9V5.6C2 5.26863 2.26863 5 2.6 5H4.5"></path> -->
+  <!--       <path d="M14 9H22V17"></path> -->
+  <!--       <path d="M22 9V5.6C22 5.26863 21.7314 5 21.4 5H10"></path> -->
+  <!--     </g> -->
+  <!--   </svg> -->
+  <!-- </div> -->
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl lg:text-center">
       <h2 class="text-base/7 font-semibold text-indigo-400">
@@ -83,8 +100,8 @@
     </div>
     <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
       <dl class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-        <div class="flex flex-col">
-          <dt class="flex items-center gap-x-3 text-base/7 font-semibold text-white">
+        <div class="flex flex-col relative">
+          <dt class="flex items-center gap-x-3 text-base/7 font-semibold text-white z-10">
             <svg class="size-6 flex-none text-indigo-400" fill="evenodd" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round"
@@ -92,19 +109,22 @@
             </svg>
             Pioneer your own adventure
           </dt>
-          <dd class="mt-4 flex flex-auto flex-col text-base/7 text-gray-300">
+          <dd class="mt-4 flex flex-auto flex-col text-base/7 text-gray-300 z-10">
             <p class="flex-auto">
               Explore the world of Trinitas at your own pace while effectively leveling your character.
               All paths allow for effective methods to find better gear and grow your abilities.
               Discover hidden secrets, or take on the challenges of your failed predecessors.
             </p>
-            <p class="mt-6">
-              <a href="#" class="text-sm/6 font-semibold text-indigo-400">Learn more <span
-                  aria-hidden="true">→</span></a>
-            </p>
           </dd>
+          <div class="absolute -top-20 lg:-top-10">
+            <svg class="flex-none text-indigo-400/10 fill-none" viewBox="0 0 24 24" width="100%" height="100%"
+              fill="evenodd" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+            </svg>
+          </div>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col relative">
           <dt class="flex items-center gap-x-3 text-base/7 font-semibold text-white">
             <svg class="size-6 flex-none text-indigo-400" fill="evenodd" viewBox="0 0 24 24" stroke-width="1.5"
               stroke="currentColor">
@@ -119,20 +139,22 @@
               The higher your abilities, the more powerful gear you can wear. Find gear that increases your abilities,
               and allows for equipping gear that you would not be able to wear otherwise.
             </p>
-            <p class="mt-6">
-              <a href="#" class="text-sm/6 font-semibold text-indigo-400">Learn more <span
-                  aria-hidden="true">→</span></a>
-            </p>
           </dd>
+          <div class="absolute -top-10 right-auto md:right-0 lg:right-auto">
+            <svg class="flex-none text-indigo-400/10 fill-none" viewBox="0 0 24 24" width="100%" height="100%"
+              fill="evenodd" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
+            </svg>
+          </div>
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col relative">
           <dt class="flex items-center gap-x-3 text-base/7 font-semibold text-white">
             <svg class="size-6 flex-none text-indigo-400" viewBox="0 0 24 24" fill="currentColor">
               <path
                 d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
 
             </svg>
-
             Build your community
           </dt>
           <dd class="mt-4 flex flex-auto flex-col text-base/7 text-gray-300">
@@ -141,11 +163,14 @@
               Work together to take on the most challenging content, or compete against each other in friendly
               competition. The choice is yours.
             </p>
-            <p class="mt-6">
-              <a href="#" class="text-sm/6 font-semibold text-indigo-400">Learn more <span
-                  aria-hidden="true">→</span></a>
-            </p>
           </dd>
+          <div class="absolute -top-10 md:-top-20 lg:-top-10">
+            <svg class="flex-none text-indigo-400/10" viewBox="0 0 24 24" width="100%" height="100%" fill="currentColor"
+              aria-hidden="true">
+              <path
+                d="M4.5 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM14.25 8.625a3.375 3.375 0 1 1 6.75 0 3.375 3.375 0 0 1-6.75 0ZM1.5 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM17.25 19.128l-.001.144a2.25 2.25 0 0 1-.233.96 10.088 10.088 0 0 0 5.06-1.01.75.75 0 0 0 .42-.643 4.875 4.875 0 0 0-6.957-4.611 8.586 8.586 0 0 1 1.71 5.157v.003Z" />
+            </svg>
+          </div>
         </div>
       </dl>
     </div>

@@ -109,4 +109,8 @@ export class DefaultLayoutComponent {
   toggleMobileMenu() {
     this.showMobileMenu = !this.showMobileMenu;
   }
+
+  profileUrl() {
+    return this._keycloak.instance.createAccountUrl();
+  }
 }
