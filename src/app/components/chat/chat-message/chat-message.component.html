@@ -1,4 +1,4 @@
-<div class="flex flex-row gap-2">
+<div class="flex flex-row gap-2 relative">
   <div class="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-700 rounded-e-xl rounded-es-xl">
     <div class="flex items-center space-x-2 rtl:space-x-reverse">
       <span class="text-sm font-semibold text-white">{{ getCharacterName(message.senderCharacterId)
@@ -8,7 +8,7 @@
     <p class="text-sm font-normal py-2.5 text-white">{{ message.content }}</p>
   </div>
   <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" data-dropdown-placement="bottom-start"
-    (click)="toggleDropdown()" (blur)="hideDropdown()"
+    (click)="toggleDropdown()"
     class="inline-flex self-center items-center p-2 text-sm font-medium text-center rounded-lg focus:ring-4 focus:outline-none text-white hover:bg-gray-800 focus:ring-gray-600"
     type="button">
     <svg class="pointer-events-none w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -17,17 +17,23 @@
         d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
     </svg>
   </button>
-  <div id="dropdownDots" class="z-10 absolute rounded-lg shadow w-40 bg-gray-800 {{showMenu ? '' : 'hidden'}}">
+  <div id="dropdownDots" class="z-10 absolute rounded-lg shadow w-40 bg-gray-800 left-3/4" [class.hidden]="!showMenu">
     <ul class="text-sm divide-y divide-gray-700 text-gray-200" aria-labelledby="dropdownMenuIconButton">
       <li>
-        <a href (click)="''" class="block px-4 py-2 hover:bg-gray-600 hover:text-white rounded-t-lg">Timeout 5
-          min</a>
+        <button (click)="timeout(60)" class="block px-4 py-2 hover:bg-gray-600 rounded-t-lg w-full">5
+          minute <span class="text-sm text-gray-400">timeout</span></button>
       </li>
       <li>
-        <a (click)="''" class="block px-4 py-2 hover:bg-gray-600 hover:text-white">Timeout 1 hr</a>
+        <button (click)="timeout(60*60)" class="block px-4 py-2 hover:bg-gray-600 w-full">1
+          hour <span class="text-sm text-gray-400">timeout</span></button>
       </li>
       <li>
-        <a (click)="''" class="block px-4 py-2 hover:bg-gray-600 hover:text-white rounded-b-lg">Ban</a>
+        <button (click)="timeout(60*60*24)" class="block px-4 py-2 hover:bg-gray-600 w-full">1
+          day <span class="text-sm text-gray-400">timeout</span></button>
+      </li>
+      <li>
+        <button (click)="timeout(-1)" class="block px-4 py-2 hover:bg-gray-600 rounded-b-lg w-full">Permanent <span
+            class="text-sm text-gray-400">timeout</span></button>
       </li>
     </ul>
   </div>

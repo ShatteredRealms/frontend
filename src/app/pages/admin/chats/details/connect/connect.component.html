@@ -19,7 +19,7 @@
       @for (item of chatHistory; track item) {
       <div class="flex flex-grow items-start gap-2.5 pb-4">
         @if (item.message) {
-        <app-chat-message [message]="item.message"></app-chat-message>
+        <app-chat-message [message]="item.message" [channelId]="id"></app-chat-message>
         }
         @if (item.info) {
         <p class="text-sm font-normal text-gray-400">{{ item.info }}</p>

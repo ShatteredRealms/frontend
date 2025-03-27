@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createGrpcWebTransport } from './util';
 import { MapCached } from './cacheable';
-import { ChatChannel, ChatChannels, ChatMessage, RequestSetCharacterSetChatChannelAuth, UpdateChatChannelRequest } from '../../../protos/sro/chat/chat';
+import { BanRequest, ChatChannel, ChatChannels, ChatMessage, RequestSetCharacterSetChatChannelAuth, UpdateChatChannelRequest } from '../../../protos/sro/chat/chat';
 import { ChatServiceClient } from '../../../protos/sro/chat/chat.client';
 import { KeycloakService } from '../../auth/keycloak.service';
 import { NotificationService } from '../ui/notification.service';
@@ -47,6 +47,17 @@ export class ChatService {
       this._getChat.bind(this),
       this._getChats.bind(this),
     );
+  }
+
+  banCharacter(request: BanRequest): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await this.instance.banCharacterFromChatChannel(request);
+        resolve()
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   sendChatMessage(channelId: string, chatMessage: ChatMessage): Promise<void> {

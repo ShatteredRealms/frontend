@@ -3,6 +3,9 @@ import { ChatMessage } from '../../../../protos/sro/chat/chat';
 import { CharacterService } from '../../../services/backend/character.service';
 import { Character } from '../../../../protos/sro/character/character';
 import { fromEvent } from 'rxjs';
+import { ChatService } from '../../../services/backend/chat.service';
+import { NotificationService } from '../../../services/ui/notification.service';
+import { AlertComponent } from '../../alert/alert.component';
 
 @Component({
   selector: 'app-chat-message',
@@ -12,15 +15,20 @@ import { fromEvent } from 'rxjs';
 })
 export class ChatMessageComponent {
   @Input() message: ChatMessage;
+  @Input() channelId: string;
   showMenu: boolean = false;
   characters: Map<string, Character> = new Map();
 
   constructor(
     protected _characterService: CharacterService,
+    protected _chatService: ChatService,
+    protected _notificationService: NotificationService,
   ) {
     fromEvent(document, 'click').subscribe((event: any) => {
-      if (event.target.id !== 'dropdownMenuIconButton') {
-        this.hideDropdown()
+      if (this.showMenu) {
+        if (!event.target.closest('#dropdownMenuIconButton')) {
+          this.hideDropdown()
+        }
       }
     });
   }
@@ -53,5 +61,34 @@ export class ChatMessageComponent {
 
   hideDropdown() {
     this.showMenu = false;
+  }
+
+  timeout(duration: number) {
+    console.log('timeout')
+    this._chatService.banCharacter({
+      characterId: this.message.senderCharacterId,
+      channelId: this.channelId,
+      duration: duration,
+    }).then(() => {
+      this._notificationService.open(AlertComponent, {
+        data: {
+          message: `User '${this.getCharacterName(this.message.senderCharacterId)}' banned for ${duration > 0 ? `${duration}s` : 'permanently'}`,
+          type: 'success',
+          persist: true,
+        },
+        position: 'top-center',
+        autohide: true,
+      });
+    }).catch((e) => {
+      this._notificationService.open(AlertComponent, {
+        data: {
+          message: `Error banning user: ${e}`,
+          type: 'error',
+          persist: true,
+        },
+        position: 'top-center',
+        autohide: true,
+      });
+    });
   }
 }
