@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -6,7 +5,6 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-blog',
   imports: [
     RouterOutlet,
-    NgFor,
   ],
   templateUrl: './blog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
