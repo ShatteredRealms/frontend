@@ -28,7 +28,7 @@ COMMIT_HASH = $(shell git rev-parse --short HEAD)
 ROOT_DIR = $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # Base container registry
-SRO_BASE_REGISTRY ?= docker.io
+SRO_BASE_REGISTRY ?= 779965382548.dkr.ecr.us-east-1.amazonaws.com
 SRO_REGISTRY ?= $(SRO_BASE_REGISTRY)/sro
 
 # The registry for this service
