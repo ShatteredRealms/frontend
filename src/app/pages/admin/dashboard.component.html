@@ -83,7 +83,15 @@
         <div class="border-t border-white/5 px-4 py-6 sm:px-6 lg:border-l lg:px-8">
           <p class="text-sm/6 font-medium text-gray-400">Number of servers</p>
           <p class="mt-2 flex items-baseline gap-x-2">
-            <span class="text-4xl font-semibold tracking-tight text-white">3</span>
+            @if(this.numberOfGameServers === -2) {
+            <span class="text-sm text-gray-500">Loading...</span>
+            } @else if(this.numberOfGameServers === -1) {
+            <span class="text-sm text-gray-500">Local Mode</span>
+            } @else {
+            <span class="text-4xl font-semibold tracking-tight text-white">
+              {{ this.numberOfGameServers }}
+            </span>
+            }
           </p>
         </div>
       </div>

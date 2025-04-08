@@ -12,6 +12,7 @@ import { AlertComponent } from '../../components/alert/alert.component';
 import { DimensionService } from '../../services/backend/dimension.service';
 import { Dimension } from '../../../protos/sro/gameserver/dimension';
 import { RouterLink } from '@angular/router';
+import { GameServerDataService } from '../../services/backend/gameserverdata.service';
 
 
 @Component({
@@ -29,6 +30,7 @@ import { RouterLink } from '@angular/router';
 export class AdminDashboardComponent {
   characters: Map<string, Character> = new Map<string, Character>();
   dimensions: Map<string, Dimension> = new Map<string, Dimension>();
+  numberOfGameServers: number = -2;
 
   private _refresh: NotificationRef;
 
@@ -36,6 +38,7 @@ export class AdminDashboardComponent {
     protected _characterService: CharacterService,
     protected _notificationService: NotificationService,
     protected _dimensionService: DimensionService,
+    protected _gameServerDataService: GameServerDataService,
   ) {
   }
 
@@ -45,6 +48,10 @@ export class AdminDashboardComponent {
     });
     this._dimensionService.getDimensions().then((resp) => {
       this.dimensions = resp;
+    });
+    this._gameServerDataService.getGameServerCount().then((count) => {
+      this.numberOfGameServers = count;
+      console.log('Game Server Count:', count);
     });
   }
 
@@ -79,4 +86,5 @@ export class AdminDashboardComponent {
       this.characters = resp;
     }).catch(() => this._refresh.close());
   }
+
 }
