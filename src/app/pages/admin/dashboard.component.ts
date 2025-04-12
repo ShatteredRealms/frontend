@@ -5,8 +5,7 @@ import { CharacterService } from '../../services/backend/character.service';
 import { timeStringFromSeconds } from '../../helpers/time';
 import { NotificationService } from '../../services/ui/notification.service';
 import { FetchType } from '../../services/backend/fetch';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { heroArrowPath } from '@ng-icons/heroicons/outline';
+import { NgIconComponent } from '@ng-icons/core';
 import { NotificationRef } from '../../services/ui/notification';
 import { AlertComponent } from '../../components/alert/alert.component';
 import { DimensionService } from '../../services/backend/dimension.service';
@@ -22,9 +21,7 @@ import { GameServerDataService } from '../../services/backend/gameserverdata.ser
     NgIconComponent,
     RouterLink,
   ],
-  providers: [
-    provideIcons({ heroArrowPath }),
-  ],
+  providers: [],
   templateUrl: './dashboard.component.html',
 })
 export class AdminDashboardComponent {

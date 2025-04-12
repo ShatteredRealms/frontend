@@ -11,7 +11,7 @@ const CHARACTER_VERSION = 'v1';
 const CHARACTER_URL = `${CHARACTER_BASE_URL}/${CHARACTER_VERSION}`;
 const CHARACTER_GRPC_URL = `${CHARACTER_BASE_URL}`;
 
-const GSS_BASE_URL = `${BASE_API_URL}/gamebackend`;
+const GSS_BASE_URL = `${BASE_API_URL}/gameserverservice`;
 const GSS_VERSION = 'v1';
 const GSS_URL = `${GSS_BASE_URL}/${GSS_VERSION}`;
 const GSS_GRPC_URL = `${GSS_BASE_URL}`;
