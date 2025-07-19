@@ -223,7 +223,7 @@ export class KeycloakService {
   getGroups(): string[] {
     if (this.instance.userInfo) {
       const userInfo = this.instance.userInfo as { groups: string[] };
-      return userInfo.groups;
+      return userInfo.groups || [];
     }
     return [];
   }
