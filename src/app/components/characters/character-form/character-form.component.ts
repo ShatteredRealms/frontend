@@ -70,6 +70,10 @@ export class CharacterFormComponent {
     return this.form.get('gender');
   }
 
+  get profession(): AbstractControl<string> | null {
+    return this.form.get('profession');
+  }
+
   get realm(): AbstractControl<string> | null {
     return this.form.get('realm');
   }
@@ -90,6 +94,7 @@ export class CharacterFormComponent {
     effect(() => {
       this.form.get('name')?.setValue(this.character().name);
       this.form.get('gender')?.setValue(this.character().gender);
+      this.form.get('profession')?.setValue(this.character().profession);
       this.form.get('realm')?.setValue(this.character().realm);
       this.form.get('dimensionId')?.setValue(this.character().dimensionId);
       this.form.get('ownerId')?.setValue(this.character().ownerId);
@@ -105,6 +110,9 @@ export class CharacterFormComponent {
         Validators.pattern(/^[ a-zA-Z0-9_-]+$/),
       ]),
       gender: new FormControl('', [
+        Validators.required,
+      ]),
+      profession: new FormControl('', [
         Validators.required,
       ]),
       realm: new FormControl('', [
@@ -139,6 +147,7 @@ export class CharacterFormComponent {
     character.dimensionId = form.value.dimensionId;
     character.realm = form.value.realm;
     character.gender = form.value.gender;
+    character.profession = form.value.profession;
 
     this.onSubmit.emit(character);
   }

@@ -96,6 +96,10 @@ export interface CreateCharacterRequest {
      * @generated from protobuf field: string dimension_id = 5;
      */
     dimensionId: string;
+    /**
+     * @generated from protobuf field: string profession = 6;
+     */
+    profession: string;
 }
 /**
  * @generated from protobuf message sro.character.Character
@@ -145,6 +149,10 @@ export interface Character {
      * @generated from protobuf field: int64 deleted_at = 11;
      */
     deletedAt: number;
+    /**
+     * @generated from protobuf field: string profession = 12;
+     */
+    profession: string;
 }
 /**
  * @generated from protobuf message sro.character.Characters
@@ -401,7 +409,8 @@ class CreateCharacterRequest$Type extends MessageType<CreateCharacterRequest> {
             { no: 2, name: "name", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "gender", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "realm", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 5, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+            { no: 5, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 6, name: "profession", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<CreateCharacterRequest>): CreateCharacterRequest {
@@ -411,6 +420,7 @@ class CreateCharacterRequest$Type extends MessageType<CreateCharacterRequest> {
         message.gender = "";
         message.realm = "";
         message.dimensionId = "";
+        message.profession = "";
         if (value !== undefined)
             reflectionMergePartial<CreateCharacterRequest>(this, message, value);
         return message;
@@ -434,6 +444,9 @@ class CreateCharacterRequest$Type extends MessageType<CreateCharacterRequest> {
                     break;
                 case /* string dimension_id */ 5:
                     message.dimensionId = reader.string();
+                    break;
+                case /* string profession */ 6:
+                    message.profession = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -462,6 +475,9 @@ class CreateCharacterRequest$Type extends MessageType<CreateCharacterRequest> {
         /* string dimension_id = 5; */
         if (message.dimensionId !== "")
             writer.tag(5, WireType.LengthDelimited).string(message.dimensionId);
+        /* string profession = 6; */
+        if (message.profession !== "")
+            writer.tag(6, WireType.LengthDelimited).string(message.profession);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -486,7 +502,8 @@ class Character$Type extends MessageType<Character> {
             { no: 8, name: "dimension_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 9, name: "created_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
             { no: 10, name: "updated_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
-            { no: 11, name: "deleted_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ }
+            { no: 11, name: "deleted_at", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
+            { no: 12, name: "profession", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
         ]);
     }
     create(value?: PartialMessage<Character>): Character {
@@ -501,6 +518,7 @@ class Character$Type extends MessageType<Character> {
         message.createdAt = 0;
         message.updatedAt = 0;
         message.deletedAt = 0;
+        message.profession = "";
         if (value !== undefined)
             reflectionMergePartial<Character>(this, message, value);
         return message;
@@ -542,6 +560,9 @@ class Character$Type extends MessageType<Character> {
                     break;
                 case /* int64 deleted_at */ 11:
                     message.deletedAt = reader.int64().toNumber();
+                    break;
+                case /* string profession */ 12:
+                    message.profession = reader.string();
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -588,6 +609,9 @@ class Character$Type extends MessageType<Character> {
         /* int64 deleted_at = 11; */
         if (message.deletedAt !== 0)
             writer.tag(11, WireType.Varint).int64(message.deletedAt);
+        /* string profession = 12; */
+        if (message.profession !== "")
+            writer.tag(12, WireType.LengthDelimited).string(message.profession);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

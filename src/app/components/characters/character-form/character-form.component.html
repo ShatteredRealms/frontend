@@ -103,6 +103,22 @@
             </div>
           </app-form-control>
         </div>
+
+        <div class="col-span-full">
+          <app-form-control>
+            <label for="profession" class="block text-sm/6 font-medium text-white">
+              Profession
+            </label>
+            <p class="text-sm/6 text-gray-400">
+              Which profession the character belongs to.
+            </p>
+            <div class="mt-2">
+              <app-select formControlName="profession" id="profession" [filter]="true" [clearButton]="true">
+                <app-option value="necromancer">Necromancer</app-option>
+              </app-select>
+            </div>
+          </app-form-control>
+        </div>
       </div>
     </div>
   </div>

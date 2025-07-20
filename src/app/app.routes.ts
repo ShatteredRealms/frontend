@@ -28,6 +28,7 @@ import { EditMapComponent } from './pages/admin/maps/details/edit/edit.component
 import { ChatConnectComponent } from './pages/admin/chats/details/connect/connect.component';
 import { BlogComponent } from './pages/home/blog/blog.component';
 import { ArticleComponent } from './pages/home/blog/article/article.component';
+import { AdminSettingsPage } from './pages/admin/settings/admin-settings.component';
 
 export const routes: Routes = [
   {
@@ -49,6 +50,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: AdminDashboardPage },
+      { path: 'settings', component: AdminSettingsPage },
 
       {
         path: 'dimensions',

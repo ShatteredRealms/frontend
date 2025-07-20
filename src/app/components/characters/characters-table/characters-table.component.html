@@ -15,6 +15,9 @@
         <th scope="col" class="py-3.5 hidden sm:table-cell" appTableSortHeader="gender">
           Gender
         </th>
+        <th scope="col" class="py-3.5 hidden sm:table-cell" appTableSortHeader="profession">
+          Profession
+        </th>
         <th scope="col" class="py-3.5" appTableSortHeader="dimensionId">
           Dimension
         </th>
@@ -69,6 +72,13 @@
           <div class="flex gap-x-3">
             <div class="truncate text-sm/6 font-medium">
               {{ character.gender | titlecase }}
+            </div>
+          </div>
+        </td>
+        <td class="px-3 py-4 text-sm whitespace-nowrap hidden sm:table-cell">
+          <div class="flex gap-x-3">
+            <div class="truncate text-sm/6 font-medium">
+              {{ character.profession | titlecase }}
             </div>
           </div>
         </td>

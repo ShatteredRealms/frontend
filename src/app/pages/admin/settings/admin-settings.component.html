@@ -1,0 +1,59 @@
+<div class="m-10 overflow-hidden rounded-lg bg-gray-900 shadow-sm shadow-gray-700">
+  <div class="px-4 py-5 sm:p-6">
+    <h2 class="text-base/7 font-semibold text-gray-100">Sync Event Bus</h2>
+    <p class="mt-1 text-sm/6 text-gray-500">
+      Sync event bus readers and writers to ensure all the relevant infomation is up to date across the system.
+    </p>
+
+    <dl class="mt-6 divide-y divide-gray-700 border-t border-gray-800 text-sm/6">
+      <div class="py-6 sm:flex">
+        <dt class="font-medium text-gray-100 sm:w-64 sm:flex-none sm:pr-6">Character Service</dt>
+        <dd class="mt-1 flex justify-end gap-x-6 sm:mt-0 sm:flex-auto">
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+            (click)="resetCharacterWriter()">
+            Character Writer
+          </button>
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+            (click)="resetCharacterDimensionReader()">
+            Dimension Reader
+          </button>
+        </dd>
+      </div>
+    </dl>
+
+    <dl class="mt-6 divide-y divide-gray-700 border-t border-gray-800 text-sm/6">
+      <div class="py-6 sm:flex">
+        <dt class="font-medium text-gray-100 sm:w-64 sm:flex-none sm:pr-6">GameServer Service</dt>
+        <dd class="mt-1 flex justify-end gap-x-6 sm:mt-0 sm:flex-auto">
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+            (click)="resetDimensionWriter()">
+            Dimension Writer
+          </button>
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500" (click)="resetMapWriter()">
+            Map Writer
+          </button>
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+            (click)="resetDimensionCharacterReader()">
+            Character Reader
+          </button>
+        </dd>
+      </div>
+    </dl>
+
+    <dl class="mt-6 divide-y divide-gray-700 border-t border-gray-800 text-sm/6">
+      <div class="py-6 sm:flex">
+        <dt class="font-medium text-gray-100 sm:w-64 sm:flex-none sm:pr-6">Chat</dt>
+        <dd class="mt-1 flex justify-end gap-x-6 sm:mt-0 sm:flex-auto">
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+            (click)="resetChatCharacterReader()">
+            Character Reader
+          </button>
+          <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500"
+            (click)="resetChatDimensionReader()">
+            Dimension Reader
+          </button>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
